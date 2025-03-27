@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,11 +6,12 @@
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
     <style>
         body {
-            background-color: #f5f5f5; /* Paper white background */
-            color: #000000; /* Black text for contrast */
+            background-color: #f5f5f5; /* Light gray for paper effect */
+            color: #000000;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
         .quiz-container {
             max-width: 800px;
@@ -21,6 +21,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			position: relative;
         }
         .header {
             display: flex;
@@ -28,42 +29,44 @@
             align-items: center;
             margin-bottom: 20px;
         }
-        .timer-btn {
-            padding: 10px 20px;
-            background-color: #e0e0e0; /* Light gray for buttons */
-            color: #000000;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            cursor: default;
-            font-size: 1.2em;
-        }
-        .expand-btn {
-            padding: 10px 20px;
+        .expand-btn, .timer-btn, button, a.button-link {
+            padding: 10px 20px; /* Uniform size for all buttons */
             background-color: #e0e0e0;
             color: #000000;
             border: 1px solid #cccccc;
             border-radius: 5px;
-            cursor: pointer;
+            font-size: 1em;
             transition: background-color 0.3s;
+            box-sizing: border-box; /* Include padding in width */
+            text-decoration: none;
         }
-        .expand-btn:hover {
-            background-color: #4FB6AB; /* Red on hover */
+        .expand-btn {
+            cursor: pointer;
+        }
+        .timer-btn {
+            cursor: default;
+        }
+        .expand-btn:hover, button:hover, a.button-link:hover {
+            background-color: #d4a5a5; /* Soft red hover */
             color: #ffffff;
+        }
+        .question {
+            font-size: 1.5em;
+            margin: 20px 0 10px 0;
+            word-wrap: break-word; /* Ensure long text wraps */
         }
         .question-image {
             max-width: 100%;
             height: auto;
             margin: 10px 0;
             border: 1px solid #ffffff;
-        }
-        .question {
-            font-size: 1.5em;
-            margin: 20px 0 10px 0;
+            border-radius: 5px;
         }
         .follow-up {
             font-size: 1.2em;
             margin: 10px 0;
-            color: #555555; /* Slightly gray for follow-up */
+            color: #555555;
+            word-wrap: break-word; /* Ensure long text wraps */
         }
         .choices {
             display: flex;
@@ -72,69 +75,73 @@
         }
         .choice {
             padding: 15px;
-            background-color: #f0f0f0; /* Light gray for choices */
+            background-color: #f0f0f0;
             border: 1px solid #cccccc;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-size: 1em;
+            word-wrap: break-word; /* Ensure long text wraps */
         }
-        .choice:hover:not(.selected):not(.correct):not(.wrong) {
+        .choice:hover:not(.selected):not(.correct):not(.locked) {
             background-color: #e0e0e0;
         }
         .choice.correct {
-            background-color: #98e5a5; /* Green for correct answer */
-            border-color: #00cc00;
+            background-color: #a3d9a5; /* Green for correct */
+            border-color: #7bb57d;
         }
         .choice.wrong.selected {
-            background-color: #d98e96; /* Red for wrong selected answer */
-            border-color: #cc0000;
+            background-color: #f4a3a3; /* Red for wrong */
+            border-color: #d87c7c;
         }
         .choice.locked {
-            cursor: not-allowed;
+            cursor: default; /* No pointer for locked choices */
+        }
+        hr {
+            border: 1px solid #e0e0e0;
+            margin: 20px 0;
         }
         .navigation {
             display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        #centerButtons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .controls {
+            display: flex;
             justify-content: space-between;
+            align-items: flex-start; /* Align items at the top */
             margin-top: 20px;
-            position: relative;
+            flex-grow: 1; /* Allow controls to take remaining space */
         }
-        .nav-buttons-left {
+        .controls-left {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        .nav-buttons-right {
+        .controls-right {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            align-items: flex-end;
-        }
-        .center-buttons {
-            display: flex;
-            gap: 10px;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #e0e0e0;
-            color: #000000;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #AC3834; /* Red on hover */
-            color: #ffffff;
+            text-align: right;
         }
         .indicators {
-            font-size: 1.1em;
+            font-size: 1em;
             color: #333333;
+            font-weight: bold; /* Bold font for indicators */
+            line-height: 1.5; /* Match button height for alignment */
         }
         .result-page {
             text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .result-page h1 {
             font-size: 2em;
@@ -146,48 +153,106 @@
             margin-bottom: 20px;
             color: #555555;
         }
-        hr {
-            border: 1px solid #dddddd;
-        }
-        @media (max-width: 600px) {
+
+        /* Responsive Design for iPhone Safari (e.g., 375x812) */
+        @media (max-width: 375px) {
+            body {
+                padding: 5px;
+            }
+            .quiz-container {
+                padding: 10px;
+                max-width: 100%; /* Full width on small screens */
+            }
             .question {
-                font-size: 1.2em;
+                font-size: 1.1em;
+            }
+            .question-image {
+                margin: 5px 0;
             }
             .follow-up {
-                font-size: 1em;
+                font-size: 0.9em;
             }
-            button, .timer-btn, .expand-btn {
-                padding: 8px 15px;
-                font-size: 1em;
+            .choice {
+                padding: 8px;
+                font-size: 0.85em;
+            }
+            .expand-btn, .timer-btn, button, a.button-link {
+                padding: 6px 12px; /* Uniform size for all buttons on small screens */
+                font-size: 0.85em;
             }
             .indicators {
+                font-size: 0.85em;
+            }
+            .result-page h1 {
+                font-size: 1.4em;
+            }
+            .result-page p {
                 font-size: 0.9em;
             }
             .header {
                 flex-direction: column;
-                align-items: flex-end;
-                gap: 10px;
+                align-items: flex-start;
+                gap: 8px;
+                margin-bottom: 10px;
             }
-            .result-page h1 {
+            .timer-btn {
+                align-self: flex-end;
+            }
+            .navigation {
+                flex-wrap: wrap; /* Allow buttons to wrap if needed */
+                gap: 8px;
+                margin: 10px 0;
+            }
+            #centerButtons {
+                flex-wrap: wrap;
+                gap: 8px;
+				
+            }
+            .controls {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                margin-top: 10px;
+            }
+            .controls-left, .controls-right {
+                width: 100%;
+                text-align: center;
+            }
+            hr {
+                margin: 10px 0;
+            }
+        }
+
+        /* Desktop Adjustments (above 375px) */
+        @media (min-width: 376px) {
+            .quiz-container {
+                padding: 20px;
+            }
+            .question {
                 font-size: 1.5em;
             }
-            .result-page p {
+            .follow-up {
+                font-size: 1.2em;
+            }
+            .choice {
+                padding: 15px;
                 font-size: 1em;
             }
-        }
-        a.button-link {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #e0e0e0;
-            color: #000000;
-            text-decoration: none;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        a.button-link:hover {
-            background-color: #AC3834; /* Red on hover */
-            color: #ffffff;
+            .expand-btn, .timer-btn, button, a.button-link {
+                padding: 10px 20px; /* Uniform size for all buttons */
+                font-size: 1em;
+            }
+            .indicators {
+                font-size: 1em;
+            }
+            .navigation {
+                gap: 15px;
+                margin: 20px 0;
+            }
+            .controls {
+                gap: 15px;
+                margin-top: 20px;
+            }
         }
     </style>
 </head>
@@ -197,17 +262,22 @@
             <button class="expand-btn" id="expandBtn">Expand All</button>
             <button class="timer-btn" id="timer">60:00</button>
         </div>
-        <div id="quiz-content"></div>
+
+        <div id="quiz-content"></div><br>
+        <div id="centerButtons">
+            <button id="prevBtn">Previous</button>
+            <button id="nextBtn">Next</button>
+        </div>
         <div class="navigation">
-            <div class="nav-buttons-left">
-                <div class="center-buttons" id="centerButtons">
-                    <button id="prevBtn">Previous</button>
-                    <button id="nextBtn">Next</button>
-                </div>
+            <!-- Placeholder for consistency with provided JS -->
+        </div>
+
+        <div class="controls">
+            <div class="controls-left">
                 <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSReview.html" class="button-link" id="backBtn">Back</a>
                 <button id="resetBtn">Reset</button>
             </div>
-            <div class="nav-buttons-right">
+            <div class="controls-right">
                 <span class="indicators" id="questionNumber">Question: 1/50</span>
                 <span class="indicators" id="correctNumber">Correct: 0</span>
             </div>
@@ -565,7 +635,8 @@
         followUp: "If the patient became apneic and pulseless but the rhythm remained the same, which would take the highest priority?<br><br>",
         choices: ["Administer amiodarone 300 mg", "Administer atropine 0.5 mg", "Insert an advanced airway", "Perform defibrillation"],
         correct: 3 
-    }      ];
+    }
+        ];
 
         let currentQuestion = 0;
         let answers = new Array(50).fill(null);
@@ -589,7 +660,7 @@
         }
 
         function updateIndicators() {
-            document.getElementById('questionNumber').textContent = `Question: ${currentQuestion + 1}/50`;
+            document.getElementById('questionNumber').textContent = `${currentQuestion + 1}/50`;
             document.getElementById('correctNumber').textContent = `Correct: ${correctCount}`;
         }
 
@@ -656,6 +727,7 @@
             document.querySelector('.navigation').style.display = 'flex';
             document.getElementById('timer').textContent = 'Time’s Up!';
             document.getElementById('questionNumber').textContent = `Question: 50/50`;
+            document.getElementById('correctNumber').textContent = `Correct: ${correctCount}`;
             document.getElementById('retakeBtn').addEventListener('click', resetQuiz);
         }
 
@@ -708,8 +780,6 @@
             resetQuiz();
         });
 
-
-
         document.getElementById('expandBtn').addEventListener('click', () => {
             if (!allExpanded) {
                 renderAllQuestions();
@@ -720,6 +790,11 @@
                 document.getElementById('expandBtn').textContent = 'Expand All';
                 allExpanded = false;
             }
+        });
+
+        document.getElementById('backBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Back to previous page (implement your URL here)');
         });
 
         startTimer();
