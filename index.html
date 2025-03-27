@@ -4,167 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canisio's ACLS Study Guide</title>
-	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Icon/favicon.png">	
+	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
     <!-- Owl Carousel CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <style>
         @font-face {
             font-family: 'AdvancedLEDBoard';
-            src: url('https://raw.githubusercontent.com/canisiog/ACLS_verA/refs/heads/main/Font/advanced_led_board-7.ttf') format('truetype');
+            src: url('https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Font/advanced_led_board-7.ttf') format('truetype');
         }
 
         body {
             margin: 0;
             padding: 0;
-            background: #2b2b2b;
-            color: #e0e0e0;
-            font-family: 'Courier New', monospace;
+            font-family: 'Courier New', Courier, monospace;
+            background: #0a0a0a;
+            color: #fff;
             overflow-x: hidden;
             position: relative;
         }
 
         /* Matrix Rain Background */
-        #matrix-canvas {
+        canvas {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
             z-index: -1;
-            opacity: 0.7; /* Slightly transparent to blend with content */
+            background: #000;
         }
 
         /* Banner Carousel */
         .banner-carousel .owl-item img {
-            width: 100%;
-            height: 100vh;
-            max-height: 1080px;
+            width: 1920px;
+            height: 1080px;
             object-fit: cover;
         }
-
-        .banner-text {
+        .banner-slide {
+            position: relative;
+            text-align: center;
+        }
+        .banner-description {
             position: absolute;
-            top: 20%;
+            top: 40%;
             left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            width: 90%;
-        }
-
-        .banner-text h2 {
-            font-size: clamp(60px, 8vw, 80px);
+            transform: translate(-50%, -50%);
+            font-size: 60px;
             font-weight: bold;
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
-			color: #07ffcc;
-            margin-bottom: 2rem;
-            animation: fadeIn 1s ease-in 0.5s forwards;
+            color: #fff;
+            text-shadow: 3px 3px 5px rgba(0, 255, 0, 0.8);
             opacity: 0;
+            animation: fadeIn 1s forwards;
         }
-        .banner-text h5 {
-            font-size: clamp(30px, 6vw, 40px);
+        .banner-buttons {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 20px;
+        }
+        .banner-btn {
+            font-size: 50px;
             font-weight: bold;
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
-			color: #00FF41;
-            margin-bottom: 2rem;
-            animation: fadeIn 1s ease-in 0.5s forwards;
-            opacity: 0;
-        }
-        .button-container {
-            text-align: center;
-        }
-
-        .float-btn {
-            display: inline-block;
-            width: clamp(200px, 25vw, 300px);
-            height: clamp(80px, 15vw, 100px);
-            line-height: clamp(80px, 15vw, 100px);
-            background: #be0428;
-            color: #fffe07;
+            color: #fff;
             text-decoration: none;
-            border-radius: 5px;
-            font-size: clamp(30px, 6vw, 30px);
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin: 0 1rem;
-            animation: floatIn 1s ease-in;
+            padding: 10px 20px;
+            background: rgba(0, 255, 0, 0.3);
+            border: 2px solid #00ff00;
+            text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.8);
+            opacity: 0;
+            animation: floatIn 1s forwards 0.5s;
             transition: transform 0.3s;
-            text-align: center;
         }
-
-        .float-btn:hover {
+        .banner-btn:hover {
             transform: scale(1.1);
         }
-
-        @keyframes floatIn {
-            0% { transform: translateY(50px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-
         @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes floatIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Category Section */
         .category-section {
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 columns by default */
-            gap: 1.5rem;
-            justify-items: center;
-            position: relative;
-            z-index: 1; /* Above Matrix background */
+            padding: 50px;
+            text-align: center;
         }
-
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
         .category-item {
             position: relative;
-            text-align: center;
-            width: 100%;
+            width: 400px;
+            height: 400px;
+            overflow: hidden;
         }
-
         .category-item img {
             width: 100%;
-            max-width: 400px;
-            height: auto;
-            aspect-ratio: 1 / 1;
+            height: 100%;
             object-fit: cover;
-            border: 2px solid #4a4a4a;
-            filter: brightness(50%); /* Slightly darken image */
+            filter: brightness(70%);
+            transition: filter 0.3s;
         }
-
-        .category-item .desc {
+        .category-item:hover img, .category-item:active img {
+            filter: brightness(50%);
+        }
+        .category-description {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #00FF41;
-            font-size: clamp(30px, 5vw, 50px);
+            font-size: 50px;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.8);
         }
-
-        .category-item .hover-btn {
+        .category-btn {
             position: absolute;
-            bottom: 1rem;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 0.5rem 1rem;
-            background: #079dff;
-            color: #fffe07;
-			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 50px;
+            font-weight: bold;
+            color: #fff;
             text-decoration: none;
-            border-radius: 5px;
+            background: rgba(0, 255, 0, 0.3);
+            padding: 5px 15px;
+            border: 2px solid #00ff00;
+            text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.8);
             opacity: 0;
             transition: opacity 0.3s;
-            font-size: clamp(30px, 5vw, 50px);
-            font-weight: bold;
         }
-
-        .category-item:hover .hover-btn,
-        .category-item:active .hover-btn {
+        .category-item:hover .category-btn, .category-item:active .category-btn {
             opacity: 1;
         }
 
@@ -220,7 +202,6 @@
             animation: marquee 50s linear infinite, neonRainbow 3s infinite;
             line-height: 50px; /* Match height for vertical centering */
         }
-
         @keyframes marquee {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
@@ -234,132 +215,64 @@
             80% { color: #ffff00; text-shadow: 0 0 5px #ffff00; }
             100% { color: #ff0000; text-shadow: 0 0 5px #ff0000; }
         }
-
-        /* Social Media Buttons Section */
+        /* Social Media Buttons */
         .social-buttons {
-            padding: 2rem;
             text-align: center;
-            position: relative;
-            z-index: 1; /* Above Matrix background */
+            padding: 20px;
         }
-
-		
-		        .rainbow-container {
-            text-align: center;
-        }
-
-        .rainbow-text {
-            font-size: 800px;
-            font-weight: bold;
-            font-family: 'AdvancedLEDBoard', sans-serif;
+        .social-btn {
             display: inline-block;
-            line-height: 1;
-        }
-
-        .rainbow-text span {
-            animation: rainbow 4s infinite;
-            animation-delay: calc(0.1s * var(--i));
-            text-shadow: 0 0 10px currentColor;
-        }
-
-        @keyframes rainbow {
-            0% { color: #ff0000; }
-            20% { color: #00ff00; }
-            40% { color: #0000ff; }
-            60% { color: #ff00ff; }
-            80% { color: #ffff00; }
-            100% { color: #ff0000; }
-        }
-
-        .social-circle {
-            display: inline-block;
-            width: clamp(50px, 10vw, 60px);
-            height: clamp(50px, 10vw, 60px);
-            line-height: clamp(50px, 10vw, 60px);
-            background: #1A1A1A;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            margin: 0 0.5rem;
+            margin: 0 10px;
+            overflow: hidden;
+        }
+
+			
+        .social-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+			
+			
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 0, 0.5);
+            border: 2px solid #00ff00;
+            border-radius: 50%;
             text-align: center;
-            transition: all 0.3s;
+            line-height: 50px;
+            font-size: 20px;
+            color: #fff;
+            text-decoration: none;
+            z-index: 1000;
+            transform: translateY(-50%);
         }
 
-        .social-circle:hover {
-            background: #FF5739;
-            transform: scale(1.1);
+        /* Responsive Design */
+        @media (max-width: 1600px) {
+            .category-grid { grid-template-columns: repeat(3, 1fr); }
         }
-
-        .social-circle i {
-            font-size: clamp(20px, 4vw, 24px);
-            color: #e0e0e0;
+        @media (max-width: 1200px) {
+            .category-grid { grid-template-columns: repeat(2, 1fr); }
         }
-
-        /* Media Queries */
-        @media (max-width: 1024px) {
-            .category-section {
-                grid-template-columns: repeat(3, 1fr); /* 3 columns */
-            }
+        @media (max-width: 800px) {
+            .category-grid { grid-template-columns: 1fr; }
+            .banner-description { font-size: 40px; }
+            .banner-btn { font-size: 30px; }
+            .category-description, .category-btn { font-size: 30px; }
+            marquee { font-size: 30px; }
+            .marquee-box { width: 300px; }
         }
-
-        @media (max-width: 768px) {
-            .banner-text {
-                top: 15%;
-            }
-
-            .category-section {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns */
-            }
-
-            .music-thumbnails .owl-item img {
-                max-width: 150px;
-            }
-
-            .song-marquee {
-                width: 100%;
-                max-width: 350px;
-            }
-
-            .song-marquee span {
-                font-size: 40px;
-            }
-
-            .follow-me {
-                font-size: 50px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .banner-text {
-                top: 10%;
-            }
-
-            .float-btn {
-                display: block;
-                margin: 0.5rem auto;
-            }
-
-            .category-section {
-                grid-template-columns: 1fr; /* 1 column */
-            }
-
-            .music-thumbnails .owl-item img {
-                max-width: 120px;
-            }
-
-            .song-marquee {
-                width: 100%;
-                max-width: 250px;
-            }
-
-            .song-marquee span {
-                font-size: 30px;
-            }
-
-            .follow-me {
-                font-size: 40px;
-            }
-        }
-	<!-- Banner -->
-
+		
 	<!-- Banner -->	
 	    /* Container for the banner */
     .banner-container {
@@ -449,14 +362,20 @@
                 font-size: 30px; /* Even smaller on phones */
             }
         }	
-	
-	
-	<!-- Banner -->		
-	
+		
+	<!-- Banner -->			
+	<!-- Hover -->		
+	        .social-btn:hover {
+
+            transform: scale(1.1);
+	<!-- Banner -->				
+		
+		
 		
     </style>
 </head>
 <body>
+
 
 
         <!-- Marquee Head Banner -->
@@ -498,124 +417,105 @@
         </div>
         <!-- Marquee Head Banner -->
 
-
-
-
-    <!-- Matrix Rain Canvas -->
-    <canvas id="matrix-canvas"></canvas>
+    <!-- Matrix Rain Background -->
+    <canvas id="matrix"></canvas>
 
     <!-- Banner Carousel -->
     <div class="banner-carousel owl-carousel owl-theme">
-        <div class="item">
+        <div class="banner-slide">
             <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/MainBanner/main-banner1.jpg" alt="Banner 1">
-            <div class="banner-text">
-                <h2>ACLS Practice Test</h2>
-				<h5>Five Real ACLS Test</h5>
-                <div class="button-container">
-                    <a href="#" class="float-btn">REVIEW</a>
-                    <a href="#" class="float-btn">TEST</a>
-                </div>
+            <div class="banner-description">ACLS Practice Test</div>
+            <div class="banner-buttons">
+                <a href="assets/Menu/ACLSReview.html" class="banner-btn">REVIEW</a>
+                <a href="#" class="banner-btn">TEST</a>
             </div>
         </div>
-        <div class="item">
+        <div class="banner-slide">
             <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/MainBanner/main-banner2.jpg" alt="Banner 2">
-            <div class="banner-text">
-                <h2>BLS Practice Test</h2>
-				<h5>Three Real BLS Test</h5>
-                <div class="button-container">
-                    <a href="#" class="float-btn">REVIEW</a>
-                    <a href="#" class="float-btn">TEST</a>
-                </div>
+            <div class="banner-description">BLS Practice Test</div>
+            <div class="banner-buttons">
+                <a href="assets/Menu/BLSReview.html" class="banner-btn">REVIEW</a>
+                <a href="#" class="banner-btn">TEST</a>
             </div>
         </div>
-        <div class="item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/MainBanner/main-banner3.jpg" alt="Banner 2">
-            <div class="banner-text">
-                <h2>Algorithm</h2>
-				<h5>Based On ACLS/BLS Handbook</h5>
-                <div class="button-container">
-                    <a href="#" class="float-btn">VIEW</a>
-           
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/MainBanner/main-banner4.jpg" alt="Banner 2">
-            <div class="banner-text">
-                <h2>Handbook</h2>
-				<h5>2020-2025 Handbook</h5>
-                <div class="button-container">
-                    <a href="#" class="float-btn">VIEW</a>
-                    <a href="#" class="float-btn">DOWNLOAD</a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/MainBanner/main-banner5.jpg" alt="Banner 2">
-            <div class="banner-text">
+        <div class="banner-slide">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/MainBanner/main-banner3.jpg" alt="Banner 3">
+            <div class="banner-description">Algorithm</div>
+            <div class="banner-buttons">
+                <a href="#" class="banner-btn">VIEW</a>
                 
-				<h2>ACLS Resource</h2>
-				<h5>2020 to Present ACLS Test</h5>
-                <div class="button-container">
-                    <a href="#" class="float-btn">VIEW TEST</a>
-                    <a href="#" class="float-btn">DOWNLOAD</a>
-                </div>
             </div>
         </div>
-        <div class="item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/MainBanner/main-banner6.jpg" alt="Banner 2">
-            <div class="banner-text">
-                <h2>BLS Resource</h2>
-				<h5>2020 to Present BLS Test</h5>
-                <div class="button-container">
-                    <a href="#" class="float-btn">VIEW TEST</a>
-                    <a href="#" class="float-btn">DOWNLOAD</a>
-                </div>
+        <div class="banner-slide">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/MainBanner/main-banner4.jpg" alt="Banner 4">
+            <div class="banner-description">Handbook</div>
+            <div class="banner-buttons">
+                <a href="#" class="banner-btn">VIEW</a>
+                <a href="#" class="banner-btn">DOWNLOAD</a>
             </div>
-        </div>		
-        <!-- Add 4 more banners for total of 6 -->
+        </div>
+        <div class="banner-slide">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/MainBanner/main-banner5.jpg" alt="Banner 5">
+            <div class="banner-description">CLS Resource</div>
+            <div class="banner-buttons">
+                <a href="#" class="banner-btn">VIEW</a>
+                <a href="#" class="banner-btn">DOWNLOAD</a>
+            </div>
+        </div>
+        <div class="banner-slide">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/MainBanner/main-banner6.jpg" alt="Banner 6">
+            <div class="banner-description">BLS Resource</div>
+            <div class="banner-buttons">
+                <a href="#" class="banner-btn">VIEW</a>
+                <a href="#" class="banner-btn">DOWNLOAD</a>
+            </div>
+        </div>
     </div>
-    <!-- Category Section (8 image buttons in 4 columns) -->
+
+    <!-- Category Section -->
     <div class="category-section">
-        <div class="category-item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img1.jpg" alt="Category 1">
-            <span class="desc">ACLS Practice Test</span>
-            <a href="#" class="hover-btn">GO</a>
-        </div>
-        <div class="category-item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img2.jpg" alt="Category 2">
-            <span class="desc">BLS Practice Test</span>
-            <a href="#" class="hover-btn">GO</a>
-        </div>
-        <div class="category-item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img3.jpg" alt="Category 3">
-            <span class="desc">ACLS Pass/Fail Test</span>
-            <a href="#" class="hover-btn">GO</a>
-        </div>
-        <div class="category-item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img4.jpg" alt="Category 4">
-            <span class="desc">BLS Pass/Fail Test</span>
-            <a href="#" class="hover-btn">GO</a>
-        </div>
-        <div class="category-item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img5.jpg" alt="Category 5">
-            <span class="desc">Algorithm</span>
-            <a href="#" class="hover-btn">GO</a>
-        </div>
-        <div class="category-item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img6.jpg" alt="Category 6">
-            <span class="desc">Handbook</span>
-            <a href="#" class="hover-btn">GO</a>
-        </div>
-        <div class="category-item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img7.jpg" alt="Category 7">
-            <span class="desc">ACLS Resource</span>
-            <a href="#" class="hover-btn">GO</a>
-        </div>
-        <div class="category-item">
-            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img8.jpg" alt="Category 8">
-            <span class="desc">BLS Resource!</span>
-            <a href="#" class="hover-btn">GO</a>
+        <h2>Categories</h2>
+        <div class="category-grid">
+            <div class="category-item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img1.jpg" alt="Category 1">
+                <div class="category-description">ACLS Practice Test</div>
+                <a href="#" class="category-btn">Explore</a>
+            </div>
+            <div class="category-item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img2.jpg" alt="Category 2">
+                <div class="category-description">BLS Practice Test</div>
+                <a href="#" class="category-btn">Explore</a>
+            </div>
+            <div class="category-item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img3.jpg" alt="Category 3">
+                <div class="category-description">ACLS Pass/Fail Test</div>
+                <a href="#" class="category-btn">Explore</a>
+            </div>
+            <div class="category-item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img4.jpg" alt="Category 4">
+                <div class="category-description">BLS Pass/Fail Test</div>
+                <a href="#" class="category-btn">Explore</a>
+            </div>
+            <div class="category-item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img5.jpg" alt="Category 5">
+                <div class="category-description">Algorithm</div>
+                <a href="#" class="category-btn">Explore</a>
+            </div>
+            <div class="category-item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img6.jpg" alt="Category 6">
+                <div class="category-description">Handbook</div>
+                <a href="#" class="category-btn">Explore</a>
+            </div>
+            <div class="category-item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img7.jpg" alt="Category 7">
+                <div class="category-description">ACLS Resource</div>
+                <a href="#" class="category-btn">Explore</a>
+            </div>
+            <div class="category-item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/categories/img8.jpg" alt="Category 8">
+                <div class="category-description">BLS Resource</div>
+                <a href="#" class="category-btn">Explore</a>
+            </div>
         </div>
     </div>
 
@@ -664,6 +564,7 @@
 
  <!-- Music Player Banner -->
 
+
     <!-- Music Player Section -->
     <div class="music-player-section">
         <div class="music-thumbnails owl-carousel owl-theme">
@@ -683,7 +584,7 @@
                 <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/JujutsuKaisen.png" alt="Music 5" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/King_Gnu_SPECIALZ_Jujutsu_Kaisen-Shibuya-Incident-Arc_Opening_FULL.mp3">
             </div>
             <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Onepiece.png" alt="Music 6" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Da-iCE's-One_piece-DREAMIN'_ON.mp3">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Onepiece.png" alt="Music 6" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Da-iCEs-One_piece-DREAMIN_ON.mp3">
             </div>
             <div class="item">
                 <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Ghostfighter.png" alt="Music 7" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Matsuko_Mawatari-YuYu_Hakusho-Hohoemi_no_Bakudan.mp3">
@@ -701,14 +602,12 @@
         <audio id="music-player" autoplay controls loop>
             <source src="https://raw.githubusercontent.com/canisiog/ACLS_verA/refs/heads/main/MP3/Kaiju8.mp3" type="audio/mpeg">
         </audio>
+
         <div class="song-marquee">
             <span id="song-title">Double Tap On The Icons</span>
         </div>
     </div>
-
-    <!-- Social Media Buttons Section -->
-    <div class="social-buttons">
-        
+	 <h1> </h1><br><br>
 		  <div class="rainbow-container">
             <div class="rainbow-text">
                 <span style="--i:1">F</span>
@@ -720,76 +619,59 @@
                 <span style="--i:7"> </span>
                 <span style="--i:8">M</span>
                 <span style="--i:9">e</span>
-            </div>
-        </div>
-		 <h1> </h1><br><br>
-		 
-        <a href="https://x.com/canigees" class="social-circle"><i class="fab fa-twitter"></i></a>
-        <a href="https://www.instagram.com/canisiology/" class="social-circle"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.youtube.com/@canisgee21012" class="social-circle"><i class="fab fa-youtube"></i></a>
-		
-		 <h1> </h1><br><br>
-		 
+            </div>	
+ <h1> </h1><br><br>
+    <!-- Social Media Buttons -->
+    <div class="social-buttons">
+        <a href="https://x.com/canigees" class="social-btn"><img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Twitter.png" alt="Twitter"></a>
+        <a href="https://www.instagram.com/canisiology/" class="social-btn"><img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Youtube.png" alt="Instagram"></a>
+        <a href="https://www.youtube.com/@canisgee21012" class="social-btn"><img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Instagram.png" alt="YouTube"></a>
     </div>
+ <h1> </h1><br><br>
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">↑</a>
 
-
-    <!-- jQuery and Owl Carousel JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         // Matrix Rain Effect
-        const canvas = document.getElementById('matrix-canvas');
+        const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        const letters = 'CANISIOGARSUTALOVEYOU';
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
-
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#0f0';
             ctx.font = fontSize + 'px monospace';
-
             for (let i = 0; i < drops.length; i++) {
-                const text = letters[Math.floor(Math.random() * letters.length)];
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             }
         }
-
         setInterval(drawMatrix, 33);
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+
+        // Banner Carousel
+        $('.banner-carousel').owlCarousel({
+            items: 1,
+            loop: true,
+            center: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            onTranslated: function() {
+                $('.banner-description, .banner-btn').css('animation', 'none');
+                setTimeout(() => {
+                    $('.banner-description').css('animation', 'fadeIn 1s forwards');
+                    $('.banner-btn').css('animation', 'floatIn 1s forwards 0.5s');
+                }, 50);
+            }
         });
 
-        $(document).ready(function(){
-            // Banner Carousel
-            $('.banner-carousel').owlCarousel({
-                items: 1,
-                loop: true,
-                autoplay: true,
-                autoplayTimeout: 5000,
-                nav: true,
-                center: true,
-                onChanged: function(event) {
-                    var current = $(event.target).find('.owl-item.active');
-                    current.find('.float-btn').css('animation', 'none');
-                    current.find('h2').css('animation', 'none');
-                    setTimeout(function(){
-                        current.find('.float-btn').css('animation', 'floatIn 1s ease-in');
-                        current.find('h2').css('animation', 'fadeIn 1s ease-in 0.5s forwards');
-                    }, 10);
-                }
-            });
-
-            // Music Thumbnails Carousel
+             // Music Thumbnails Carousel
             const musicCarousel = $('.music-thumbnails').owlCarousel({
                 loop: true,
                 margin: 10,
@@ -802,8 +684,10 @@
                     1024: { items: 5 }
                 }
             });
+       
 
-            // Double Tap/Click Music Control
+
+		// Double Tap/Click Music Control
             let clickCount = 0;
             let clickTimer = null;
             const player = $('#music-player')[0];
@@ -841,7 +725,6 @@
                 player.play();
                 musicCarousel.trigger('to.owl.carousel', [currentSongIndex, 300, true]);
             };
-        });
     </script>
 </body>
 </html>
