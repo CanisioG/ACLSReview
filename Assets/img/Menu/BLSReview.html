@@ -68,14 +68,14 @@
             top: 50%;
             left: 1rem;
             transform: translateY(-50%);
-            background: rgba(255, 49, 49, 0.3);
+            background: rgba(0, 191, 255, 0.3);
             color: #e8aecb;
             width: clamp(50px, 8vw, 60px); /* Circular size */
             height: clamp(50px, 8vw, 60px);
             line-height: clamp(50px, 8vw, 60px); /* Vertically center text */
             text-align: center;
             text-decoration: none;
-			border: 2px solid #FF3131;
+			border: 2px solid #40A5E1;
             border-radius: 50%; /* Circular shape */
             font-size: clamp(16px, 2vw, 20px);
             z-index: 10;
@@ -114,8 +114,8 @@
 
         .banner-text h2 {
             font-size: clamp(40px, 6vw, 60px);
-            color: #e8aecb;
-            text-shadow: 0 0 10px #dd628f;
+            color: #9adef5;
+            text-shadow: 0 0 10px #000080;
             margin-bottom: 1rem;
             animation: fadeIn 1s ease-in forwards;
             opacity: 0;
@@ -130,14 +130,14 @@
             width: clamp(150px, 20vw, 200px);
             height: clamp(50px, 10vw, 60px);
             line-height: clamp(50px, 10vw, 60px);
-            background: rgba(255, 49, 49, 0.3);
+            background: rgba(0, 191, 255, 0.3);
             color: #fff;
             text-decoration: none;
-			border: 2px solid #FF3131;
+			border: 2px solid #40A5E1;
             border-radius: 5px;
             font-size: clamp(30px, 4vw, 40px);
             margin: 0 0.5rem;
-            text-shadow: rgba(255, 49, 49, 0.8));
+            text-shadow: rgba(0, 191, 255, 0.8));
             animation: floatIn 1s ease-in forwards;
             transition: transform 0.3s;
         }
@@ -180,7 +180,7 @@
             aspect-ratio: 1 / 1;
             object-fit: cover;
             filter: brightness(60%);
-            border: 2px solid #dd628f;
+            border: 2px solid #00bfff;
 			border-radius: 15px;
         }
 
@@ -189,10 +189,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #e8aecb;
+            color: #00bfff;
             font-size: 60px;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(255, 49, 49, 0.8);
+            text-shadow: 2px 2px 4px rgba(0, 0, 255, 0.8);
             pointer-events: none;
         }
 
@@ -201,12 +201,12 @@
             top: 70%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 49, 49, 0.3);
+            background: rgba(0, 191, 255, 0.3);
             color: #FFFFFF;
             padding: 0.75rem 1.5rem; /* Increased size */
             text-decoration: none;
             border-radius: 20px;
-			border: 2px solid #FF3131;
+			border: 2px solid #40A5E1;
             font-size: clamp(20px, 3.5vw, 24px); /* Larger font */
             font-weight: bold; /* Bold font */
             opacity: 0;
@@ -232,7 +232,7 @@
             max-width: 150px;
             height: auto;
             object-fit: cover;
-            border: 2px solid #dd628f;
+            border: 2px solid #00bfff;
             border-radius: 5px;
             transition: transform 0.3s;
         }
@@ -255,8 +255,8 @@
             height: 50px;
             margin: 1rem auto;
             overflow: hidden;
-            background: rgba(255, 49, 49, 0.3);
-            border: 2px solid #dd628f;
+            background: rgba(0, 191, 255, 0.3);
+            border: 2px solid #00bfff;
             border-radius: 15px;
         }
 
@@ -296,8 +296,8 @@
             width: clamp(40px, 8vw, 60px);
             height: clamp(40px, 8vw, 60px);
             line-height: clamp(40px, 8vw, 60px);
-            background: rgba(255, 49, 49, 0.3);;
-			border: 2px solid #FF3131;
+            background: rgba(0, 191, 255, 0.3);;
+			border: 2px solid #40A5E1;
             border-radius: 50%;
             margin: 0 0.5rem;
             transition: transform 0.3s;
@@ -309,7 +309,7 @@
 
         .social-circle i {
             font-size: clamp(20px, 4vw, 24px);
-            color: #FF3131;
+            color: #40A5E1;
         }
 
         /* Media Queries */
@@ -437,7 +437,7 @@
 
         @keyframes rainbow {
             0% { color: #ff0000; }
-            20% { color: #FF3131; }
+            20% { color: #40A5E1; }
             40% { color: #0000ff; }
             60% { color: #ff00ff; }
             80% { color: #ffff00; }
@@ -729,7 +729,7 @@
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#dd628f';
+            ctx.fillStyle = '#00bfff';
             ctx.font = fontSize + 'px ProjectZero';
 
             for (let i = 0; i < drops.length; i++) {
