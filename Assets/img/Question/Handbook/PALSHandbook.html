@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PALS Handbook</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .book-container {
+            width: 100%;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-pages {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .book-pages img {
+            width: 95%;
+            max-width: 1200px;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            border: none;
+            display: block;
+            background-color: #fff;
+            box-shadow: none;
+        }
+
+        .back-button {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: rgba(240, 240, 240, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .page-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .page-indicator:hover {
+            background-color: rgba(240, 240, 240, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        img {
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/Handbook.html" class="back-button" onclick="history.back()">&#8678</a>
+    <div class="page-indicator" id="pageIndicator">1/67</div>
+    <div class="book-container" id="bookContainer">
+        <div class="book-pages">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_01.png" alt="Page 1">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_02.png" alt="Page 2">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_03.png" alt="Page 3">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_04.png" alt="Page 4">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_05.png" alt="Page 5">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_06.png" alt="Page 6">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_07.png" alt="Page 7">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_08.png" alt="Page 8">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_09.png" alt="Page 9">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_10.png" alt="Page 10">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_11.png" alt="Page 11">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_12.png" alt="Page 12">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_13.png" alt="Page 13">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_14.png" alt="Page 14">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_15.png" alt="Page 15">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_16.png" alt="Page 16">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_17.png" alt="Page 17">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_18.png" alt="Page 18">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_19.png" alt="Page 19">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_20.png" alt="Page 20">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_21.png" alt="Page 21">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_22.png" alt="Page 22">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_23.png" alt="Page 23">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_24.png" alt="Page 24">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_25.png" alt="Page 25">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_26.png" alt="Page 26">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_27.png" alt="Page 27">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_28.png" alt="Page 28">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_29.png" alt="Page 29">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_30.png" alt="Page 30">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_31.png" alt="Page 31">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_32.png" alt="Page 32">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_33.png" alt="Page 33">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_34.png" alt="Page 34">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_35.png" alt="Page 35">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_36.png" alt="Page 36">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_37.png" alt="Page 37">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_38.png" alt="Page 38">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_39.png" alt="Page 39">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_40.png" alt="Page 40">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_41.png" alt="Page 41">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_42.png" alt="Page 42">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_43.png" alt="Page 43">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_44.png" alt="Page 44">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_45.png" alt="Page 45">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_46.png" alt="Page 46">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_47.png" alt="Page 47">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_48.png" alt="Page 48">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_49.png" alt="Page 49">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_50.png" alt="Page 50">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_51.png" alt="Page 51">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_52.png" alt="Page 52">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_53.png" alt="Page 53">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_54.png" alt="Page 54">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_55.png" alt="Page 55">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_56.png" alt="Page 56">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_57.png" alt="Page 57">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_58.png" alt="Page 58">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_59.png" alt="Page 59">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_60.png" alt="Page 60">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_61.png" alt="Page 61">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_62.png" alt="Page 62">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_63.png" alt="Page 63">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_64.png" alt="Page 64">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_65.png" alt="Page 65">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_66.png" alt="Page 66">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/PALS/PALS_Page_67.png" alt="Page 67">
+		
+        </div>
+    </div>
+
+    <script>
+        const bookContainer = document.getElementById('bookContainer');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const totalPages = 67; // Updated to match number of pages
+
+        function updatePageIndicator() {
+            const scrollTop = bookContainer.scrollTop;
+            const containerHeight = bookContainer.clientHeight;
+            const totalHeight = bookContainer.scrollHeight;
+            
+            const scrollPercentage = scrollTop / (totalHeight - containerHeight);
+            const currentPage = Math.min(
+                totalPages,
+                Math.max(1, Math.ceil(scrollPercentage * totalPages))
+            );
+            
+            pageIndicator.textContent = `${currentPage}/${totalPages}`;
+        }
+
+        bookContainer.addEventListener('scroll', updatePageIndicator);
+        updatePageIndicator();
+		
+        // Disable developer tools shortcuts
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || // F12
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I
+                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || // Ctrl+Shift+J
+                (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
+                return false;
+            }
+        }			
+		
+    </script>
+</body>
+</html>

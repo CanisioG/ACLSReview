@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBP Handbook</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .book-container {
+            width: 100%;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-pages {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .book-pages img {
+            width: 95%;
+            max-width: 1200px;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            border: none;
+            display: block;
+            background-color: #fff;
+            box-shadow: none;
+        }
+
+        .back-button {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: rgba(240, 240, 240, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .page-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .page-indicator:hover {
+            background-color: rgba(240, 240, 240, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        img {
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/Handbook.html" class="back-button" onclick="history.back()">&#8678</a>
+    <div class="page-indicator" id="pageIndicator">1/20</div>
+    <div class="book-container" id="bookContainer">
+        <div class="book-pages">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_01.png" alt="Page 1">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_02.png" alt="Page 2">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_03.png" alt="Page 3">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_04.png" alt="Page 4">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_05.png" alt="Page 5">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_06.png" alt="Page 6">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_07.png" alt="Page 7">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_08.png" alt="Page 8">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_09.png" alt="Page 9">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_10.png" alt="Page 10">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_11.png" alt="Page 11">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_12.png" alt="Page 12">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_13.png" alt="Page 13">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_14.png" alt="Page 14">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_15.png" alt="Page 15">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_16.png" alt="Page 16">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_17.png" alt="Page 17">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_18.png" alt="Page 18">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_19.png" alt="Page 19">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Handbook/BBP/BBP_Page_20.png" alt="Page 20">
+ 
+        </div>
+    </div>
+
+    <script>
+        const bookContainer = document.getElementById('bookContainer');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const totalPages = 20; // Updated to match number of pages
+
+        function updatePageIndicator() {
+            const scrollTop = bookContainer.scrollTop;
+            const containerHeight = bookContainer.clientHeight;
+            const totalHeight = bookContainer.scrollHeight;
+            
+            const scrollPercentage = scrollTop / (totalHeight - containerHeight);
+            const currentPage = Math.min(
+                totalPages,
+                Math.max(1, Math.ceil(scrollPercentage * totalPages))
+            );
+            
+            pageIndicator.textContent = `${currentPage}/${totalPages}`;
+        }
+
+        bookContainer.addEventListener('scroll', updatePageIndicator);
+        updatePageIndicator();
+		
+        // Disable developer tools shortcuts
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || // F12
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I
+                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || // Ctrl+Shift+J
+                (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
+                return false;
+            }
+        }			
+		
+    </script>
+</body>
+</html>
