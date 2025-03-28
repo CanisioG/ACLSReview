@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canisio's ACLS Study Guide</title>
-	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/canisiome/ACLS_verA/refs/heads/main/Image/Icon/favicon.png">	
+	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
     <!-- Owl Carousel CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
@@ -13,7 +13,11 @@
     <style>
         @font-face {
             font-family: 'AdvancedLEDBoard';
-            src: url('https://raw.githubusercontent.com/canisiome/ACLS_verA/refs/heads/main/Font/advanced_led_board-7.ttf') format('truetype');
+            src: url('https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Font/advanced_led_board-7.ttf') format('truetype');
+        }
+		        @font-face {
+            font-family: 'ProjectZero';
+            src: url('https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Font/ProjectZero.ttf') format('truetype');
         }
         * {
             box-sizing: border-box;
@@ -40,7 +44,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.9;
+            opacity: 1;
         }
 
         /* Back Button */
@@ -162,6 +166,7 @@
             object-fit: cover;
             filter: brightness(60%);
             border: 2px solid #00ff41;
+			border-radius: 15px;
         }
 
         .category-item .desc {
@@ -182,7 +187,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 255, 0, 0.3);
-            color: #00ff00;
+            color: #FFFFFF;
             padding: 0.75rem 1.5rem; /* Increased size */
             text-decoration: none;
             border-radius: 20px;
@@ -719,7 +724,7 @@
 		 <h1> </h1><br><br>
 		 	
 	
-        <a href="https://x.com/canigees" class="social-circle"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://x.com/canigees" class="social-circle"><i class="fab fa-twitter"></i></a>
         <a href="https://www.instagram.com/canisiology" class="social-circle"><i class="fab fa-instagram"></i></a>
         <a href="https://www.youtube.com/@canisgee21012" class="social-circle"><i class="fab fa-youtube"></i></a>
     </div>
@@ -742,7 +747,7 @@
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#00ff41';
-            ctx.font = fontSize + 'px monospace';
+            ctx.font = fontSize + 'px ProjectZero';
 
             for (let i = 0; i < drops.length; i++) {
                 const text = letters[Math.floor(Math.random() * letters.length)];
