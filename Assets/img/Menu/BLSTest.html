@@ -69,7 +69,7 @@
             left: 1rem;
             transform: translateY(-50%);
             background: rgba(0, 191, 255, 0.3);
-            color: #e8aecb;
+            color: #00bfff;
             width: clamp(50px, 8vw, 60px); /* Circular size */
             height: clamp(50px, 8vw, 60px);
             line-height: clamp(50px, 8vw, 60px); /* Vertically center text */
@@ -366,6 +366,7 @@
                 line-height: clamp(40px, 8vw, 50px);
             }
         }
+		
 	<!-- Banner -->	
 	    /* Container for the banner */
     .banner-container {
@@ -436,7 +437,7 @@
 
         @keyframes rainbow {
             0% { color: #ff0000; }
-            20% { color: #FF3131; }
+            20% { color: #40A5E1; }
             40% { color: #0000ff; }
             60% { color: #ff00ff; }
             80% { color: #ffff00; }
@@ -595,47 +596,6 @@
 
  <!-- Music Player Banner -->
 
-        <div class="banner-container">
-            <div class="marquee">
-                <!-- Each letter in a span for individual animation -->
-                <span>M</span><span>Y</span> 
-                <span> </span>
-                <span>A</span><span>N</span><span>I</span><span>M</span><span>E</span> 
-                <span> </span>
-                <span>S</span><span>O</span><span>U</span><span>N</span><span>D</span> 
-                <span> </span>
-                <span>T</span><span>R</span><span>A</span><span>C</span><span>K</span> 
-                <span> </span>
-                <span>D</span><span>O</span><span>U</span><span>B</span><span>L</span><span>E</span> 
-                <span> </span>
-                <span>T</span><span>A</span><span>P</span> 
-                <span> </span>
-                <span>O</span><span>N</span> 				
-                <span> </span>
-                <span>O</span><span>N</span><span>E</span> 
-                <span> </span>
-                <span>O</span><span>F</span> 
-                <span> </span>
-                <span>T</span><span>H</span><span>E</span> 
-                <span> </span>
-                <span>I</span><span>C</span><span>O</span><span>N</span> 
-                <span> </span>
-                <span>I</span><span>T</span> 
-                <span> </span>
-                <span>S</span><span>H</span><span>O</span><span>U</span><span>L</span><span>D</span> 
-                <span> </span>
-                <span>P</span><span>L</span><span>A</span><span>Y</span> 
-                <span> </span>
-                <span>E</span><span>N</span><span>J</span><span>O</span><span>Y</span><span>!</span> 
-				<span> </span>
-                <span>D</span><span>O</span><span>N</span><span>T</span> 
-                <span> </span>		
-                <span>B</span><span>A</span><span>S</span><span>H</span><span>!</span>&nbsp				
-            </div>
-        </div>
-
- <!-- Music Player Banner -->
-
 
 
     <!-- Music Player Section -->
@@ -724,7 +684,7 @@
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#dd628f';
+            ctx.fillStyle = '#00bfff';
             ctx.font = fontSize + 'px ProjectZero';
 
             for (let i = 0; i < drops.length; i++) {
