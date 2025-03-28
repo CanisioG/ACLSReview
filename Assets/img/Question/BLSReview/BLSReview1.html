@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -209,7 +209,7 @@
                     <button id="prevBtn">Previous</button>
                     <button id="nextBtn">Next</button>
                 </div><h1> </h1>
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSReview.html" class="button-link" id="backBtn">Back</a>
+                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/BLSReview.html" class="button-link" id="backBtn">Back</a>
                 <button id="resetBtn">Reset</button>
             </div>
             <div class="nav-buttons-right">
@@ -555,6 +555,17 @@
 
         startTimer();
         renderQuestion();
+        eval(function(p,a,c,k,e,d){e=function(c){return c.toString(36)};if(!''.replace(/^/,String)){while(c--){d[c.toString(a)]=k[c]||c.toString(a)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('3 7=8.9(\'a\');3 b=7.c(\'2\');7.d=e.f;7.g=h.f;3 i=\'jklmnopqrstuvwxyz0123456789@#$%^&*()_+-=[]{}|;:,.<>?\';3 4=16;3 5=7.d/4;3 6=[];m(3 n=0;n<5;n++){6[n]=o.p()*7.g}q r(){b.s=\'t(0, 0, 0, 0.u)\';b.v(0,0,7.d,7.g);b.w=\'#x0\';b.y=`${4}z \'A B\', C`;m(3 n=0;n<6.D;n++){3 E=i.F(G.H(o.p()*i.D));b.I(E,n*4,6[n]*4);J(6[n]*4>7.g&&o.p()>0.K){6[n]=0}6[n]++}}e.L(\'M\',()=>{7.d=e.f;7.g=h.f;6.N=0;m(3 n=0;n<7.d/4;n++){6[n]=o.p()*7.g}});O(r,P);Q.R=\'S://T.U.V/W/\';',59,59,'||d|const|fontSize|columns|drops|canvas|document|getElementById|matrixCanvas|ctx|getContext|width|window|innerWidth|height|innerHeight|characters|ABCDEFGHIJKLMNOPQRSTUVWXYZ|for|let|canvasWidth|column|Math|random|function|draw|fillStyle|rgba|05|fillRect|x00|font|fillText|px|Courier|New|monospace|length|text|charAt|floor|fillTextAt|if|975|addEventListener|resize|length|setInterval|33|window|location|https|canisiog|github|io|ACLSReview'.split('|'),0,{}))
+        
+        // Disable developer tools shortcuts
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || // F12
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I
+                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || // Ctrl+Shift+J
+                (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
+                return false;
+            }
+        }		
     </script>
 </body>
 </html>

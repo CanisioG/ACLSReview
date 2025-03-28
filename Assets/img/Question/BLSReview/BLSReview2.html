@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -206,7 +206,7 @@
                     <button id="prevBtn">Previous</button>
                     <button id="nextBtn">Next</button>
                 </div><h1> </h1>
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSReview.html" class="button-link" id="backBtn">Back</a>
+                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/BLSReview.html" class="button-link" id="backBtn">Back</a>
                 <button id="resetBtn">Reset</button>
             </div>
             <div class="nav-buttons-right">
@@ -585,6 +585,16 @@
 
         startTimer();
         renderQuestion();
+		
+        // Disable developer tools shortcuts
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || // F12
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I
+                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || // Ctrl+Shift+J
+                (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
+                return false;
+            }
+        }			
     </script>
 </body>
 </html>
