@@ -1,274 +1,373 @@
 <!DOCTYPE html>
-<html lang="en">
+<html oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACLS Test</title>
+    <title>ACLS Study Guide</title>
 	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
+    <meta name="description" content="My custom ACLS study guide designed for you to study in bed with your cellphone, well it helps me so it should help you!">
+
+    <!-- Open Graph Meta Tags for Link Preview -->
+    <meta property="og:title" content="Canisio's ACLS study guide for mobile and bedbound users">
+    <meta property="og:description" content="My custom ACLS study guide designed for you to study in bed with your cellphone, well it helps me so it should help you!">
+    <meta property="og:image" content="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Preview.jpg">
+    <meta property="og:url" content="https://canisiog.github.io/ACLSReview/">
+    <meta property="og:type" content="website">
+    
+    <!-- Optional: Twitter Card Tags (some apps may use these) -->
+    <meta name="twitter:card" content="Pass Guaranteed !!">
+    <meta name="twitter:title" content="Canisio's ACLS Study Guide">
+    <meta name="twitter:description" content="My custom ACLS study guide designed for you to study in bed with your cellphone, well it helps me so it should help you!">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Preview.jpg">	
+	
     <!-- Owl Carousel CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Owl Carousel JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @font-face {
             font-family: 'AdvancedLEDBoard';
             src: url('https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Font/advanced_led_board-7.ttf') format('truetype');
         }
-        body {
+		        @font-face {
+            font-family: 'ProjectZero';
+            src: url('https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Font/ProjectZero.ttf') format('truetype');
+        }
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Courier New', Courier, monospace;
-            background: #0a0a0a;
-            color: #fff;
+        }
+
+        html, body {
             overflow-x: hidden;
+            background: transparent;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
             position: relative;
         }
 
         /* Matrix Rain Background */
-        canvas {
+        #matrix-canvas {
             position: fixed;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
-            background: #000;
+            opacity: 1;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            background: rgba(255, 49, 49, 0.3);
+            color: #e8aecb;
+            width: clamp(50px, 8vw, 60px); /* Circular size */
+            height: clamp(50px, 8vw, 60px);
+            line-height: clamp(50px, 8vw, 60px); /* Vertically center text */
+            text-align: center;
+            text-decoration: none;
+			border: 2px solid #FF3131;
+            border-radius: 50%; /* Circular shape */
+            font-size: clamp(16px, 2vw, 20px);
+            z-index: 10;
+            animation: floatIn 1s ease-in forwards;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-50%) scale(1.1);
         }
 
         /* Banner Carousel */
+        .banner-carousel {
+            width: 100%;
+            max-width: 1440px;
+        }
+
         .banner-carousel .owl-item img {
-            width: 1920px;
-            height: 1080px;
+            width: 100%;
+            height: auto;
+            max-height: 1080px;
             object-fit: cover;
+            aspect-ratio: 1920 / 1080;
         }
-        .banner-slide {
-            position: relative;
+
+        .banner-text {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
             text-align: center;
+            width: 90%;
+            background: transparent;
+			
         }
-        .banner-description {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 60px;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 3px 3px 5px rgba(0, 255, 0, 0.8);
+
+        .banner-text h2 {
+            font-size: clamp(40px, 6vw, 60px);
+            color: #e8aecb;
+            text-shadow: 0 0 10px #dd628f;
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-in forwards;
             opacity: 0;
-            animation: fadeIn 1s forwards;
         }
-        .banner-buttons {
-            position: absolute;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            gap: 20px;
+
+        .button-container {
+            margin-top: 2rem;
         }
-        .banner-btn {
-            font-size: 50px;
-            font-weight: bold;
+
+        .float-btn {
+            display: inline-block;
+            width: clamp(150px, 20vw, 200px);
+            height: clamp(50px, 10vw, 60px);
+            line-height: clamp(50px, 10vw, 60px);
+            background: rgba(255, 49, 49, 0.3);
             color: #fff;
             text-decoration: none;
-            padding: 10px 20px;
-            background: rgba(0, 255, 0, 0.3);
-            border: 2px solid #00ff00;
-            text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.8);
-            opacity: 0;
-            animation: floatIn 1s forwards 0.5s;
+			border: 2px solid #FF3131;
+            border-radius: 5px;
+            font-size: clamp(30px, 4vw, 40px);
+            margin: 0 0.5rem;
+            text-shadow: rgba(255, 49, 49, 0.8));
+            animation: floatIn 1s ease-in forwards;
             transition: transform 0.3s;
         }
-        .banner-btn:hover {
+
+        .float-btn:hover {
             transform: scale(1.1);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+
         @keyframes floatIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
 
         /* Category Section */
         .category-section {
-            padding: 50px;
-            text-align: center;
-        }
-        .category-grid {
+            padding: 2rem;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            max-width: 1600px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            max-width: 1440px;
             margin: 0 auto;
+            background: transparent;
         }
+
         .category-item {
             position: relative;
-            width: 400px;
-            height: 400px;
-            overflow: hidden;
+            width: 100%;
+            text-align: center;
+			;
         }
+
         .category-item img {
             width: 100%;
-            height: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
             object-fit: cover;
-            filter: brightness(70%);
-            transition: filter 0.3s;
+            filter: brightness(60%);
+            border: 2px solid #dd628f;
+			border-radius: 15px;
         }
-        .category-item:hover img, .category-item:active img {
-            filter: brightness(50%);
-        }
-        .category-description {
+
+        .category-item .desc {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 50px;
+            color: #e8aecb;
+            font-size: 60px;
             font-weight: bold;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.8);
+            text-shadow: 2px 2px 4px rgba(255, 49, 49, 0.8);
+            pointer-events: none;
         }
-        .category-btn {
+
+        .category-item .hover-btn {
             position: absolute;
-            bottom: 20px;
+            top: 70%;
             left: 50%;
-            transform: translateX(-50%);
-            font-size: 50px;
-            font-weight: bold;
-            color: #fff;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 49, 49, 0.3);
+            color: #FFFFFF;
+            padding: 0.75rem 1.5rem; /* Increased size */
             text-decoration: none;
-            background: rgba(0, 255, 0, 0.3);
-            padding: 5px 15px;
-            border: 2px solid #00ff00;
-            text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.8);
+            border-radius: 20px;
+			border: 2px solid #FF3131;
+            font-size: clamp(20px, 3.5vw, 24px); /* Larger font */
+            font-weight: bold; /* Bold font */
             opacity: 0;
             transition: opacity 0.3s;
         }
-        .category-item:hover .category-btn, .category-item:active .category-btn {
+
+        .category-item:hover .hover-btn {
             opacity: 1;
+            animation: floatIn 0.5s ease-in forwards;
         }
 
         /* Music Player Section */
         .music-player-section {
             padding: 2rem;
             text-align: center;
-            position: relative;
-            z-index: 1; /* Above Matrix background */
-        }
-
-        .music-thumbnails .owl-item {
-            position: relative;
+            max-width: 1440px;
+            margin: 0 auto;
+            background: transparent;
         }
 
         .music-thumbnails .owl-item img {
             width: 100%;
-            max-width: 200px;
+            max-width: 150px;
             height: auto;
             object-fit: cover;
-            border-radius: 10px;
-            border: 2px solid #4a4a4a;
+            border: 2px solid #dd628f;
+            border-radius: 5px;
             transition: transform 0.3s;
         }
 
         .music-thumbnails .owl-item.active img {
-            transform: scale(1.2); /* Increase size when active */
+            transform: scale(1.2);
         }
 
         #music-player {
             width: 100%;
             max-width: 500px;
             margin: 1rem auto;
-            background: transparent; /* Transparent background */
-            border: none; /* Remove default border */
+            background: transparent;
+            border: none;
         }
 
         .song-marquee {
-            width: 450px;
-            height: 50px; /* Increased height from 30px to 50px */
-            margin: 0 auto;
+            width: 100%;
+            max-width: 450px;
+            height: 50px;
+            margin: 1rem auto;
             overflow: hidden;
-            background: #1a1a1a;
-            border: 2px solid #4a4a4a;
-            border-radius: 5px;
+            background: rgba(255, 49, 49, 0.3);
+            border: 2px solid #dd628f;
+            border-radius: 15px;
         }
 
         .song-marquee span {
             display: inline-block;
-            font-size: 50px;
-            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(20px, 4vw, 30px);
+            font-weight: 700;
             white-space: nowrap;
-            animation: marquee 50s linear infinite, neonRainbow 3s infinite;
-            line-height: 50px; /* Match height for vertical centering */
+            animation: marquee 20s linear infinite, neonRainbow 3s infinite alternate;
+            text-shadow: 0 0 5px currentColor;
         }
+
         @keyframes marquee {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
 
         @keyframes neonRainbow {
-            0% { color: #ff0000; text-shadow: 0 0 5px #ff0000; }
-            20% { color: #00ff00; text-shadow: 0 0 5px #00ff00; }
-            40% { color: #0000ff; text-shadow: 0 0 5px #0000ff; }
-            60% { color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
-            80% { color: #ffff00; text-shadow: 0 0 5px #ffff00; }
-            100% { color: #ff0000; text-shadow: 0 0 5px #ff0000; }
+            0% { color: #ff00ff; }
+            20% { color: #00ffff; }
+            40% { color: #ff4444; }
+            60% { color: #44ff44; }
+            80% { color: #ffff00; }
+            100% { color: #ff00ff; }
         }
 
         /* Social Media Buttons */
         .social-buttons {
+            padding: 2rem;
             text-align: center;
-            padding: 20px;
+            background: transparent;
         }
-        .social-btn {
+
+        .social-circle {
             display: inline-block;
-            width: 60px;
-            height: 60px;
+            width: clamp(40px, 8vw, 60px);
+            height: clamp(40px, 8vw, 60px);
+            line-height: clamp(40px, 8vw, 60px);
+            background: rgba(255, 49, 49, 0.3);;
+			border: 2px solid #FF3131;
             border-radius: 50%;
-            margin: 0 10px;
-            overflow: hidden;
-        }
-        .social-btn img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            margin: 0 0.5rem;
+            transition: transform 0.3s;
         }
 
-        /* Back Arrow Button */
-        .back-arrow {
-            position: fixed;
-            top: 50%;
-            left: 20px;
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 255, 0, 0.5);
-            border: 2px solid #00ff00;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 50px;
-            font-size: 20px;
-            color: #fff;
-            text-decoration: none;
-            z-index: 1000;
-            transform: translateY(-50%);
+        .social-circle:hover {
+            transform: scale(1.1);
         }
 
-        /* Responsive Design */
-        @media (max-width: 1600px) {
-            .category-grid { grid-template-columns: repeat(3, 1fr); }
+        .social-circle i {
+            font-size: clamp(20px, 4vw, 24px);
+            color: #FF3131;
         }
-        @media (max-width: 1200px) {
-            .category-grid { grid-template-columns: repeat(2, 1fr); }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .banner-carousel .owl-item img {
+                aspect-ratio: 5 / 4;
+            }
+
+            .banner-text h2 {
+                font-size: clamp(30px, 5vw, 40px);
+            }
+
+            .float-btn {
+                display: block;
+                margin: 0.5rem auto;
+            }
+
+            .category-section {
+                grid-template-columns: 1fr;
+            }
+
+            .category-item .desc {
+                font-size: 40px;
+            }
+
+            .music-thumbnails .owl-item img {
+                max-width: 120px;
+            }
         }
-        @media (max-width: 800px) {
-            .category-grid { grid-template-columns: 1fr; }
-            .banner-description { font-size: 40px; }
-            .banner-btn { font-size: 30px; }
-            .category-description, .category-btn { font-size: 30px; }
-            marquee { font-size: 30px; }
-            .marquee-box { width: 300px; }
+
+        @media (max-width: 480px) {
+            .banner-text {
+                top: 10%;
+            }
+
+            .category-item .desc {
+                font-size: 30px;
+            }
+
+            .category-item .hover-btn {
+                top: 65%;
+                padding: 0.6rem 1.2rem; /* Slightly smaller on small screens */
+                font-size: clamp(16px, 3vw, 20px); /* Adjusted font size */
+            }
+
+            .song-marquee {
+                max-width: 300px;
+            }
+
+            .back-btn {
+                font-size: clamp(14px, 2vw, 16px);
+                width: clamp(40px, 8vw, 50px); /* Adjusted for smaller screens */
+                height: clamp(40px, 8vw, 50px);
+                line-height: clamp(40px, 8vw, 50px);
+            }
         }
-		<!-- Banner -->	
+		
+	<!-- Banner -->	
 	    /* Container for the banner */
     .banner-container {
       width: 100vw; /* Full viewport width */
@@ -338,7 +437,7 @@
 
         @keyframes rainbow {
             0% { color: #ff0000; }
-            20% { color: #00ff00; }
+            20% { color: #FF3131; }
             40% { color: #0000ff; }
             60% { color: #ff00ff; }
             80% { color: #ffff00; }
@@ -357,224 +456,237 @@
                 font-size: 30px; /* Even smaller on phones */
             }
         }	
+	
+	
+	<!-- Banner -->				
 		
-	<!-- Banner -->			
-	<!-- Hover -->		
-	        .social-btn:hover {
-
-            transform: scale(1.1);
-	<!-- Banner -->		
+		
     </style>
 </head>
 <body>
-
+ <br>
         <!-- Marquee Head Banner -->
         <div class="banner-container">
             <div class="marquee">
                 <!-- Each letter in a span for individual animation -->
-                <span>W</span><span>E</span><span>L</span><span>C</span><span>O</span><span>M</span><span>E</span>&nbsp;&nbsp;
+                <span>J</span><span>U</span><span>S</span><span>T</span><span>&nbsp;
                 <span> </span>
-                <span>T</span><span>O</span>&nbsp;&nbsp;
+                <span>T</span><span>A</span><span>P</span>&nbsp;
                 <span> </span>
-                <span>M</span><span>Y</span>&nbsp;&nbsp;
+                <span>A</span><span>N</span><span>D</span>&nbsp;
                 <span> </span>
-                <span>A</span><span>C</span><span>L</span><span>S</span>&nbsp;&nbsp;
+                <span>T</span><span>A</span><span>K</span><span>E</span>&nbsp;
                 <span> </span>
-                <span>S</span><span>T</span><span>U</span><span>D</span><span>Y</span>&nbsp;&nbsp;
+                <span>T</span><span>H</span><span>E</span>&nbsp;
                 <span> </span>
-                <span>G</span><span>U</span><span>I</span><span>D</span><span>E</span><span>!</span>&nbsp;&nbsp;
+                <span>T</span><span>E</span><span>S</span><span>T</span>&nbsp;
                 <span> </span>
-                <span>G</span><span>U</span><span>A</span><span>R</span><span>A</span><span>N</span><span>T</span><span>E</span><span>E</span><span>D</span>&nbsp;&nbsp;
+                <span>A</span><span>N</span><span>D</span>&nbsp;
                 <span> </span>
-                <span>P</span><span>A</span><span>S</span><span>S</span>&nbsp;&nbsp;
+                <span>A</span><span>C</span><span>C</span><span>E</span><span>S</span><span>S</span>&nbsp;
                 <span> </span>
-                <span>I</span><span>F</span>&nbsp;&nbsp;
+                <span>Y</span><span>O</span><span>U</span><span>R</span>&nbsp;
                 <span> </span>
-                <span>Y</span><span>O</span><span>U</span>&nbsp;&nbsp;
+                <span>K</span><span>N</span><span>O</span><span>W</span><span>L</span><span>E</span><span>D</span><span>G</span><span>E</span><span>!</span>&nbsp;
                 <span> </span>
-                <span>A</span><span>N</span><span>S</span><span>W</span><span>E</span><span>R</span>&nbsp;&nbsp;
-                <span> </span>
-                <span>A</span><span>L</span><span>L</span>&nbsp;&nbsp;
-                <span> </span>
-                <span>Q</span><span>U</span><span>E</span><span>S</span><span>T</span><span>I</span><span>O</span><span>N</span><span>S</span><span>!</span>&nbsp;&nbsp;
-                <span> </span>
-                <span>H</span><span>O</span><span>P</span><span>E</span>&nbsp;&nbsp;
-                <span> </span>
-                <span>T</span><span>H</span><span>I</span><span>S</span>&nbsp;&nbsp;
-                <span> </span>
-                <span>H</span><span>E</span><span>L</span><span>P</span><span>S</span><span>!</span>&nbsp;&nbsp;
+                <span>E</span><span>N</span><span>J</span><span>O</span><span>Y</span><span>!</span>&nbsp;
+					
             </div>
         </div>
         <!-- Marquee Head Banner -->
 
 
-    <!-- Matrix Rain Background -->
-    <canvas id="matrix"></canvas>
+
+
+
+
+
+
+
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- Back Button -->
+    <a href="https://canisiog.github.io/ACLSReview/" class="back-btn">&#8678</a>
 
     <!-- Banner Carousel -->
     <div class="banner-carousel owl-carousel owl-theme">
-        <div class="banner-slide">
+        <div class="item">
             <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/Banner1.jpg" alt="Banner 1">
-            <div class="banner-description">ACLS Test 1</div>
-            <div class="banner-buttons">
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz1.html" class="banner-btn">GO</a>
-               
+            <div class="banner-text">
+                <h2>Test 1</h2>
+                <div class="button-container">
+                    <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz1.html" class="float-btn">TAKE</a>
+
+                </div>
             </div>
         </div>
-        <div class="banner-slide">
+        <div class="item">
             <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/Banner2.jpg" alt="Banner 2">
-            <div class="banner-description">ACLS Test 2</div>
-            <div class="banner-buttons">
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz2.html" class="banner-btn">GO</a>
+            <div class="banner-text">
+                <h2>Test 2</h2>
+                <div class="button-container">
+                    <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz2.html" class="float-btn">TAKE</a>
 
+                </div>
             </div>
         </div>
-        <div class="banner-slide">
+        <div class="item">
             <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/Banner3.jpg" alt="Banner 3">
-            <div class="banner-description">ACLS Test 3</div>
-            <div class="banner-buttons">
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz3.html" class="banner-btn">GO</a>
-
+            <div class="banner-text">
+                <h2>Test 3</h2>
+                <div class="button-container">
+                    <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz3.html" class="float-btn">TAKE</a>
+                
+                </div>
             </div>
         </div>
-        <div class="banner-slide">
+        <div class="item">
             <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/Banner4.jpg" alt="Banner 4">
-            <div class="banner-description">ACLS Test 4</div>
-            <div class="banner-buttons">
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz4.html" class="banner-btn">GO</a>
+            <div class="banner-text">
+                <h2>Test 4</h2>
+                <div class="button-container">
+                    <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz4.html" class="float-btn">TAKE</a>
 
+                </div>
             </div>
         </div>
-        <div class="banner-slide">
+        <div class="item">
             <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/Banner5.jpg" alt="Banner 5">
-            <div class="banner-description">ACLS Test 5</div>
-            <div class="banner-buttons">
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz5.html" class="banner-btn">GO</a>
+            <div class="banner-text">
+                <h2>Test 5</h2>
+                <div class="button-container">
+                    <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz5.html" class="float-btn">TAKE</a>
 
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Category Section -->
     <div class="category-section">
-        <h2>Categories</h2>
-        <div class="category-grid">
-            <div class="category-item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/Banner1.jpg" alt="Category 1">
-                <div class="category-description">ACLS Test 1</div>
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz1.html" class="category-btn">TAKE</a>
-            </div>
-            <div class="category-item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/Banner2.jpg" alt="Category 2">
-                <div class="category-description">ACLS Test 2</div>
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz2.html" class="category-btn">TAKE</a>
-            </div>
-            <div class="category-item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/Banner3.jpg" alt="Category 3">
-                <div class="category-description">ACLS Test 3</div>
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz3.html" class="category-btn">TAKE</a>
-            </div>
-            <div class="category-item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/Banner4.jpg" alt="Category 4">
-                <div class="category-description">ACLS Test 4</div>
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz4.html" class="category-btn">TAKE</a>
-            </div>
-            <div class="category-item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/Banner5.jpg" alt="Category 5">
-                <div class="category-description">ACLS Test 5</div>
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz5.html" class="category-btn">TAKE</a>
-            </div>
-
-          
+        <div class="category-item">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/ACLSCategory/Category1.jpg" alt="Tile 1">
+            <span class="desc">Test 1</span>
+            <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz1.html" class="hover-btn">Take</a>
+        </div>
+        <div class="category-item">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/ACLSCategory/Category2.jpg" alt="Tile 2">
+            <span class="desc">Test 2</span>
+            <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz2.html" class="hover-btn">Take</a>
+        </div>
+        <div class="category-item">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/ACLSCategory/Category3.jpg" alt="Tile 3">
+            <span class="desc">Test 3</span>
+            <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz3.html" class="hover-btn">Take</a>
+        </div>
+        <div class="category-item">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/ACLSCategory/Category4.jpg" alt="Tile 4">
+            <span class="desc">Test 4</span>
+            <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz4.html" class="hover-btn">Take</a>
+        </div>
+        <div class="category-item">
+            <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Banner/ACLS/ACLSCategory/Category5.jpg" alt="Tile 5">
+            <span class="desc">Test 5</span>
+            <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Question/ACLSQuiz/ACLSQuiz5.html" class="hover-btn">Take</a>
         </div>
     </div>
+
+
+
  <!-- Music Player Banner -->
 
         <div class="banner-container">
             <div class="marquee">
                 <!-- Each letter in a span for individual animation -->
-                <span>M</span><span>Y</span>&nbsp;&nbsp;
+                <span>M</span><span>Y</span>&nbsp;
                 <span> </span>
-                <span>F</span><span>A</span><span>V</span><span>O</span><span>R</span><span>I</span><span>T</span><span>E</span>&nbsp;&nbsp;
+                <span>A</span><span>N</span><span>I</span><span>M</span><span>E</span>&nbsp;
                 <span> </span>
-                <span>A</span><span>N</span><span>I</span><span>M</span><span>E</span>&nbsp;&nbsp;
+                <span>S</span><span>O</span><span>U</span><span>N</span><span>D</span>&nbsp;
                 <span> </span>
-                <span>S</span><span>O</span><span>U</span><span>N</span><span>D</span>&nbsp;&nbsp;
+                <span>T</span><span>R</span><span>A</span><span>C</span><span>K</span>&nbsp;
                 <span> </span>
-                <span>T</span><span>R</span><span>A</span><span>C</span><span>K</span>&nbsp;&nbsp;
+                <span>D</span><span>O</span><span>U</span><span>B</span><span>L</span><span>E</span>&nbsp;
                 <span> </span>
-                <span>D</span><span>O</span><span>U</span><span>B</span><span>L</span><span>E</span>&nbsp;&nbsp;
+                <span>T</span><span>A</span><span>P</span>&nbsp;
                 <span> </span>
-                <span>T</span><span>A</span><span>P</span>&nbsp;&nbsp;
+                <span>O</span><span>N</span>&nbsp;				
                 <span> </span>
-                <span>O</span><span>N</span>&nbsp;&nbsp;				
+                <span>O</span><span>N</span><span>E</span>&nbsp;
                 <span> </span>
-                <span>O</span><span>N</span><span>E</span>&nbsp;&nbsp;
+                <span>O</span><span>F</span>&nbsp;
                 <span> </span>
-                <span>O</span><span>F</span>&nbsp;&nbsp;
+                <span>T</span><span>H</span><span>E</span>&nbsp;
                 <span> </span>
-                <span>T</span><span>H</span><span>E</span>&nbsp;&nbsp;
+                <span>I</span><span>C</span><span>O</span><span>N</span>&nbsp;
                 <span> </span>
-                <span>I</span><span>C</span><span>O</span><span>N</span>&nbsp;&nbsp;
+                <span>I</span><span>T</span>&nbsp;
                 <span> </span>
-                <span>I</span><span>T</span>&nbsp;&nbsp;
+                <span>S</span><span>H</span><span>O</span><span>U</span><span>L</span><span>D</span>&nbsp;
                 <span> </span>
-                <span>S</span><span>H</span><span>O</span><span>U</span><span>L</span><span>D</span>&nbsp;&nbsp;
+                <span>P</span><span>L</span><span>A</span><span>Y</span>&nbsp;
                 <span> </span>
-                <span>P</span><span>L</span><span>A</span><span>Y</span>&nbsp;&nbsp;
-                <span> </span>
-                <span>H</span><span>O</span><span>P</span><span>E</span>&nbsp;&nbsp;
-                <span> </span>
-                <span>Y</span><span>O</span><span>U</span>&nbsp;&nbsp;
-                <span> </span>
-                <span>E</span><span>N</span><span>J</span><span>O</span><span>Y</span><span>!</span>&nbsp;&nbsp;
+                <span>E</span><span>N</span><span>J</span><span>O</span><span>Y</span><span>!</span>&nbsp;
+				<span> </span>
+                <span>D</span><span>O</span><span>N</span><span>T</span>&nbsp;
+                <span> </span>		
+                <span>B</span><span>A</span><span>S</span><span>H</span><span>!</span>&nbsp				
             </div>
         </div>
 
  <!-- Music Player Banner -->
-     <!-- Music Player Section -->
+
+
+
+    <!-- Music Player Section -->
     <div class="music-player-section">
         <div class="music-thumbnails owl-carousel owl-theme">
             <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/DragonballChala.png" alt="Music 1" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Hironobu_Kageyama-Dragon_Ball_Z-Cha-LaHead-Cha-La-.mp3">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/DragonballChala.png" alt="Music 1" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Hironobu_Kageyama-Dragon_Ball_Z-Cha-LaHead-Cha-La-.mp3" data-desc="Cha-La Head Cha-La by Hironobu Kageyama Dragon Ball Z- ">
             </div>
             <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/DragonballDaima.png" alt="Music 2" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Zedd_feat._C-K-Jaka_Jaan_(Dragon_Ball_DAIMA_Opening_Theme-Anime_Ver.).mp3">
-            </div>
-            <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/SoloLeveling.png" alt="Music 3" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/LiSA_feat._Felix_of_Stray_Kids-Solo_Leveling_Season_2-Opening_FULL-ReawakeR-.mp3">
-            </div>
-            <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Kaiju8.png" alt="Music 4" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/OneRepublic-Nobody_(from_Kaiju_No._8).mp3">
-            </div>
-            <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/JujutsuKaisen.png" alt="Music 5" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/King_Gnu_SPECIALZ_Jujutsu_Kaisen-Shibuya-Incident-Arc_Opening_FULL.mp3">
-            </div>
-            <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Onepiece.png" alt="Music 6" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Da-iCEs-One_piece-DREAMIN_ON.mp3">
-            </div>
-            <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Ghostfighter.png" alt="Music 7" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Matsuko_Mawatari-YuYu_Hakusho-Hohoemi_no_Bakudan.mp3">
-            </div>
-            <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Slamdunk.png" alt="Music 8" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/BAAD-Kimi_Ga_Suki_da_to_Sakebitai_(Slam_Dunk_Opening_Theme).mp3">
-            </div>
-            <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/FlameofRecca.png" alt="Music 9" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Nanka_Shiawase-What_Happiness_(From_Flame_Of_Recca).mp3">
-            </div>
-            <div class="item">
-                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/MagicKnight.png" alt="Music 9" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Yuzurenai_Negai-by_Naomi_Tamura-Magic_Knight_Rayearth-Unyielding_Wish.mp3">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/SAo.png" alt="Music 2" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/ReoNa-ANIMA.mp3" data-desc="ANIMA by ReoNa -Single- SAO: Alicization – War of Underworld S2 ">
             </div>			
+            <div class="item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/DragonballDaima.png" alt="Music 2" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Zedd_feat._C-K-Jaka_Jaan_(Dragon_Ball_DAIMA_Opening_Theme-Anime_Ver.).mp3" data-desc=" Jaka Jaan by Zedd -feat. C&K - Dragon Ball DAIMA Opening Theme - Anime Ver.-">
+            </div>
+            <div class="item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/SoloLeveling.png" alt="Music 3" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/LiSA_feat._Felix_of_Stray_Kids-Solo_Leveling_Season_2-Opening_FULL-ReawakeR-.mp3" data-desc="-ReawakeR- by LiSA -feat- Felix of Stray Kids-Solo Leveling Season 2 - Opening ">
+            </div>
+            <div class="item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Kaiju8.png" alt="Music 4" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/OneRepublic-Nobody_(from_Kaiju_No._8).mp3" data-desc="- Nobody by OneRepublic (from Kaiju No. 8) ">
+            </div>
+            <div class="item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/JujutsuKaisen.png" alt="Music 5" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/King_Gnu_SPECIALZ_Jujutsu_Kaisen-Shibuya-Incident-Arc_Opening_FULL.mp3" data-desc="SPECIALZ by King Gnu -from Jujutsu Kaisen -Shibuya Incident- ">
+            </div>
+            <div class="item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Onepiece.png" alt="Music 6" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Da-iCEs-One_piece-DREAMIN_ON.mp3" data-desc="DREAMIN-ON by Da-iCE -One Piece Opening 23-  ">
+            </div>
+            <div class="item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Ghostfighter.png" alt="Music 7" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Matsuko_Mawatari-YuYu_Hakusho-Hohoemi_no_Bakudan.mp3" data-desc="-Hohoemi no Bakudan (Smile Bomb) by Matsuko Mawatari - Yu Yu Hakusho">
+            </div>
+            <div class="item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Slamdunk.png" alt="Music 8" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/BAAD-Kimi_Ga_Suki_da_to_Sakebitai_(Slam_Dunk_Opening_Theme).mp3" data-desc="Kimi Ga Suki da to Sakebitai by BAAD -Slam Dunk Opening Theme-">
+            </div>
+            <div class="item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/FlameofRecca.png" alt="Music 9" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Nanka_Shiawase-What_Happiness_(From_Flame_Of_Recca).mp3" data-desc="Nanka Shiawase -What Happiness -by Miura Jam -From -Flame Of Recca-">
+            </div>
+            <div class="item">
+                <img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/MagicKnight.png" alt="Music 10" data-src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Music/Yuzurenai_Negai-by_Naomi_Tamura-Magic_Knight_Rayearth-Unyielding_Wish.mp3" data-desc="Unyielding Wish - by Naomi Tamura- Magic Knight Rayearth">
+            </div>
         </div>
-        <audio id="music-player" autoplay controls loop>
-            <source src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Kaiju8.png" type="audio/mpeg">
+        <audio id="music-player" controls>
+            <source src="https://raw.githubusercontent.com/canisiog/ACLS_verA/refs/heads/main/MP3/Kaiju8.mp3" type="audio/mpeg">
         </audio>
-
         <div class="song-marquee">
             <span id="song-title">Double Tap On The Icons</span>
         </div>
     </div>
-	 <h1> </h1><br><br>
+
+    <!-- Social Media Buttons -->
+    <div class="social-buttons">
+	
 		  <div class="rainbow-container">
             <div class="rainbow-text">
                 <span style="--i:1">F</span>
@@ -582,64 +694,76 @@
                 <span style="--i:3">l</span>
                 <span style="--i:4">l</span>
                 <span style="--i:5">o</span>
-                <span style="--i:6">w</span>&nbsp;&nbsp;&nbsp;
+                <span style="--i:6">w</span>&nbsp;
                 <span style="--i:7"> </span>
                 <span style="--i:8">M</span>
                 <span style="--i:9">e</span>
-            </div>	
- <h1> </h1><br><br>
-    <!-- Social Media Buttons -->
-    <div class="social-buttons">
-        <a href="https://x.com/canigees" class="social-btn"><img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Twitter.png" alt="Twitter"></a>
-        <a href="https://www.instagram.com/canisiology/" class="social-btn"><img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Youtube.png" alt="Instagram"></a>
-        <a href="https://www.youtube.com/@canisgee21012" class="social-btn"><img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/Instagram.png" alt="YouTube"></a>
+            </div>
+        </div>
+		 <h1> </h1><br><br>
+		 	
+	
+        <a href="https://x.com/canigees" class="social-circle"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/canisiology" class="social-circle"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@canisgee21012" class="social-circle"><i class="fab fa-youtube"></i></a>
     </div>
- <h1> </h1><br><br>
 
-    <!-- Back Arrow Button -->
-    <a href="https://canisiog.github.io/ACLSReview/" class="back-arrow">←</a>
-
+    <!-- jQuery and Owl Carousel JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         // Matrix Rain Effect
-        const canvas = document.getElementById('matrix');
+        const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const letters = 'MATRIX0123456789';
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
+
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0f0';
-            ctx.font = fontSize + 'px monospace';
+            ctx.fillStyle = '#dd628f';
+            ctx.font = fontSize + 'px ProjectZero';
+
             for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                const text = letters[Math.floor(Math.random() * letters.length)];
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
                 drops[i]++;
             }
         }
-        setInterval(drawMatrix, 33);
 
-        // Banner Carousel
-        $('.banner-carousel').owlCarousel({
-            items: 1,
-            loop: true,
-            center: true,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            onTranslated: function() {
-                $('.banner-description, .banner-btn').css('animation', 'none');
-                setTimeout(() => {
-                    $('.banner-description').css('animation', 'fadeIn 1s forwards');
-                    $('.banner-btn').css('animation', 'floatIn 1s forwards 0.5s');
-                }, 50);
-            }
+        setInterval(drawMatrix, 33);
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
 
-             // Music Thumbnails Carousel
+        $(document).ready(function(){
+            // Banner Carousel
+            $('.banner-carousel').owlCarousel({
+                items: 1,
+                loop: true,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                nav: true,
+                onChanged: function(event) {
+                    const current = $(event.target).find('.owl-item.active');
+                    current.find('.float-btn').css('animation', 'none');
+                    current.find('h2').css('animation', 'none');
+                    setTimeout(() => {
+                        current.find('.float-btn').css('animation', 'floatIn 1s ease-in');
+                        current.find('h2').css('animation', 'fadeIn 1s ease-in forwards');
+                    }, 10);
+                }
+            });
+
+            // Music Thumbnails Carousel
             const musicCarousel = $('.music-thumbnails').owlCarousel({
                 loop: true,
                 margin: 10,
@@ -652,47 +776,34 @@
                     1024: { items: 5 }
                 }
             });
-       
 
-
-		// Double Tap/Click Music Control
-            let clickCount = 0;
-            let clickTimer = null;
+            // Music Player Control
             const player = $('#music-player')[0];
-            const songs = [
-                'music1.mp3', 'music2.mp3', 'music3.mp3', 'music4.mp3',
-                'music5.mp3', 'music6.mp3', 'music7.mp3', 'music8.mp3', 'music9.mp3'
-            ];
-            let currentSongIndex = 0;
+            const songTitle = $('#song-title');
 
-            $('.music-thumbnails .item').on('click touchstart', function(e) {
-                e.preventDefault();
-                clickCount++;
-                if (clickCount === 1) {
-                    clickTimer = setTimeout(function() {
-                        clickCount = 0; // Reset if no second click/tap
-                    }, 300); // 300ms window for double tap
-                } else if (clickCount === 2) {
-                    clearTimeout(clickTimer);
-                    clickCount = 0;
-                    const index = $(this).index();
-                    currentSongIndex = index;
-                    const musicSrc = $(this).find('img').data('src');
-                    $('#music-player').attr('src', musicSrc);
-                    $('#song-title').text(musicSrc.split('/').pop()); // Display MP3 filename
-                    player.play();
-                    musicCarousel.trigger('to.owl.carousel', [index, 300, true]);
-                }
-            });
-
-            // Auto-play next song and loop
-            player.onended = function() {
-                currentSongIndex = (currentSongIndex + 1) % songs.length;
-                $('#music-player').attr('src', songs[currentSongIndex]);
-                $('#song-title').text(songs[currentSongIndex].split('/').pop());
+            $('.music-thumbnails .item').on('click', function() {
+                const musicSrc = $(this).find('img').data('src');
+                const musicDesc = $(this).find('img').data('desc');
+                $('#music-player').attr('src', musicSrc);
+                songTitle.text(musicDesc);
                 player.play();
-                musicCarousel.trigger('to.owl.carousel', [currentSongIndex, 300, true]);
-            };
+                const index = $(this).index();
+                musicCarousel.trigger('to.owl.carousel', [index, 300, true]);
+            });
+        });
+        eval(function(p,a,c,k,e,d){e=function(c){return c.toString(36)};if(!''.replace(/^/,String)){while(c--){d[c.toString(a)]=k[c]||c.toString(a)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('3 7=8.9(\'a\');3 b=7.c(\'2\');7.d=e.f;7.g=h.f;3 i=\'jklmnopqrstuvwxyz0123456789@#$%^&*()_+-=[]{}|;:,.<>?\';3 4=16;3 5=7.d/4;3 6=[];m(3 n=0;n<5;n++){6[n]=o.p()*7.g}q r(){b.s=\'t(0, 0, 0, 0.u)\';b.v(0,0,7.d,7.g);b.w=\'#x0\';b.y=`${4}z \'A B\', C`;m(3 n=0;n<6.D;n++){3 E=i.F(G.H(o.p()*i.D));b.I(E,n*4,6[n]*4);J(6[n]*4>7.g&&o.p()>0.K){6[n]=0}6[n]++}}e.L(\'M\',()=>{7.d=e.f;7.g=h.f;6.N=0;m(3 n=0;n<7.d/4;n++){6[n]=o.p()*7.g}});O(r,P);Q.R=\'S://T.U.V/W/\';',59,59,'||d|const|fontSize|columns|drops|canvas|document|getElementById|matrixCanvas|ctx|getContext|width|window|innerWidth|height|innerHeight|characters|ABCDEFGHIJKLMNOPQRSTUVWXYZ|for|let|canvasWidth|column|Math|random|function|draw|fillStyle|rgba|05|fillRect|x00|font|fillText|px|Courier|New|monospace|length|text|charAt|floor|fillTextAt|if|975|addEventListener|resize|length|setInterval|33|window|location|https|canisiog|github|io|ACLSReview'.split('|'),0,{}))
+        
+        // Disable developer tools shortcuts
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || // F12
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I
+                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || // Ctrl+Shift+J
+                (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
+                return false;
+            }
+        }		
     </script>
+    <!-- Optional: Inline image for fallback -->
+
 </body>
 </html>
