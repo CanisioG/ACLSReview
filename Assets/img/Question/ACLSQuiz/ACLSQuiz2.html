@@ -18,7 +18,7 @@
             margin: 0 auto;
             position: relative;
             background-color: #ffffff; /* White container for paper effect */
-            padding: 20px;
+            padding: 10px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -38,17 +38,21 @@
             font-size: 1.2em;
         }
         .question-image {
-            max-width: 100%;
-            height: auto;
+            max-width: 100%;			
+			height: auto;
             margin: 10px 0;
             border: 1px solid #ffffff;
+			border-radius: 5px;
+			
+			
         }
         .question {
             font-size: 1.5em;
             margin: 20px 0 10px 0;
+	
         }
         .follow-up {
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin: 10px 0;
             color: #555555; /* Slightly gray for follow-up */
         }
@@ -58,7 +62,7 @@
             gap: 10px;
         }
         .choice {
-            padding: 15px;
+            padding: 10px;
             background-color: #f0f0f0; /* Light gray for choices */
             border: 1px solid #cccccc;
             border-radius: 5px;
@@ -79,29 +83,31 @@
         .navigation {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+            margin-top: 15px;
             position: relative;
         }
         .nav-buttons-left {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
+			align-items: left;
+			
         }
         .nav-buttons-right {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            flex-direction: flex-wrap: wrap;
+            gap: 8px;
             align-items: flex-end;
         }
         .center-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
         }
         button {
-            padding: 10px 20px;
+            padding: 8px 15px;
             background-color: #e0e0e0;
             color: #000000;
             border: 1px solid #cccccc;
@@ -114,8 +120,9 @@
             color: #ffffff;
         }
         .indicators {
-            font-size: 1.1em;
+            font-size: 0.95em;
             color: #333333;
+			font-weight: bold
         }
         .evaluation-page {
             text-align: center;
@@ -158,7 +165,7 @@
         }
         a.button-link {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 8px 15px;
             background-color: #e0e0e0;
             color: #000000;
             text-decoration: none;
@@ -171,7 +178,6 @@
             color: #ffffff;
         }
 				
-		
 		
     </style>
 </head>
@@ -186,7 +192,7 @@
                 <div class="center-buttons" id="centerButtons">
                     <button id="prevBtn">Previous</button>
                     <button id="nextBtn">Next</button>
-                </div>
+                </div> <h1> </h1> 
                 <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSTest.html" class="button-link" id="backBtn">Back</a>
                 <button id="resetBtn">Reset</button>
             </div>
@@ -488,9 +494,9 @@
         correct: 3 
     },
     { 
-        question: "A 45-year-old man had coronary artery stents placed 2 days ago. Today, he is in severe distress and is reporting “crushing” chest discomfort. He is pale, diaphoretic, and cool to the touch. His radial pulse is very weak, blood pressure is 64/40 mm Hg, respiratory rate is 28 breaths per minute, and oxygen saturation is 89% on room air. When applied, the cardiac monitor initially showed ventricular tachycardia, which then quickly changed to ventricular fibrillation.<br><br>The patient has return of spontaneous circulation and is not able to follow commands.",
+        question: "A 45-year-old man had coronary artery stents placed 2 days ago. Today, he is in severe distress and is reporting “crushing” chest discomfort. He is pale, diaphoretic, and cool to the touch. His radial pulse is very weak, blood pressure is 64/40 mm Hg, respiratory rate is 28 breaths per minute, and oxygen saturation is 89% on room air. When applied, the cardiac monitor initially showed ventricular tachycardia, which then quickly changed to ventricular fibrillation.",
         image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: "Which postcardiac arrest care intervention do you choose for this patient?<br><br>",
+        followUp: "The patient has return of spontaneous circulation and is not able to follow commands.Which postcardiac arrest care intervention do you choose for this patient?<br><br>",
         choices: ["Initiate targeted temperature management", "Check the glucose level", "Administer epinephrine", "Extubate"],
         correct: 0 
     },
@@ -550,7 +556,6 @@
         choices: ["''I'll draw up 1 mg of atropine''", "''I'll give it in a few minutes.''", "''Are you sure that is what you want given?''", "OK"],
         correct: 0 
     }
-
      
 
 	 ];
