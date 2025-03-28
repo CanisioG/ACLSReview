@@ -61,7 +61,7 @@
             margin: 20px 0 10px 0;
         }
         .follow-up {
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin: 10px 0;
             color: #555555; /* Slightly gray for follow-up */
         }
@@ -71,7 +71,7 @@
             gap: 10px;
         }
         .choice {
-            padding: 15px;
+            padding: 10px;
             background-color: #f0f0f0; /* Light gray for choices */
             border: 1px solid #cccccc;
             border-radius: 5px;
@@ -117,7 +117,7 @@
             transform: translateX(-50%);
         }
         button {
-            padding: 10px 20px;
+            padding: 8px 15px;
             background-color: #e0e0e0;
             color: #000000;
             border: 1px solid #cccccc;
@@ -130,8 +130,9 @@
             color: #ffffff;
         }
         .indicators {
-            font-size: 1.1em;
+            font-size: 0.95em
             color: #333333;
+			font-weight: bold
         }
         .result-page {
             text-align: center;
@@ -175,10 +176,9 @@
                 font-size: 1em;
             }
         }
-		
         a.button-link {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 8px 15px;
             background-color: #e0e0e0;
             color: #000000;
             text-decoration: none;
@@ -203,16 +203,17 @@
         </div>
         <div id="quiz-content"></div>
         <div class="navigation">
+		
             <div class="nav-buttons-left">
                 <div class="center-buttons" id="centerButtons">
                     <button id="prevBtn">Previous</button>
                     <button id="nextBtn">Next</button>
-                </div>
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/BLSReview.html" class="button-link" id="backBtn">Back</a>
+                </div><h1> </h1>
+                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSReview.html" class="button-link" id="backBtn">Back</a>
                 <button id="resetBtn">Reset</button>
             </div>
             <div class="nav-buttons-right">
-                <span class="indicators" id="questionNumber">Question: 1/25</span>
+                <h1> </h1><br><span class="indicators" id="questionNumber">Question: 1/25</span>
                 <span class="indicators" id="correctNumber">Correct: 0</span>
             </div>
         </div>
