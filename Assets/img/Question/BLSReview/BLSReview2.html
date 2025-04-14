@@ -551,7 +551,7 @@
         document.getElementById('nextBtn').addEventListener('click', () => {
             if (answers[currentQuestion] === null) {
                 alert('Please select your answer');
-            } else if (currentQuestion < 30) {
+            } else if (currentQuestion < 29) {
                 currentQuestion++;
                 renderQuestion();
             } else {
