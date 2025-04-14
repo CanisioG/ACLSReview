@@ -520,7 +520,7 @@
         document.getElementById('nextBtn').addEventListener('click', () => {
             if (answers[currentQuestion] === null) {
                 alert('Please select your answer');
-            } else if (currentQuestion < 25) {
+            } else if (currentQuestion < 24) {
                 currentQuestion++;
                 renderQuestion();
             } else {
