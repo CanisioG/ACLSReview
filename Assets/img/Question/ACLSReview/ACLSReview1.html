@@ -7,8 +7,8 @@
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
     <style>
         body {
-            background-color: #f5f5f5; /* Paper white background */
-            color: #000000; /* Black text for contrast */
+            background-color: #f5f5f5;
+            color: #000000;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
@@ -17,10 +17,70 @@
             max-width: 800px;
             margin: 0 auto;
             position: relative;
-            background-color: #ffffff; /* White container for paper effect */
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        @media (min-width: 601px) {
+            .quiz-container {
+                width: 75vw;
+                max-width: 1200px;
+                transform: scale(1.1);
+                transform-origin: top center;
+            }
+            .question, .follow-up {
+                font-size: 2.5em;
+            }
+            .choice {
+                font-size: 1.3em;
+            }
+            .timer-btn, .expand-btn {
+                font-size: 1.5em;
+            }
+            .indicators {
+                font-size: 1.2em;
+            }
+            button, a.button-link {
+                font-size: 1.3em;
+            }
+        }
+        @media (max-width: 600px) {
+            .header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .expand-btn {
+                order: 1;
+                margin-right: auto;
+            }
+            .timer-btn {
+                order: 2;
+                margin-left: auto;
+            }
+            .question {
+                font-size: 1em;
+            }
+            .follow-up {
+                font-size: 1em;
+            }
+            button, .timer-btn, .expand-btn {
+                padding: 8px 15px;
+                font-size: 1em;
+            }
+            .indicators {
+                font-size: 1em;
+            }
+            .result-page h1 {
+                font-size: 1.5em;
+            }
+            .result-page p {
+                font-size: 1em;
+            }
         }
         .header {
             display: flex;
@@ -30,7 +90,7 @@
         }
         .timer-btn {
             padding: 10px 20px;
-            background-color: #e0e0e0; /* Light gray for buttons */
+            background-color: #e0e0e0;
             color: #000000;
             border: 1px solid #cccccc;
             border-radius: 5px;
@@ -47,14 +107,16 @@
             transition: background-color 0.3s;
         }
         .expand-btn:hover {
-            background-color: #4FB6AB; /* Red on hover */
+            background-color: #4FB6AB;
             color: #ffffff;
         }
         .question-image {
             max-width: 100%;
             height: auto;
-            margin: 10px 0;
+            display: block;
+            margin: 10px auto;
             border: 1px solid #ffffff;
+            border-radius: 5px;
         }
         .question {
             font-size: 1.5em;
@@ -63,7 +125,7 @@
         .follow-up {
             font-size: 1.5em;
             margin: 10px 0;
-            color: #000000; /* Slightly gray for follow-up */
+            color: #000000;
         }
         .choices {
             display: flex;
@@ -72,7 +134,7 @@
         }
         .choice {
             padding: 10px;
-            background-color: #f0f0f0; /* Light gray for choices */
+            background-color: #f0f0f0;
             border: 1px solid #cccccc;
             border-radius: 5px;
             cursor: pointer;
@@ -82,11 +144,11 @@
             background-color: #e0e0e0;
         }
         .choice.correct {
-            background-color: #98e5a5; /* Green for correct answer */
+            background-color: #98e5a5;
             border-color: #00cc00;
         }
         .choice.wrong.selected {
-            background-color: #d98e96; /* Red for wrong selected answer */
+            background-color: #d98e96;
             border-color: #cc0000;
         }
         .choice.locked {
@@ -126,55 +188,107 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #AC3834; /* Red on hover */
+            background-color: #AC3834;
             color: #ffffff;
         }
         .indicators {
-            font-size: 0.95em
+            font-size: 0.95em;
             color: #333333;
-			font-weight: bold
+            font-weight: bold;
         }
         .result-page {
             text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: visible;
+        }
+        .result-page.pass {
+            background-color: #98e5a5;
+        }
+        .result-page.fail {
+            background-color: #d98e96;
         }
         .result-page h1 {
             font-size: 2em;
             margin: 20px 0;
             color: #000000;
+            position: relative;
+            z-index: 1;
         }
         .result-page p {
             font-size: 1.2em;
             margin-bottom: 20px;
             color: #555555;
+            position: relative;
+            z-index: 1;
+        }
+        .pyro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .pyro > .before, .pyro > .after {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 
+                -20px -20px #ff0, 20px -20px #f00, 0 -30px #0f0, 
+                30px 0 #0ff, 20px 0 #ff0, -20px 0 #f00, 0 20px #0f0,
+                -15px -15px #ff0, 15px -15px #f00, 0 -25px #0f0, 15px 15px #ff0, -15px 15px #f00, 0 25px #0f0,
+                -10px -10px #ff0, 10px -10px #f00, 0 -20px #0f0, 10px 10px #ff0, -10px 10px #f00, 0 20px #0f0;
+            animation: 1s bang ease-out infinite, 1s gravity ease-in infinite, 5s position linear infinite;
+        }
+        .pyro > .after {
+            animation-delay: 0.5s, 0.5s, 0.5s;
+            animation-duration: 1s, 1s, 5s;
+        }
+        @keyframes bang {
+            to {
+                box-shadow: 
+                    -100px -50px #ff0, 100px -50px #f00, 0 -150px #0f0, 100px 50px #ff0, -100px 50px #f00, 0 150px #0f0,
+                    -80px -40px #ff0, 80px -40px #f00, 0 -120px #0f0, 80px 40px #ff0, -80px 40px #f00, 0 120px #0f0,
+                    -60px -30px #ff0, 60px -30px #f00, 0 -90px #0f0, 60px 30px #ff0, -60px 30px #f00, 0 90px #0f0;
+            }
+        }
+        @keyframes gravity {
+            to {
+                transform: translateY(200px);
+                opacity: 0;
+            }
+        }
+        @keyframes position {
+            0%, 20% {
+                margin-top: 10%;
+                margin-left: 40%;
+            }
+            20.1%, 40% {
+                margin-top: 40%;
+                margin-left: 30%;
+            }
+            40.1%, 60% {
+                margin-top: 20%;
+                margin-left: 70%;
+            }
+            60.1%, 80% {
+                margin-top: 30%;
+                margin-left: 20%;
+            }
+            80.1%, 100% {
+                margin-top: 30%;
+                margin-left: 80%;
+            }
         }
         hr {
             border: 1px solid #dddddd;
-        }
-        @media (max-width: 600px) {
-            .question {
-                font-size: 1.2em;
-            }
-            .follow-up {
-                font-size: 1em;
-            }
-            button, .timer-btn, .expand-btn {
-                padding: 8px 15px;
-                font-size: 1em;
-            }
-            .indicators {
-                font-size: 0.9em;
-            }
-            .header {
-                flex-direction: column;
-                align-items: flex-end;
-                gap: 10px;
-            }
-            .result-page h1 {
-                font-size: 1.5em;
-            }
-            .result-page p {
-                font-size: 1em;
-            }
         }
         a.button-link {
             display: inline-block;
@@ -187,7 +301,7 @@
             transition: background-color 0.3s;
         }
         a.button-link:hover {
-            background-color: #AC3834; /* Red on hover */
+            background-color: #AC3834;
             color: #ffffff;
         }
     </style>
@@ -200,12 +314,12 @@
         </div>
         <div id="quiz-content"></div>
         <div class="navigation">
-		
             <div class="nav-buttons-left">
                 <div class="center-buttons" id="centerButtons">
                     <button id="prevBtn">Previous</button>
                     <button id="nextBtn">Next</button>
-                </div><h1> </h1>
+                </div>
+                <h1> </h1>
                 <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSReview.html" class="button-link" id="backBtn">Back</a>
                 <button id="resetBtn">Reset</button>
             </div>
@@ -478,7 +592,7 @@
         correct: 2 
     },
     { 
-        question: "Which of these tests should be performed for a patient with suspected stroke within 25 minutes of hospital arrival?",
+        question: "Which of these tests should be performed for a patient with suspected stroke within 20 minutes of hospital arrival?",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["12-lead ECG", "Cardiac enzymes", "Coagulation studies", "Noncontrast CT scan of the head"],
@@ -568,7 +682,7 @@
         choices: ["Administer amiodarone 300 mg", "Administer atropine 0.5 mg", "Insert an advanced airway", "Perform defibrillation"],
         correct: 3 
     }
-	];
+    ];
 
         let currentQuestion = 0;
         let answers = new Array(50).fill(null);
@@ -646,10 +760,13 @@
         function showResults() {
             clearInterval(timerId);
             const percentage = (correctCount / 50) * 100;
-            const passed = percentage >= 80;
+            const passed = percentage > 80;
+            const resultClass = passed ? 'pass' : 'fail';
+            const fireworks = passed ? '<div class="pyro"><div class="before"></div><div class="after"></div></div>' : '';
             const content = `
-                <div class="result-page">
-                    <h1>${passed ? 'Congrats! You Pass!' : 'Better Luck Next Time'}</h1>
+                <div class="result-page ${resultClass}">
+                    ${fireworks}
+                    <h1>${passed ? 'Nice! Now Take the Test!' : 'Better Luck Next Time'}</h1>
                     <p>You got ${correctCount} out of 50 correct (${percentage.toFixed(2)}%)</p>
                     <button id="retakeBtn">Retake</button>
                 </div>
@@ -711,8 +828,6 @@
             resetQuiz();
         });
 
-
-
         document.getElementById('expandBtn').addEventListener('click', () => {
             if (!allExpanded) {
                 renderAllQuestions();
@@ -727,18 +842,15 @@
 
         startTimer();
         renderQuestion();
-		
-        // Disable developer tools shortcuts
+        
         document.onkeydown = function(e) {
-            if (e.keyCode == 123 || // F12
-                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I
-                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || // Ctrl+Shift+J
-                (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
+            if (e.keyCode == 123 || 
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || 
+                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || 
+                (e.ctrlKey && e.keyCode == 85)) {
                 return false;
             }
         }			
-		
-		
     </script>
 </body>
 </html>
