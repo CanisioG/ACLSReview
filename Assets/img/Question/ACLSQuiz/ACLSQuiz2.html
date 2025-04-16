@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACLS Quiz 2</title>
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/canisiog/ACLS_verA/refs/heads/main/Image/Icon/favicon.png">	
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
     <style>
         body {
-            background-color: #f5f5f5; /* Paper white background */
-            color: #000000; /* Black text for contrast */
+            background-color: #f5f5f5;
+            color: #000000;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
@@ -17,20 +17,72 @@
             max-width: 800px;
             margin: 0 auto;
             position: relative;
-            background-color: #ffffff; /* White container for paper effect */
-            padding: 10px;
+            background-color: #ffffff;
+            padding: 20px;
+            padding-top: 60px; /* Space for timer */
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
         }
-        .header {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin-bottom: 20px;
+        .timer-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        @media (min-width: 601px) {
+            .quiz-container {
+                width: 75vw;
+                max-width: 1200px;
+                transform: scale(1.1);
+                transform-origin: top center;
+            }
+            .question, .follow-up {
+                font-size: 1.9em;
+            }
+            .choice {
+                font-size: 1.3em;
+            }
+            .timer-btn {
+                font-size: 1.5em;
+            }
+            .indicators {
+                font-size: 1.2em;
+            }
+            button, a.button-link {
+                font-size: 1.3em;
+            }
+        }
+        @media (max-width: 600px) {
+            .timer-btn {
+                padding: 8px 15px;
+                font-size: 1em;
+            }
+            .question {
+                font-size: 1.1em; /* Smaller than 1.2em, larger than choices (1em) */
+            }
+            .follow-up {
+                font-size: 1em;
+            }
+            .choice {
+                font-size: 1em;
+            }
+            button {
+                padding: 8px 15px;
+                font-size: 1em;
+            }
+            .indicators {
+                font-size: 0.9em;
+            }
+            .result-page h1 {
+                font-size: 1.5em;
+            }
+            .result-page p {
+                font-size: 1em;
+            }
         }
         .timer-btn {
             padding: 10px 20px;
-            background-color: #e0e0e0; /* Light gray for buttons */
+            background-color: #e0e0e0;
             color: #000000;
             border: 1px solid #cccccc;
             border-radius: 5px;
@@ -38,23 +90,21 @@
             font-size: 1.2em;
         }
         .question-image {
-            max-width: 100%;			
-			height: auto;
-            margin: 10px 0;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
             border: 1px solid #ffffff;
-			border-radius: 5px;
-			
-			
+            border-radius: 5px;
         }
         .question {
             font-size: 1.5em;
             margin: 20px 0 10px 0;
-	
         }
         .follow-up {
             font-size: 1.5em;
             margin: 10px 0;
-            color: #000000; /* Slightly gray for follow-up */
+            color: #000000;
         }
         .choices {
             display: flex;
@@ -63,45 +113,39 @@
         }
         .choice {
             padding: 10px;
-            background-color: #f0f0f0; /* Light gray for choices */
+            background-color: #f0f0f0;
             border: 1px solid #cccccc;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .choice:hover:not(.selected) {
+        .choice:hover {
             background-color: #e0e0e0;
         }
-        .choice.selected.correct {
-            background-color: #9bc4e2; /* Green for correct answer */
-            border-color: #6b9fc6;
-        }
-        .choice.selected.wrong {
-            background-color: #9bc4e2; /* Red for wrong answer */
-            border-color: #6b9fc6;
+        .choice.selected {
+            background-color: #9BC4E2;
+            border-color: #cccccc;
         }
         .navigation {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 20px;
             position: relative;
         }
         .nav-buttons-left {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-			align-items: left;
-			
+            gap: 10px;
         }
         .nav-buttons-right {
             display: flex;
-            flex-direction: flex-wrap: wrap;
-            gap: 8px;
+            flex-direction: column;
+            gap: 10px;
             align-items: flex-end;
         }
         .center-buttons {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
@@ -116,52 +160,124 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #AC3834; /* Red on hover */
+            background-color: #AC3834;
             color: #ffffff;
         }
         .indicators {
             font-size: 0.95em;
             color: #333333;
-			font-weight: bold
+            font-weight: bold;
         }
-        .evaluation-page {
+        .result-page {
             text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: visible;
         }
-        .evaluation-page h1 {
+        .result-pass {
+            background-color: #d4edda;
+        }
+        .result-fail {
+            background-color: #f8d7da;
+        }
+        .result-page h1 {
             font-size: 2em;
             margin: 20px 0;
             color: #000000;
+            position: relative;
+            z-index: 1;
         }
-        .evaluation-page p {
+        .result-page p {
             font-size: 1.2em;
             margin-bottom: 20px;
             color: #555555;
+            position: relative;
+            z-index: 1;
         }
-        @media (max-width: 600px) {
-            .question {
-                font-size: 1.2em;
+        .result-page button {
+            position: relative;
+            z-index: 1;
+        }
+        .pyro {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .pyro > .before, .pyro > .after {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+                        0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+                        0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+                        0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+                        0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff;
+            animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+        }
+        .pyro > .after {
+            animation-delay: 1.25s, 1.25s, 1.25s;
+            animation-duration: 1.25s, 1.25s, 6.25s;
+        }
+        @keyframes bang {
+            to {
+                box-shadow: 
+                    -225px 150px hsl(120, 100%, 50%), 175px 325px hsl(240, 100%, 50%), -75px 200px hsl(60, 100%, 50%),
+                    125px 275px hsl(300, 100%, 50%), -200px 250px hsl(180, 100%, 50%), 50px 100px hsl(0, 100%, 50%),
+                    225px 300px hsl(90, 100%, 50%), -150px 175px hsl(270, 100%, 50%), 100px 225px hsl(30, 100%, 50%),
+                    -50px 125px hsl(330, 100%, 50%), -175px 275px hsl(150, 100%, 50%), 200px 200px hsl(210, 100%, 50%),
+                    75px 150px hsl(45, 100%, 50%), -125px 300px hsl(315, 100%, 50%), 150px 250px hsl(75, 100%, 50%),
+                    -100px 100px hsl(255, 100%, 50%), 25px 325px hsl(15, 100%, 50%), -200px 200px hsl(345, 100%, 50%),
+                    175px 175px hsl(105, 100%, 50%), -75px 250px hsl(225, 100%, 50%), 50px 275px hsl(165, 100%, 50%),
+                    225px 125px hsl(285, 100%, 50%), -150px 300px hsl(135, 100%, 50%), 100px 150px hsl(195, 100%, 50%),
+                    -50px 225px hsl(60, 100%, 50%), -175px 100px hsl(300, 100%, 50%), 200px 325px hsl(120, 100%, 50%),
+                    75px 200px hsl(240, 100%, 50%), -125px 175px hsl(0, 100%, 50%), 150px 250px hsl(180, 100%, 50%),
+                    -100px 275px hsl(90, 100%, 50%), 25px 125px hsl(270, 100%, 50%), -200px 300px hsl(30, 100%, 50%),
+                    175px 150px hsl(330, 100%, 50%), -75px 225px hsl(150, 100%, 50%), 50px 100px hsl(210, 100%, 50%),
+                    225px 275px hsl(45, 100%, 50%), -150px 200px hsl(315, 100%, 50%), 100px 325px hsl(75, 100%, 50%),
+                    -50px 175px hsl(255, 100%, 50%), -175px 250px hsl(15, 100%, 50%), 200px 125px hsl(345, 100%, 50%),
+                    75px 300px hsl(105, 100%, 50%), -125px 150px hsl(225, 100%, 50%), 150px 275px hsl(165, 100%, 50%),
+                    -100px 200px hsl(285, 100%, 50%), 25px 250px hsl(135, 100%, 50%), -200px 175px hsl(195, 100%, 50%),
+                    175px 225px hsl(60, 100%, 50%), -75px 100px hsl(300, 100%, 50%);
             }
-            .follow-up {
-                font-size: 1em;
+        }
+        @keyframes gravity {
+            to {
+                transform: translateY(200px);
+                opacity: 0;
             }
-            button, .timer-btn {
-                padding: 8px 15px;
-                font-size: 1em;
+        }
+        @keyframes position {
+            0%, 19.9% {
+                margin-top: 10%;
+                margin-left: 40%;
             }
-            .indicators {
-                font-size: 0.9em;
+            20%, 39.9% {
+                margin-top: 40%;
+                margin-left: 30%;
             }
-            .header {
-                flex-direction: column;
-                align-items: flex-end;
-                gap: 10px;
+            40%, 59.9% {  
+                margin-top: 20%;
+                margin-left: 70%;
             }
-            .evaluation-page h1 {
-                font-size: 1.5em;
+            60%, 79.9% {  
+                margin-top: 30%;
+                margin-left: 20%;
             }
-            .evaluation-page p {
-                font-size: 1em;
+            80%, 99.9% {  
+                margin-top: 30%;
+                margin-left: 80%;
             }
+        }
+        hr {
+            border: 1px solid #dddddd;
         }
         a.button-link {
             display: inline-block;
@@ -174,16 +290,14 @@
             transition: background-color 0.3s;
         }
         a.button-link:hover {
-            background-color: #AC3834; /* Red on hover */
+            background-color: #AC3834;
             color: #ffffff;
         }
-				
-		
     </style>
 </head>
 <body>
     <div class="quiz-container">
-        <div class="header">
+        <div class="timer-container">
             <button class="timer-btn" id="timer">60:00</button>
         </div>
         <div id="quiz-content"></div>
@@ -192,20 +306,18 @@
                 <div class="center-buttons" id="centerButtons">
                     <button id="prevBtn">Previous</button>
                     <button id="nextBtn">Next</button>
-                </div> <h1> </h1> 
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSTest.html" class="button-link" id="backBtn">Back</a>
+                </div><h1> </h1>
+                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSReview.html" class="button-link" id="backBtn">Back</a>
                 <button id="resetBtn">Reset</button>
             </div>
             <div class="nav-buttons-right">
-                <span class="indicators" id="questionNumber">Question: 1/50</span>
+                <h1> </h1><br><span class="indicators" id="questionNumber">Question: 1/50</span>
             </div>
         </div>
     </div>
 
     <script>
-        const questions = [
-		
-		
+        let questions = [
     { 
         question: "You are caring for a patient with a suspected stroke whose symptoms started 2 hours ago. The CT was normal with no sign of hemorrhage. The patient does not have any contraindications to fibrinolytic therapy. Which treatment is best?",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
@@ -556,16 +668,40 @@
         choices: ["''I'll draw up 1 mg of atropine''", "''I'll give it in a few minutes.''", "''Are you sure that is what you want given?''", "''OK''"],
         correct: 0 
     }
-     
-
-	 ];
+    ];
 
         let currentQuestion = 0;
         let answers = new Array(50).fill(null);
         let timeLeft = 60 * 60;
         let timerId;
-        let correctCount = 0;
-        let isSubmitted = false;
+
+        // Fisher-Yates shuffle function
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Function to shuffle questions and their choices
+        function shuffleQuestionsAndChoices(questionsArray) {
+            // Shuffle questions
+            let shuffledQuestions = shuffle([...questionsArray]);
+            // Shuffle choices for each question
+            return shuffledQuestions.map(question => {
+                const choices = [...question.choices];
+                const correctAnswer = choices[question.correct]; // Store correct answer text
+                const shuffledChoices = shuffle([...choices]);
+                // Find new index of correct answer
+                const newCorrectIndex = shuffledChoices.indexOf(correctAnswer);
+                return {
+                    ...question,
+                    choices: shuffledChoices,
+                    correct: newCorrectIndex
+                };
+            });
+        }
 
         function startTimer() {
             timerId = setInterval(() => {
@@ -576,14 +712,23 @@
                     `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
                 if (timeLeft <= 0) {
                     clearInterval(timerId);
-                    markUnansweredAsWrong();
-                    showEvaluation();
+                    showResults();
                 }
             }, 1000);
         }
 
         function updateIndicators() {
             document.getElementById('questionNumber').textContent = `Question: ${currentQuestion + 1}/50`;
+        }
+
+        function calculateScore() {
+            let correct = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (answers[i] === questions[i].correct) {
+                    correct++;
+                }
+            }
+            return correct;
         }
 
         function renderQuestion() {
@@ -594,8 +739,8 @@
                 <div class="follow-up">${q.followUp}</div>
                 <div class="choices">
                     ${q.choices.map((choice, i) => `
-                        <div class="choice ${answers[currentQuestion] === i ? (i === q.correct ? 'selected correct' : 'selected wrong') : ''}" 
-                             onclick="${isSubmitted || timeLeft <= 0 ? '' : `selectAnswer(${i})`}">${choice}</div>
+                        <div class="choice ${answers[currentQuestion] === i ? 'selected' : ''}" 
+                             onclick="selectAnswer(${i})">${choice}</div>
                     `).join('')}
                 </div>
             `;
@@ -607,63 +752,51 @@
             updateIndicators();
         }
 
-        function markUnansweredAsWrong() {
-            for (let i = 0; i < answers.length; i++) {
-                if (answers[i] === null) {
-                    answers[i] = -1; // Mark as wrong (distinct from correct choices)
-                }
-            }
-        }
-
-        function calculateCorrectCount() {
-            correctCount = 0;
-            for (let i = 0; i < answers.length; i++) {
-                if (answers[i] === questions[i].correct) {
-                    correctCount++;
-                }
-            }
-        }
-
-        function showEvaluation() {
-            isSubmitted = true;
+        function showResults() {
             clearInterval(timerId);
-            calculateCorrectCount();
-            const percentage = (correctCount / 50) * 100;
+            const score = calculateScore();
+            const percentage = (score / 50) * 100;
             const passed = percentage >= 80;
+            const resultClass = passed ? 'result-pass' : 'result-fail';
+            const message = passed ? 'You Passed!' : 'You Failed!';
+            const fireworks = passed ? '<div class="pyro"><div class="before"></div><div class="after"></div></div>' : '';
             const content = `
-                <div class="evaluation-page">
-                    <h1>${passed ? 'Congrats! You Pass!' : 'You Fail!'}</h1>
-                    <p>You got ${correctCount} out of 50 correct (${percentage.toFixed(2)}%)</p>
+                <div class="result-page ${resultClass}">
+                    ${fireworks}
+                    <h1>${message}</h1>
+                    <p>You scored ${score}/50 (${percentage.toFixed(0)}%).</p>
                     <button id="retakeBtn">Retake</button>
                 </div>
             `;
             document.getElementById('quiz-content').innerHTML = content;
             document.getElementById('centerButtons').style.display = 'none';
-            document.querySelector('.navigation').style.display = 'flex';
+            document.querySelector('.navigation').style.display = 'none';
             document.getElementById('timer').textContent = 'Time’s Up!';
-            document.getElementById('questionNumber').textContent = `Question: 50/50`;
             document.getElementById('retakeBtn').addEventListener('click', resetQuiz);
         }
 
         function selectAnswer(index) {
-            if (!isSubmitted && timeLeft > 0) {
-                answers[currentQuestion] = index;
-                renderQuestion();
-            }
+            answers[currentQuestion] = index;
+            renderQuestion();
         }
 
         function resetQuiz() {
             currentQuestion = 0;
             answers = new Array(50).fill(null);
-            correctCount = 0;
             timeLeft = 60 * 60;
-            isSubmitted = false;
             clearInterval(timerId);
             document.getElementById('timer').textContent = '60:00';
+            questions = shuffleQuestionsAndChoices(questions); // Shuffle questions and choices on reset
             startTimer();
             renderQuestion();
         }
 
+        // Shuffle questions and choices on page load
+        questions = shuffleQuestionsAndChoices(questions);
+
+        startTimer();
+        renderQuestion();
+        
         document.getElementById('nextBtn').addEventListener('click', () => {
             if (answers[currentQuestion] === null) {
                 alert('Please select your answer');
@@ -671,7 +804,7 @@
                 currentQuestion++;
                 renderQuestion();
             } else {
-                showEvaluation();
+                showResults();
             }
         });
 
@@ -686,21 +819,14 @@
             resetQuiz();
         });
 
-
-
-        startTimer();
-        renderQuestion();
-		
-        // Disable developer tools shortcuts
         document.onkeydown = function(e) {
-            if (e.keyCode == 123 || // F12
-                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I
-                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || // Ctrl+Shift+J
-                (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
+            if (e.keyCode == 123 || 
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || 
+                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || 
+                (e.ctrlKey && e.keyCode == 85)) {
                 return false;
             }
         }			
-		
     </script>
 </body>
 </html>

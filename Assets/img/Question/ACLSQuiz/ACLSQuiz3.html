@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACLS Quiz 3</title>
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/canisiog/ACLS_verA/refs/heads/main/Image/Icon/favicon.png">	
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
     <style>
         body {
-            background-color: #f5f5f5; /* Paper white background */
-            color: #000000; /* Black text for contrast */
+            background-color: #f5f5f5;
+            color: #000000;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
@@ -17,20 +17,72 @@
             max-width: 800px;
             margin: 0 auto;
             position: relative;
-            background-color: #ffffff; /* White container for paper effect */
-            padding: 10px;
+            background-color: #ffffff;
+            padding: 20px;
+            padding-top: 60px; /* Space for timer */
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
         }
-        .header {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin-bottom: 20px;
+        .timer-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        @media (min-width: 601px) {
+            .quiz-container {
+                width: 75vw;
+                max-width: 1200px;
+                transform: scale(1.1);
+                transform-origin: top center;
+            }
+            .question, .follow-up {
+                font-size: 1.9em;
+            }
+            .choice {
+                font-size: 1.3em;
+            }
+            .timer-btn {
+                font-size: 1.5em;
+            }
+            .indicators {
+                font-size: 1.2em;
+            }
+            button, a.button-link {
+                font-size: 1.3em;
+            }
+        }
+        @media (max-width: 600px) {
+            .timer-btn {
+                padding: 8px 15px;
+                font-size: 1em;
+            }
+            .question {
+                font-size: 1.1em; /* Smaller than 1.2em, larger than choices (1em) */
+            }
+            .follow-up {
+                font-size: 1em;
+            }
+            .choice {
+                font-size: 1em;
+            }
+            button {
+                padding: 8px 15px;
+                font-size: 1em;
+            }
+            .indicators {
+                font-size: 0.9em;
+            }
+            .result-page h1 {
+                font-size: 1.5em;
+            }
+            .result-page p {
+                font-size: 1em;
+            }
         }
         .timer-btn {
             padding: 10px 20px;
-            background-color: #e0e0e0; /* Light gray for buttons */
+            background-color: #e0e0e0;
             color: #000000;
             border: 1px solid #cccccc;
             border-radius: 5px;
@@ -38,23 +90,21 @@
             font-size: 1.2em;
         }
         .question-image {
-            max-width: 100%;			
-			height: auto;
-            margin: 10px 0;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
             border: 1px solid #ffffff;
-			border-radius: 5px;
-			
-			
+            border-radius: 5px;
         }
         .question {
             font-size: 1.5em;
             margin: 20px 0 10px 0;
-	
         }
         .follow-up {
             font-size: 1.5em;
             margin: 10px 0;
-            color: #000000; /* Slightly gray for follow-up */
+            color: #000000;
         }
         .choices {
             display: flex;
@@ -63,45 +113,39 @@
         }
         .choice {
             padding: 10px;
-            background-color: #f0f0f0; /* Light gray for choices */
+            background-color: #f0f0f0;
             border: 1px solid #cccccc;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .choice:hover:not(.selected) {
+        .choice:hover {
             background-color: #e0e0e0;
         }
-        .choice.selected.correct {
-            background-color: #9bc4e2; /* Green for correct answer */
-            border-color: #6b9fc6;
-        }
-        .choice.selected.wrong {
-            background-color: #9bc4e2; /* Red for wrong answer */
-            border-color: #6b9fc6;
+        .choice.selected {
+            background-color: #9BC4E2;
+            border-color: #cccccc;
         }
         .navigation {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 20px;
             position: relative;
         }
         .nav-buttons-left {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-			align-items: left;
-			
+            gap: 10px;
         }
         .nav-buttons-right {
             display: flex;
-            flex-direction: flex-wrap: wrap;
-            gap: 8px;
+            flex-direction: column;
+            gap: 10px;
             align-items: flex-end;
         }
         .center-buttons {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
@@ -116,52 +160,124 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #AC3834; /* Red on hover */
+            background-color: #AC3834;
             color: #ffffff;
         }
         .indicators {
             font-size: 0.95em;
             color: #333333;
-			font-weight: bold
+            font-weight: bold;
         }
-        .evaluation-page {
+        .result-page {
             text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: visible;
         }
-        .evaluation-page h1 {
+        .result-pass {
+            background-color: #d4edda;
+        }
+        .result-fail {
+            background-color: #f8d7da;
+        }
+        .result-page h1 {
             font-size: 2em;
             margin: 20px 0;
             color: #000000;
+            position: relative;
+            z-index: 1;
         }
-        .evaluation-page p {
+        .result-page p {
             font-size: 1.2em;
             margin-bottom: 20px;
             color: #555555;
+            position: relative;
+            z-index: 1;
         }
-        @media (max-width: 600px) {
-            .question {
-                font-size: 1.2em;
+        .result-page button {
+            position: relative;
+            z-index: 1;
+        }
+        .pyro {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .pyro > .before, .pyro > .after {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+                        0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+                        0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+                        0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff,
+                        0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff;
+            animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+        }
+        .pyro > .after {
+            animation-delay: 1.25s, 1.25s, 1.25s;
+            animation-duration: 1.25s, 1.25s, 6.25s;
+        }
+        @keyframes bang {
+            to {
+                box-shadow: 
+                    -225px 150px hsl(120, 100%, 50%), 175px 325px hsl(240, 100%, 50%), -75px 200px hsl(60, 100%, 50%),
+                    125px 275px hsl(300, 100%, 50%), -200px 250px hsl(180, 100%, 50%), 50px 100px hsl(0, 100%, 50%),
+                    225px 300px hsl(90, 100%, 50%), -150px 175px hsl(270, 100%, 50%), 100px 225px hsl(30, 100%, 50%),
+                    -50px 125px hsl(330, 100%, 50%), -175px 275px hsl(150, 100%, 50%), 200px 200px hsl(210, 100%, 50%),
+                    75px 150px hsl(45, 100%, 50%), -125px 300px hsl(315, 100%, 50%), 150px 250px hsl(75, 100%, 50%),
+                    -100px 100px hsl(255, 100%, 50%), 25px 325px hsl(15, 100%, 50%), -200px 200px hsl(345, 100%, 50%),
+                    175px 175px hsl(105, 100%, 50%), -75px 250px hsl(225, 100%, 50%), 50px 275px hsl(165, 100%, 50%),
+                    225px 125px hsl(285, 100%, 50%), -150px 300px hsl(135, 100%, 50%), 100px 150px hsl(195, 100%, 50%),
+                    -50px 225px hsl(60, 100%, 50%), -175px 100px hsl(300, 100%, 50%), 200px 325px hsl(120, 100%, 50%),
+                    75px 200px hsl(240, 100%, 50%), -125px 175px hsl(0, 100%, 50%), 150px 250px hsl(180, 100%, 50%),
+                    -100px 275px hsl(90, 100%, 50%), 25px 125px hsl(270, 100%, 50%), -200px 300px hsl(30, 100%, 50%),
+                    175px 150px hsl(330, 100%, 50%), -75px 225px hsl(150, 100%, 50%), 50px 100px hsl(210, 100%, 50%),
+                    225px 275px hsl(45, 100%, 50%), -150px 200px hsl(315, 100%, 50%), 100px 325px hsl(75, 100%, 50%),
+                    -50px 175px hsl(255, 100%, 50%), -175px 250px hsl(15, 100%, 50%), 200px 125px hsl(345, 100%, 50%),
+                    75px 300px hsl(105, 100%, 50%), -125px 150px hsl(225, 100%, 50%), 150px 275px hsl(165, 100%, 50%),
+                    -100px 200px hsl(285, 100%, 50%), 25px 250px hsl(135, 100%, 50%), -200px 175px hsl(195, 100%, 50%),
+                    175px 225px hsl(60, 100%, 50%), -75px 100px hsl(300, 100%, 50%);
             }
-            .follow-up {
-                font-size: 1em;
+        }
+        @keyframes gravity {
+            to {
+                transform: translateY(200px);
+                opacity: 0;
             }
-            button, .timer-btn {
-                padding: 8px 15px;
-                font-size: 1em;
+        }
+        @keyframes position {
+            0%, 19.9% {
+                margin-top: 10%;
+                margin-left: 40%;
             }
-            .indicators {
-                font-size: 0.9em;
+            20%, 39.9% {
+                margin-top: 40%;
+                margin-left: 30%;
             }
-            .header {
-                flex-direction: column;
-                align-items: flex-end;
-                gap: 10px;
+            40%, 59.9% {  
+                margin-top: 20%;
+                margin-left: 70%;
             }
-            .evaluation-page h1 {
-                font-size: 1.5em;
+            60%, 79.9% {  
+                margin-top: 30%;
+                margin-left: 20%;
             }
-            .evaluation-page p {
-                font-size: 1em;
+            80%, 99.9% {  
+                margin-top: 30%;
+                margin-left: 80%;
             }
+        }
+        hr {
+            border: 1px solid #dddddd;
         }
         a.button-link {
             display: inline-block;
@@ -174,16 +290,14 @@
             transition: background-color 0.3s;
         }
         a.button-link:hover {
-            background-color: #AC3834; /* Red on hover */
+            background-color: #AC3834;
             color: #ffffff;
         }
-				
-		
     </style>
 </head>
 <body>
     <div class="quiz-container">
-        <div class="header">
+        <div class="timer-container">
             <button class="timer-btn" id="timer">60:00</button>
         </div>
         <div id="quiz-content"></div>
@@ -192,380 +306,402 @@
                 <div class="center-buttons" id="centerButtons">
                     <button id="prevBtn">Previous</button>
                     <button id="nextBtn">Next</button>
-                </div> <h1> </h1> 
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSTest.html" class="button-link" id="backBtn">Back</a>
+                </div><h1> </h1>
+                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSReview.html" class="button-link" id="backBtn">Back</a>
                 <button id="resetBtn">Reset</button>
             </div>
             <div class="nav-buttons-right">
-                <span class="indicators" id="questionNumber">Question: 1/50</span>
+                <h1> </h1><br><span class="indicators" id="questionNumber">Question: 1/50</span>
             </div>
         </div>
     </div>
 
     <script>
-        const questions = [
-		
-		
+        let questions = [
     { 
-        question: "A 48-year-old man became unresponsive shortly after presenting to you with nausea and generalized chest discomfort. You observe gasping breathing and are unsure if you feel a pulse. You should know:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Call for help and begin chest compressions.", "Wait until breathing stops and then check again for a pulse.", "Begin chest compressions only if you are certain a pulse is absent.", "Observe the patient for 2 minutes, then reassess his breathing and pulse"],
-        correct: 0 
-    },
-    { 
-        question: "Which of the following is the most likely complication of inferior wall myocardial infarction (MI)?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Cardiogenic shock", "Ventricular rupture", "Bradydysrhythmias", "Tachydysrhythmias"],
+        question: "A responder is caring for a patient with a history of congestive heart failure. The patient is experiencing shortness of breath, a blood pressure of 68/50 mm Hg, and a heart rate of 190/min. The patient's lead II ECG is displayed here.",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Unstablesupraventriculartachycardia.png",
+        followUp: "Which best characterizes this patient's rhythm?<br><br>",
+        choices: ["Sinus tachycardia", "Perfusing ventricular tachycardia", "Unstable supraventricular tachycardia", "Stable supraventricular tachycardia"],
         correct: 2 
     },
     { 
-        question: "A 52-year-old man is complaining of palpitations that came on suddenly after walking up a short flight of stairs. His symptoms have been present for about 20 minutes. He denies chest pain and is not short of breath. His skin is warm and dry; breath sounds are clear. His blood pressure (BP) is 144/88 millimeters of mercury (mm Hg), his heart rate is 186 beats per minute (beats/min), and his ventilatory rate is 18 breaths/min. The cardiac monitor reveals the rhythm here.",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Amiodarone.png",
-        followUp: "Vascular access has been established. Which of the following medications is most appropriate in this situation?<br><br>",
-        choices: ["Dopamine or sotalol", "Furosemide or atropine", "Nitroglycerin (NTG) or morphine", "Procainamide or amiodarone"],
+        question: "EMS providers are treating a patient with suspected stroke. According to the Adult Suspected Stroke Algorithm, which critical action performed by the EMS team will expedite this patient's care on arrival and reduce the time to treatment?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Establish IV access", "Review the patient's history", "Provide prehospilal notiflcatlon", "Treat hypertension"],
+        correct: 2 
+    },
+    { 
+        question: "For STEMI patients, which best describes the recommended maximum goal time for emergency department door-to-balloon inflation time for percutaneous coronary intervention?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["150 minutes", "90 minutes", "180 minutes", "120 minutes"],
+        correct: 1 
+    },
+    { 
+        question: "Which best describes the length of time it should take to perform a pulse check during the BLS Assessment?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["16 to 20 seconds", "1 to 4 seconds", "11 to 15 seconds", "5 to 10 seconds"],
         correct: 3 
     },
     { 
-        question: "Our general impression of a 78-year-old woman reveals that her eyes are closed, she is not moving, you can see no rise and fall of her chest or abdomen, and her skin color is pale. When you arrive at the patient’s side, you confirm that she is unresponsive. Your best action in this situation will be to:",
+        question: "You instruct a team member to give 1 mg atropine IV. Which response is an example of closed-loop communication?",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
-        choices: ["Open her airway and give two breaths", "Apply an automated external defibrillator (AED)", "Assess breathing and determine whether she has a pulse", "Prepare the necessary equipment to insert an advanced airway"],
-        correct: 2 
-    },
-    { 
-        question: "A 60-year-old woman has suffered a cardiac arrest. A health care professional trained in endotracheal intubation has intubated the patient. Which of the following findings would indicate inadvertent esophageal intubation?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Jugular vein distention", "Subcutaneous emphysema", "Gurgling sounds heard over the epigastrium", "Breath sounds heard on only one side of the chest"],
-        correct: 2 
-    },
-    { 
-        question: "Hypotension (ie, a systolic BP of less than 90 mm Hg) after the return of spontaneous circulation (ROSC) may necessitate the use of:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Fluid boluses and isoproterenol", "Procainamide, epinephrine, or dopamine", "Epinephrine, dopamine, or norepinephrine", "Fluid boluses, procainamide, and isoproterenol"],
-        correct: 2 
-    },
-    { 
-        question: "Which of the following is incorrect with regard to a postevent debriefing?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["The facilitator should use open-ended questions to encourage discussion", "Team members are encouraged to identify lessons learned in a nonpunitive environment", "The gather phase of the debriefing includes a comparison of the team’s actions with current resuscitation algorithms", "Team members are given an opportunity to reflect on their performance and how their performance can be improved"],
-        correct: 2 
-    },
-    { 
-        question: "Assuming there are no contraindications, which of the following can be performed as an initial intervention for a stable but symptomatic patient with the rhythm shown?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/VagalManeuver.png",
-        followUp: " ",
-        choices: ["Defibrillation", "Vagal maneuvers", "Administration of intravenous (IV) diltiazem", "Administration of IV epinephrine"],
-        correct: 1 
-    },
-    { 
-        question: "A 62-year-old man received IV tissue plasminogen activator (tPA) 2 hours ago after a diagnosis of acute ischemic stroke. While assessing the patient’s vital signs, you observe swelling of the patient’s lips and tongue. Your best course of action will be to:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Administer aspirin and IV heparin", "Administer IV antihistamines and steroids", "Observe and reassess the patient every 15 minutes", "Request an emergent brain computed tomography scan"],
-        correct: 1 
-    },
-    { 
-        question: "During a cardiac arrest, multiple attempts to establish a peripheral IV have proved unsuccessful. Your best course of action at this time will be to:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Insert a central line", "Attempt intraosseous access", "Discontinue resuscitation efforts", "Continue peripheral IV attempts until successful"],
-        correct: 1 
-    },
-    { 
-        question: "Synchronized cardioversion:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Is used only for atrial dysrhythmias", "Delivers a shock during ventricular depolarization", "Delivers a shock between the peak and end of the T wave", "Is used only for rhythms with a ventricular rate of less than 60 beats/min"],
-        correct: 1 
-    },
-    { 
-        question: "An 84-year-old man presents with an acute onset of altered mental status. The cardiac monitor shows the rhythm here. The patient’s BP is 58/30 mm Hg andhis ventilatory rate is 14 breaths/min. His skin is cool, moist, and pale. His blood oxygen saturation level (SpO2) on room air is 95%. An IV has been established.",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Preparefortranscutaneouspacing.png",
-        followUp: "On the basis of the information provided, your best course of action will be to:<br><br>",
-        choices: ["Prepare for transcutaneous pacing", "Give amiodarone 300 mg IV push", "Give epinephrine 1 mg IV bolus and reassess", "Observe the patient and monitor for signs of deterioration"],
+        choices: ["''I'll draw up 1 mg of atropine.''", "''I 'll give it in a few minutes.''", "''Are you sure that is what you want given?''", "''OK.''"],
         correct: 0 
     },
     { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>Which of the following actions performed at the scene is most likely to reduce subsequent treatment delays at the hospital?",
+        question: "What should be the primary focus of1he CPR Coach on a resuscitation team?",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
-        choices: ["Giving aspirin", "Obtaining a 12-lead electrocardiogram (ECG)", "Assessing vital signs and oxygen saturation", "Assessing the patient’s degree of discomfort"],
-        correct: 1 
-    },
-    { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>The patient rates his discomfort 9/10. His BP is 126/72 mm Hg and ventilations 14 breaths/min. His SpO2 on room air is 95%. The cardiac monitor shows a sinus rhythm at 60 beats/min. Immediate management of this patient should include:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Giving Aspirin and Nitroglycerin", "Establishing IV access and giving aspirin", "Administering oxygen and establishing IV access", "Administering oxygen and obtaining a targeted history"],
-        correct: 1 
-    },
-    { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>Current guidelines recommend obtaining an initial 12-lead ECG within ____ of patient contact when an acute coronary syndrome (ACS) is suspected.",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["10 minutes", "30 minutes", "45 minutes", "60 minutes"],
+        choices: ["To ensure high-quality CPR", "To convey positive feedback", "To document CPR outcomes", "To resolve team arguments"],
         correct: 0 
     },
     { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>When the patient’s 12-lead ECG is reviewed, the results should be used to classify the patient into one of three groups. Which of the following correctly reflects these categories?",
+        question: "Which is the recommended oral dose of aspirin for a patient with a suspected acute coronary syndrome?",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
-        choices: ["ST elevation (STE), normal ECG, Q waves", "Q waves, ST depression (STD), inconclusive ECG", "STD, normal ECG, inconclusive ECG", "STE, STD, normal or nondiagnostic ECG"],
-        correct: 3 
+        choices: ["350 to 650 mg", "162 to 325 mg", "81 mg", "40 mg"],
+        correct: 1 
     },
     { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>12-lead ECG has been obtained",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/STEinleads.png",
-        followUp: "The patient’s 12-lead ECG shows:<br><br>",
-        choices: ["STE in leads II, III, and aVF", "STD in leads I, II, III, and aVL", "STE in leads I, aVL, and V2 to V6", "STD in leads V1, V4, V5, and V6"],
+        question: "A patient in stable narrow-complex tachycardia with a peripheral IV in place is refractory to the first dose of adenosine. Which dose would you administer next?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["40 mg", "20 mg", "12 mg", "3 mg"],
         correct: 2 
     },
     { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>12-lead ECG has been obtained",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/STEinleads.png",
-        followUp: "To be considered significant, ECG findings, such as STE or STD, need to be viewed in two or more contiguous leads. Which of the following are contiguous leads?<br><br>",
-        choices: ["V1, V4, and V5", "V2, V3, and V4", "III, aVF, and V1", "I, II, III, and aVL"],
+        question: "In addition to clinical assessment, which is the most reliable method to confirm and monitor correct placement of an endotracheal tube?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/ThirdDegree.png",
+        followUp: " ",
+        choices: ["Continuous waveform capnography", "Arterial blood gases", "Hemoglobin levels", "Chest radiography"],
+        correct: 0 
+    },
+    { 
+        question: "How can you increase chest compression fraction during a code?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Initiate intravenous or intraosseous access during the 2-minute cycle", "Charge the defibrillator 15 seconds before conducting a rhythm check", "Interchange the Ventilator and Compressor during a rhythm check", "Administer epinephrine during the 2-mlnute cycle"],
         correct: 1 
     },
     { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>12-lead ECG has been obtained",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/STEinleads.png",
-        followUp: "The patient’s 12-lead ECG findings suggest a(n) _____ MI.<br><br>",
-        choices: ["Posterior", "Inferolateral", "Anterolateral", "Non–ST elevation"],
+        question: "Your rescue team arrives to find a 59-year-old man lying on the kitchen floor. You determine that he is unresponsive. Which is the next step in your assessment and management of this patient?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Check the patient's breathing and pulse", "Apply the AED", "Check the patient's breathing and pulse", "Open the patient's airway"],
         correct: 2 
     },
     { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>12-lead ECG has been obtained",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/STEinleads.png",
-        followUp: "On the basis of the patient’s 12-lead ECG findings:<br><br>",
-        choices: ["The patient should be classified as having a nondiagnostic ECG and discharged with follow-up instructions", "The patient should be classified as having an ST elevation MI (STEMI) and should be evaluated for immediate reperfusion therapy", "The patient should be classified as having a normal ECG; serial ECGs should be obtained at 30-minute intervals to detect the development of ST elevation", "The patient should be classified as having a non–ST elevation ACS (NSTE-ACS) and should be admitted to a monitored bed for further evaluation"],
-        correct: 3 
-    },
-    { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>Vascular access has been established. The patient’s BP is 130/70 mm Hg, his pulse is 60 beats/min, and his ventilatory rate is 14 breaths/min. Assuming there are no contraindications for any of the following medications, which of the following would be appropriate for this patient at this time?",
+        question: "Which of the following signs is a likely indicator of cardiac arrest in an unresponsive patient?",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
-        choices: ["Aspirin and NTG", "Aspirin and a nonsteroidal antiinflammatory drug (NSAID)", "An oral beta-blocker and an NSAID", "Aspirin and a calcium channel blocker (CCB)"],
-        correct: 0 
-    },
-    { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>NTG has been ordered for administration to this patient. NTG:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Is contraindicated in hypotensive patients", "Should be administered via the IV route for maximum benefit", "Should be used with caution in patients with anterior infarction", "Should be given every 15 to 20 minutes until chest discomfort is relieved"],
-        correct: 0 
-    },
-    { 
-        question: "Paramedics are on the scene with a 55-year-old man who is complaining of severe chest discomfort. He describes his discomfort as a “heavy pressure” in the middle of his chest that has been present for about 1 hour.<br><br>The patient’s chest discomfort was unrelieved after the maximum recommended dosage of NTG tablets. Morphine sulfate was ordered and a 4 mg dose was given IV. The patient’s BP is now 80/60 mm Hg and his skin is cool, moist, and pale. His breath sounds are clear. You should:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Prepare a lidocaine infusion at 1 to 4 mg/min", "Prepare an epinephrine infusion at 2 mcg/min", "Give a 250 mL IV fluid bolus of normal saline", "Prepare a dopamine infusion at 2 to 10 mcg/kg/min"],
-        correct: 2 
-    },
-    { 
-        question: "Which of the following is not recommended when performing defibrillation?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Check for a pulse immediately after defibrillation to determine next steps", "Visually check and ensure that everyone is clear of the patient before shock delivery", "Remove transdermal medication patches or ointment from the patient’s chest before the procedure", "All team members with the exception of the chest compressor should clear the patient as the machine charges"],
-        correct: 0 
-    },
-    { 
-        question: "Atypical symptoms of ACSs are more common in:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Older adults, women, and diabetic individuals", "Men, older adults, and individuals who have liver disease", "Women, diabetic individuals, and individuals who have liver disease", "Men, patients who have a history of coronary artery disease, and patients who have a history of hypertension"],
-        correct: 0 
-    },
-    { 
-        question: "A 53-year-old woman is unresponsive. The cardiac monitor initially showed a narrow-QRS tachycardia at 220 beats/min. Her BP was 50 mm Hg by palpation and her ventilatory rate was 10 breaths/min. Supplemental oxygen therapy was initiated and an IV established before the patient’s collapse. You promptly delivered a synchronized et shock. Reassessment reveals the patient is not breathing and has no pulse. The cardiac monitor now reveals the rhythm shown.",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Defibrillateimmediately.png",
-        followUp: "What course of action should you take at this time?<br><br>",
-        choices: ["Defibrillate immediately", "Perform cardiopulmonary resuscitation (CPR) for 2 minutes and then prepare to defibrillate", "Place an advanced airway and then begin transcutaneous pacing", "Press the “Sync” control and deliver another synchronized shock"],
-        correct: 0 
-    },
-    { 
-        question: "An unstable patient with a narrow-QRS tachycardia requires electrical therapy. You have a biphasic defibrillator available to you. Which of the following correctly reflects the recommended energy dose that should be delivered in this situation?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Defibrillate with 120 Joules ", "Defibrillate with 360 Joules ", "Perform synchronized cardioversion with 50 to 100 Joules  for the initial shock", "Perform synchronized cardioversion with 100 to 200 Joules  for the initial shock"],
-        correct: 2 
-    },
-    { 
-        question: "The preferred method used to verify the proper placement of an endotracheal tube is:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Obtaining a chest radiograph", "Using continuous waveform capnography", "Auscultating the presence of bilateral breath sounds", "Observing adequate chest rise with positive pressure ventilation"],
+        choices: ["Irregular, weak pulse rate", "Agonal gasps", "Slow, weak pulse rate", "Cyanosis"],
         correct: 1 
     },
     { 
-        question: "Which of the following is incorrect with regard to the events of a typical resuscitation effort?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["The team leader should state his or her instructions one at a time", "The team leader should encourage a respectful exchange of ideas", "Team members must be knowledgeable about current resuscitation algorithms", "Team members should be encouraged to confer among themselves throughout the resuscitation effort"],
-        correct: 1 
-    },
-    { 
-        question: "Which of the following statements is correct about the use of medications during cardiac arrest?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Amiodarone is the drug of choice for cardiac arrest resulting from asystole", "Lidocaine is contraindicated in cardiac arrest associated with a shockable rhythm", "Epinephrine should be given as soon as feasible after the onset of cardiac arrest associated with a nonshockable rhythm", "Vasopressin can be substituted for either the first or second dose of epinephrine in the treatment of cardiac arrest"],
-        correct: 1 
-    },
-    { 
-        question: "This 12-lead ECG is from a 50-year-old man complaining of chest discomfort<br><br>Which of the following is true regarding this 12-lead ECG?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/RHYDM-13.png",
-        followUp: " ",
-        choices: ["This 12-lead reveals no significant findings", "STE is present in leads V1 to V4. An anterior STEMI is suspected", "STE is present in leads I, aVR, and V6. A lateral STEMI is suspected", "STD is present in leads III and aVF. An inferior STEMI is suspected"],
-        correct: 1 
-    },
-    { 
-        question: "A 65-year-old man is complaining of a sudden onset of dizziness. He is awake, alert, and diaphoretic. The patient states that his symptoms began 45 minutes ago while cleaning his garage. He denies chest pain, shortness of breath, and nausea. The patient’s breath sounds are clear bilaterally. His BP is 78/50 mm Hg, ventilations 18 breaths/min. His SpO2 on room air is 96%.",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Second-degreeAVblock.png",
-        followUp: "This rhythm is:<br><br>",
-        choices: ["Junctional rhythm", "Sinus bradycardia", "Third-degree atrioventricular (AV) block", "Second-degree AV block (2:1 AV block)"],
-        correct: 3 
-    },
-    { 
-        question: "A 65-year-old man is complaining of a sudden onset of dizziness. He is awake, alert, and diaphoretic. The patient states that his symptoms began 45 minutes ago while cleaning his garage. He denies chest pain, shortness of breath, and nausea. The patient’s breath sounds are clear bilaterally. His BP is 78/50 mm Hg, ventilations 18 breaths/min. His SpO2 on room air is 96%.",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Second-degreeAVblock.png",
-        followUp: "An IV is in place. Your best course of action will be to:<br><br>",
-        choices: ["Defibrillate immediately", "Administer atropine 0.5 mg IV", "Administer amiodarone 300 mg IV", "Administer vasopressin 40 units IV"],
-        correct: 1 
-    },
-    { 
-        question: "An 89-year-old man is complaining of a “racing heart.” He states his symptoms began while playing a card game with friends. He had an MI 15 years ago and a coronary artery bypass graft 5 years ago. His BP is 140/90 mm Hg and his ventilatory rate is 16 breaths/min. Breath sounds are clear and his tidal volume is adequate. His SpO2 on room air is 88%<br><br>On the basis of the information provided, supplemental oxygen:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Is unnecessary at this time", "Is indicated and should be delivered using a nasal cannula", "Is indicated for all patients who are experiencing a tachycardia", "Should ideally be administered only after placement of an advanced airway"],
-        correct: 1 
-    },
-    { 
-        question: "An 89-year-old man is complaining of a “racing heart.” He states his symptoms began while playing a card game with friends. He had an MI 15 years ago and a coronary artery bypass graft 5 years ago. His BP is 140/90 mm Hg and his ventilatory rate is 16 breaths/min. Breath sounds are clear and his tidal volume is adequate. His SpO2 on room air is 88%<br><br>You have started an IV and placed the patient on the cardiac monitor, which reveals the following rhythm:",
+        question: "Which best describes this rhythm?",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Monomorphicventriculartach.png",
-        followUp: "This rhythm can best be described as a:<br><br>",
-        choices: ["Regular, polymorphic, wide-QRS tachycardia", "Regular, monomorphic, wide-QRS tachycardia", "Irregular, polymorphic, wide-QRS tachycardia", "Irregular, monomorphic, wide-QRS tachycardia"],
+        followUp: " ",
+        choices: ["Ventricular fibrillation", "Monomorphic ventricular tachycardia", "Polymorphic ventricular tachycardia", "Supraventricular tachycardia"],
         correct: 1 
     },
     { 
-        question: "An 89-year-old man is complaining of a “racing heart.” He states his symptoms began while playing a card game with friends. He had an MI 15 years ago and a coronary artery bypass graft 5 years ago. His BP is 140/90 mm Hg and his ventilatory rate is 16 breaths/min. Breath sounds are clear and his tidal volume is adequate. His SpO2 on room air is 88%<br><br>Which of the following statements is true with regard to the management of this patient?",
+        question: "A 45-year-old man had coronary artery stents placed 2 days ago. Today, he is in severe distress and is reporting ''crushing'' chest discomfort. He is pale, diaphoretic, and cool to the touch. His radial pulse is very weak, blood pressure is 64/40 mm Hg, respiratory rate is 28 breaths/min, and oxygen saturation is 89% on room air. When applied, the cardiac monitor initially showed ventricular tachycardia, which then quickly changed to ventricular fibrillation.",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["The patient is unstable. Sedate the patient and defibrillate as quickly as possible", "The patient is stable. Administration of IV verapamil is recommended for termination of the rhythm", "The patient is stable. Administration of IV adenosine can be used as a therapeutic and diagnostic maneuver", "The patient is unstable. Because there are recognizable QRS complexes on the monitor, synchronized cardioversion should be performed"],
-        correct: 2 
-    },
-    { 
-        question: "A 72-year-old woman presented with a sudden onset of shortness of breath and collapsed. After confirming the patient was unresponsive, apneic, and pulseless, CPR was begun.<br><br>The cardiac monitor shows the following rhythm",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/PEA.png",
-        followUp: "Which of the following ACLS treatment guidelines should be used in the initial treatment of this patient?<br><br>",
-        choices: ["Symptomatic bradycardia", "Narrow-QRS tachycardia", "Pulseless electrical activity (PEA)", "Acute Coronary Syndrome"],
-        correct: 2 
-    },
-    { 
-        question: "A 72-year-old woman presented with a sudden onset of shortness of breath and collapsed. After confirming the patient was unresponsive, apneic, and pulseless, CPR was begun.<br><br>An IV has been established and the patient is being ventilated with a bag-mask device (BMD). You observe gentle bilateral chest rise with ventilations. Your next action should be to:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Defibrillate immediately", "Give 0.5 mg of atropine IV", "Give 1 mg of epinephrine IV", "Begin transcutaneous pacing"],
-        correct: 2 
-    },
-    { 
-        question: "A 73-year-old woman presents with symptoms of acute stroke 3.5 hours after symptom onset. She has a history of an acute MI 6 years ago, chronic atrial fibrillation, and diabetes mellitus. The patient’s BP is 168/100 mmHg, her heart rateis 88 to 100 beats/min, and her ventilations are 12 breaths/min. Her National Institutes of Health Stroke Scale (NIHSS) score is 22. Daily medications include lisinopril, metformin, and warfarin. Which of the following statements with regard to fibrinolytic therapy for this patient is true?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["This patient is not a candidate for fibrinolytic therapy because of her age", "This patient is not a candidate for fibrinolytic therapy because she is hypertensive", "This patient is not a candidate for fibrinolytic therapy because she is taking an oral anticoagulant", "This patient is not a candidate for fibrinolytic therapy because too much time has lapsed between symptom onset and hospital arrival"],
-        correct: 2 
-    },
-    { 
-        question: "Which of the following is true with regard to procainamide?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Procainamide is a potent vasoconstrictor", "Procainamide may cause widening of the QRS complex", "Procainamide is indicated in the treatment of asystole and slow PEA", "Procainamide is a first-line drug in the management of torsades de pointes (TdP)"],
+        followUp: "On the basis of this patient's initial presentation, which condition do you suspect led to the cardiac arrest?<br><br>",
+        choices: ["Acute heart failure", "Acute coronary syndrome", "Supraventricular tachycardia with ischemic chest pain", "Acute ischemic stroke"],
         correct: 1 
     },
     { 
-        question: "A BMD that is used with supplemental oxygen set at a flow rate of 10 to 15 L/min delivers about _____oxygen to the patient when a reservoir is not used.",
+        question: "A 45-year-old man had coronary artery stents placed 2 days ago. Today, he is in severe distress and is reporting ''crushing'' chest discomfort. He is pale, diaphoretic, and cool to the touch. His radial pulse is very weak, blood pressure is 64/40 mm Hg, respiratory rate is 28 breaths/min, and oxygen saturation is 89% on room air. When applied, the cardiac monitor initially showed ventricular tachycardia, which then quickly changed to ventricular fibrillation.",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["21%", "40% to 60%", "60% to 90%", "90% to 100%"],
-        correct: 1 
-    },
-    { 
-        question: "A 35-year-old woman presents with a narrow-QRS tachycardia. She is stable but symptomatic. Vagal maneuvers and an initial dose of adenosine were ineffective. You should now:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Perform synchronized cardioversion", "Administer 6 mg of adenosine rapid IV push", "Administer 12 mg of adenosine rapid IV push", "Administer diltiazem 0.25 mg/kg IV over 2 minutes"],
-        correct: 2 
-    },
-    { 
-        question: "A patient is unresponsive with spontaneous ventilations at a rate of 4 per minute. Chest movement is barely visible with each breath. A pulse is present.",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: "Which of the following oxygen delivery devices would be most appropriate to use in this situation?<br><br>",
-        choices: ["A nasal cannula at 4 L/min", "A simple face mask at 6 L/min", "A nonrebreather mask at 12 L/min", "A BMD with a reservoir at 15 L/min"],
-        correct: 3 
-    },
-    { 
-        question: "If a patient wakes from sleep or is found with symptoms of a stroke, the time of onset of symptoms is defined as the time:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Of awakening", "The patient retired for sleep", "The patient was last known to be symptom-free", "The patient was last seen by a health care professional"],
-        correct: 2 
-    },
-    { 
-        question: "The most common adverse effects of giving amiodarone are:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Nausea and asystole", "Bradycardia and hypotension", "Tachycardia and hypertension", "Blurred vision and abdominal pain"],
-        correct: 1 
-    },
-    { 
-        question: "A 49-year-old man is found unresponsive, not breathing, and pulseless. The cardiac monitor reveals monomorphic ventricular tachycardia. The most important actions in the management of this patient are:",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["CPR and defibrillationn", "Defibrillation and resuscitation medications", "CPR and prompt insertion of an advanced airway", "Synchronized cardioversion and resuscitation medications"],
+        followUp: "In addition to defibrillation, which intervention should be performed immediately?<br><br>",
+        choices: ["Chest compressions", "Advanced airway insertion", "Vascular acces", "Vasoactive medication administration"],
         correct: 0 
     },
     { 
-        question: "Diltiazem may be used:",
+        question: "A 45-year-old man had coronary artery stents placed 2 days ago. Today, he is in severe distress and is reporting ''crushing'' chest discomfort. He is pale, diaphoretic, and cool to the touch. His radial pulse is very weak, blood pressure is 64/40 mm Hg, respiratory rate is 28 breaths/min, and oxygen saturation is 89% on room air. When applied, the cardiac monitor initially showed ventricular tachycardia, which then quickly changed to ventricular fibrillation.",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Concurrently with IV beta-blockers", "In the management of symptomatic bradycardia", "In the management of a stable patient with a wide-QRS tachycardia", "To control the ventricular rate with atrial flutter or atrial fibrillation"],
-        correct: 3 
+        followUp: "Despite 2 defibrillation attempts, the patient remains in ventricular fibrillation. Which drug and dose should you administer first to this patient?<br><br>",
+        choices: ["Lidocaine 1 mg/kg", "Atropine 1 mg", "Epinephrine 1 mg", "Lidocaine 1 mg/kg"],
+        correct: 2 
     },
     { 
-        question: "CPR is ongoing for a 66-year-old man in cardiac arrest. The cardiac monitor reveals asystole. Vascular access has been achieved and an advanced airway has been inserted.",
+        question: "A 45-year-old man had coronary artery stents placed 2 days ago. Today, he is in severe distress and is reporting ''crushing'' chest discomfort. He is pale, diaphoretic, and cool to the touch. His radial pulse is very weak, blood pressure is 64/40 mm Hg, respiratory rate is 28 breaths/min, and oxygen saturation is 89% on room air. When applied, the cardiac monitor initially showed ventricular tachycardia, which then quickly changed to ventricular fibrillation.",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: "Which of the following statements is correct with regard to this situation?<br><br>",
-        choices: ["The depth of chest compressions should be 1.5 to 2 inches", "Chest compressions should be delivered at a rate of 100 per minute", "The ratio of chest compressions to ventilations delivered should be 30:2", "Ventilations should be delivered at a rate of one breath every 6 seconds"],
-        correct: 3 
-    },
-    { 
-        question: "What precautions should be taken before giving Nitroglycerin?",
-        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
-        followUp: " ",
-        choices: ["Make sure the patient’s heart rate is at least 70 beats/min", "Make sure there is no evidence of a right ventricular infarction", "Make sure the patient’s systolic BP is more than 140 mm Hg", "Make sure the patient has not used a diuretic or an antihypertensive medication in the past 24 hours"],
+        followUp: "Despite the drug provided above and continued CPR, the patient remains in ventricular fibrillation. Which other drug should be administered next?<br><br>",
+        choices: ["Atropine 1 mg", "Lidocaine 1 to 1.5 mg/kg", "Epinephrine 1 mg", "Magnesium sulfate 1 g"],
         correct: 1 
     },
     { 
-        question: "A simple face mask:",
+        question: "A 45-year-old man had coronary artery stents placed 2 days ago. Today, he is in severe distress and is reporting ''crushing'' chest discomfort. He is pale, diaphoretic, and cool to the touch. His radial pulse is very weak, blood pressure is 64/40 mm Hg, respiratory rate is 28 breaths/min, and oxygen saturation is 89% on room air. When applied, the cardiac monitor initially showed ventricular tachycardia, which then quickly changed to ventricular fibrillation.",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: "The patient has return of spontaneous circulation and is not able to follow commands. Which immediate post-cardiac arrest care intervention do you choose for this patient?<br><br>",
+        choices: ["Extubate", "Administer epinephrine", "Initiate targeted temperature management", "Check the glucose level"],
+        correct: 2 
+    },
+    { 
+        question: "A 45-year-old man had coronary artery stents placed 2 days ago. Today, he is in severe distress and is reporting ''crushing'' chest discomfort. He is pale, diaphoretic, and cool to the touch. His radial pulse is very weak, blood pressure is 64/40 mm Hg, respiratory rate is 28 breaths/min, and oxygen saturation is 89% on room air. When applied, the cardiac monitor initially showed ventricular tachycardia, which then quickly changed to ventricular fibrillation.",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: "Which would you have done first if the patient had not gone into ventricular fibrillation?<br><br>",
+        choices: ["Given atropine 1 mg", "Performed synchronized cardioversion", "Established IV access", "Obtained a 12-lead ECG"],
+        correct: 1 
+    },
+    { 
+        question: "What is the recommended range from which a temperature should be selected and maintained constantly to achieve targeted temperature management after cardiac arrest?",
         image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
-        choices: ["Requires a minimum oxygen flow rate of 2 L/min", "Can only be used in a spontaneously breathing patient", "Does not permit the mixing of the patient’s exhaled air with 100% oxygen", "Delivers an oxygen concentration of 70% to 85% at recommended flow rates"],
+        choices: ["32°C to 36°C", "26°C to 28°C", "35°C to 37°C", "29°C to 31 °C"],
+        correct: 0 
+    },
+    { 
+        question: "To properly ventilate a patient with a perfusing rhythm , how often do you squeeze the bag?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Once every 12 seconds", "Once every 10 seconds", "Once every 3 seconds", "Once every 6 seconds"],
+        correct: 3 
+    },
+    { 
+        question: "A patient has a witnessed loss of consciousness. The lead II ECG reveals this rhythm. Which is the appropriate treatment?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Defibrillation.png",
+        followUp: " ",
+        choices: ["Synchronized cardioversion", "Defibrillation", "Administration of adenosine 6 mg IV push", "Administration of epinephrine 1 mg IV push"],
         correct: 1 
+    },
+    { 
+        question: "What is an effect of excessive ventilation?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Increased venous return", "Decreased intrathoracic pressure", "Decreased cardiac output", "Increased perfusion pressures"],
+        correct: 2 
+    },
+    { 
+        question: "A 68-year-old woman presents with light-headedness, nausea, and chest discomfort. Your assessment finds her awake and responsive but ill-appearing, pale, and grossly diaphoretic. Her radial pulse is weak, thready, and fast. You are unable to obtain a blood pressure. She has no obvious dependent edema, and her neck veins are flat. Her lung sounds are equal, with moderate rales present bilaterally. The cardiac monitor shows the rhythm seen here.",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Monomorphicventriculartach.png",
+        followUp: "Based on this patient's initial assessment, which adult ACLS algorithm should you follow?<br><br>",
+        choices: ["Adult Tachycardia With a Pulse", "Adult Cardiac arrest", "Acute Coronary Syndromes", "Adult Suspected stroke"],
+        correct: 0 
+    },
+    { 
+        question: "A 68-year-old woman presents with light-headedness, nausea, and chest discomfort. Your assessment finds her awake and responsive but ill-appearing, pale, and grossly diaphoretic. Her radial pulse is weak, thready, and fast. You are unable to obtain a blood pressure. She has no obvious dependent edema, and her neck veins are flat. Her lung sounds are equal, with moderate rales present bilaterally. The cardiac monitor shows the rhythm seen here.",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Monomorphicventriculartach.png",
+        followUp: "The patient's pulse oximeter shows a reading of 84% on room air. Which initial action do you take?",
+        choices: ["Check the pulse oximeter probe", "Give oxygen", "Perform bag-mask ventilation", "Intubate the patient"],
+        correct: 1 
+    },
+    { 
+        question: "A 68-year-old woman presents with light-headedness, nausea, and chest discomfort. Your assessment finds her awake and responsive but ill-appearing, pale, and grossly diaphoretic. Her radial pulse is weak, thready, and fast. You are unable to obtain a blood pressure. She has no obvious dependent edema, and her neck veins are flat. Her lung sounds are equal, with moderate rales present bilaterally. The cardiac monitor shows the rhythm seen here.",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Monomorphicventriculartach.png",
+        followUp: "After your initial assessment of this patient, which intervention should be performed next?<br><br>",
+        choices: ["Endotracheal intubation", "Immediate defibrillation", "Synchronized cardioversion", "Administration of amiodarone 150 mg IM"],
+        correct: 2 
+    },
+    { 
+        question: "A 68-year-old woman presents with light-headedness, nausea, and chest discomfort. Your assessment finds her awake and responsive but ill-appearing, pale, and grossly diaphoretic. Her radial pulse is weak, thready, and fast. You are unable to obtain a blood pressure. She has no obvious dependent edema, and her neck veins are flat. Her lung sounds are equal, with moderate rales present bilaterally. The cardiac monitor shows the rhythm seen here.",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Monomorphicventriculartach.png",
+        followUp: "If the patient became apneic and pulseless but the rhythm remained the same, which would take the highest priority?",
+        choices: ["Administer atropine 0.5 mg", "Perform defibrillation", "Administer amiodarone 300 mg", "Insert an advanced airway"],
+        correct: 1 
+    },
+    { 
+        question: "What is the minimum systolic blood pressure one should attempt to achieve with fluid administration or vasoactive agents in a hypotensive post-cardiac arrest patient who achieves return of spontaneous circulation?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["90 mm Hg", "85 mm Hg", "80 mm Hg", "75 mm Hg"],
+        correct: 0 
+    },
+    { 
+        question: "Which is the primary purpose of a medical emergency team or rapid response team?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Improving patient outcomes by identifying and treating early clinical deterioration", "Providing diagnostic consultation to emergency department patients", "Providing on line consultation to EMS personnel in the field", "Improving care for patients admitted to critical care units"],
+        correct: 0 
+    },
+    { 
+        question: "Which best describes this rhythm?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/ThirdDegree.png",
+        followUp: " ",
+        choices: ["Second-degree atrioventricular block type I", "First-degree atrioventricular block", "Third-degree atrioventricular block", "Second-degree atrioventricular block type II"],
+        correct: 2 
+    },
+    { 
+        question: "A team member is unable to perform an assigned task because it is beyond the team member's scope of practice. Which action should the team member take?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Seek expert advice", "Ask for a new task or role", "Assign it to another team member", "Do it anyway"],
+        correct: 1 
+    },
+    { 
+        question: "During post-cardiac arrest care, which is the recommended duration of targeted temperature management after reaching the correct temperature range?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["At least 36 hours", "At least 8 hours", "At least 24 hours", "At least 48 hours"],
+        correct: 2 
+    },
+    { 
+        question: "Which is the recommended next step after a defibrillation attempt?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Open the patient's airway", "Resume CPR, starting with chest compressions", "Check the ECG for evidence of a rhythm", "Determine if a carotid pulse is present"],
+        correct: 1 
+    },
+    { 
+        question: "Which of these tests should be performed for a patient with suspected stroke as soon as possible but no more than 20 minutes after hospital arrival?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Noncontrast CT scan of the head", "12-lead ECG", "Cardiac enzymes", "Coagulation studies"],
+        correct: 0 
+    },
+    { 
+        question: "Which is an acceptable method of selecting an appropriately sized oropharyngeal airway?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Estimate by using the formula Weight (kg)/8 + 2", "Measure from the corner of the mouth to the angle of the mandible", "Estimate by using the size of the patient's finger", "Measure from the thyroid cartilage to the bottom of the earlobe"],
+        correct: 1 
+    },
+    { 
+        question: "You are evaluating a 58-year-old man with chest discomfort. His blood pressure is 92/50 mm Hg, his heart rate is 92/min, his nonlabored respiratory rate is 14 breaths/min, and his pulse oximetry reading is 97%. Which assessment step is most important now?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Requesting laboratory testing", "Obtaining a 12-lead ECG", "Evaluating the PETCO2 reading", "Requesting a chest x-ray"],
+        correct: 1 
+    },
+    { 
+        question: "Three minutes into a cardiac arrest resuscitation attempt, one member of your team inserts an endotracheal tube while another performs chest compressions. Capnography shows a persistent waveform and a PETC02 of 8 mm Hg. Which is the significance of this finding?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["The patient meets the criteria for termination of efforts", "The endotracheal tube is in the esophagus", "The team is ventilating the patient too often (hyperventilation)", "Chest compressions may not be effective"],
+        correct: 3 
+    },
+    { 
+        question: "Which type of atrioventricular block best describes this rhythm?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/SecondDegree.png",
+        followUp: " ",
+        choices: ["Second-degree type II", "Third-degree", "First-degree", "Second-degree type I"],
+        correct: 0 
+    },
+    { 
+        question: "You have completed 2 minutes of CPR. The ECG monitor displays the lead II rhythm shown here, and the patient has no pulse. Another member of your team resumes chest compressions, and an IV is in place. Which do you do next?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/ThirdDegree.png",
+        followUp: " ",
+        choices: ["Give epinephrine 1 mg IV", "Start a dopamine infusion", "Insert an advanced airway", "Give atropine 0.5 mg"],
+        correct: 0 
+    },
+    { 
+        question: "Which best describes an action taken by the team leader to avoid inefficiencies during a resuscitation attempt?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Giveepinephrine.png",
+        followUp: " ",
+        choices: ["Clearly delegate tasks", "Assign most tasks to the more experienced team members", "Assign the same tasks to more than one team member", "Perform the most complicated tasks"],
+        correct: 0 
+    },
+    { 
+        question: "Which is the recommended first intravenous dose of amiodarone for a patient with refractory ventricular fibrillation?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["300 mg", "250 mg", "150 mg", "100 mg"],
+        correct: 0 
+    },
+    { 
+        question: "Which is the maximum interval you should allow for an interruption in chest compressions",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["15 seconds", "25 seconds", "20 seconds", "10 seconds"],
+        correct: 3 
+    },
+    { 
+        question: "A patient in respiratory distress and with a blood pressure of 70/50 mm Hg presents with the lead II ECG rhythm shown here. Which is the appropriate treatment?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Performingsynchronizedcardioversion.png",
+        followUp: " ",
+        choices: ["Performing defibrillation", "Performing vagal maneuvers", "Administering adenosine 6 mg IV push", "Performing synchronized cardioversion"],
+        correct: 3 
+    },
+    { 
+        question: "You are caring for a patient with a suspected stroke whose symptoms started 2 hours ago. The CT scan was normal, with no signs of hemorrhage. The patient does not have any contraindications to fibrinolytic therapy. Which treatment approach is best for this patient?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Wait for the results of the MRI", "Hold fibrinolytic therapy for 24 hours", "Give fibrinolytic therapy as soon as possible and consider endovascular therapy", "Order an echocardiogram before fibrinolytic administration"],
+        correct: 2 
+    },
+    { 
+        question: "Which type of atrioventricular block best describes th is rhythm?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/SecondDegree2.png",
+        followUp: " ",
+        choices: ["First-degree atrioventricular block", "Third-degree atrioventricular block", "Second-degree atrioventricular block type II", "Second-degree atrioventricular block type I"],
+        correct: 3 
+    },
+    { 
+        question: "Your patient is in cardiac arrest and has been intubated. To assess CPR quality, which should you do?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Check the patient's pulse", "Obtain a 12-lead ECG", "Obtain a chest x-ray", "Monitor the patient's PETC02"],
+        correct: 3 
+    },
+    { 
+        question: "If a team member is about to make a mistake during a resuscitation attempt, which best describes the action that the team leader or other team members should take?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Reassign the team tasks", "Conduct a debriefing after the resuscitation attempt", "Remove the team member from the area", "Address the team member immediately"],
+        correct: 3 
+    },
+    { 
+        question: "A patient is being resuscitated in a very noisy environment. A team member thinks he heard an order for 500 mg of amiodarone IV. Which is the best response from the team member?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["''I have an order to give 500 mg of amiodarone IV. Is this correct?''", "''OK.''", "''Amiodarone 500 mg IV has been given.''", "''Are you sure?''"],
+        correct: 0 
+    },
+    { 
+        question: "You are performing chest compressions during an adult resuscitation attempt. Which rate should you use to perform the compressions?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["80 to 90/min", "Less than 80/min", "More than 120/min", "100 to 120/min"],
+        correct: 3 
+    },
+    { 
+        question: "Which facility is the most appropriate EMS destination for a patient with sudden cardiac arrest who achieved return of spontaneous circulation in the field?",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        followUp: " ",
+        choices: ["Acute rehabilitation care unit", "Acute long-term care unit", "Coronary reperfusion-capable medical center", "Comprehensive stroke care unit"],
+        correct: 2 
     }
-     
-
-	 ];
+    ];
 
         let currentQuestion = 0;
         let answers = new Array(50).fill(null);
         let timeLeft = 60 * 60;
         let timerId;
-        let correctCount = 0;
-        let isSubmitted = false;
+
+        // Fisher-Yates shuffle function
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Function to shuffle questions and their choices
+        function shuffleQuestionsAndChoices(questionsArray) {
+            // Shuffle questions
+            let shuffledQuestions = shuffle([...questionsArray]);
+            // Shuffle choices for each question
+            return shuffledQuestions.map(question => {
+                const choices = [...question.choices];
+                const correctAnswer = choices[question.correct]; // Store correct answer text
+                const shuffledChoices = shuffle([...choices]);
+                // Find new index of correct answer
+                const newCorrectIndex = shuffledChoices.indexOf(correctAnswer);
+                return {
+                    ...question,
+                    choices: shuffledChoices,
+                    correct: newCorrectIndex
+                };
+            });
+        }
 
         function startTimer() {
             timerId = setInterval(() => {
@@ -576,14 +712,23 @@
                     `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
                 if (timeLeft <= 0) {
                     clearInterval(timerId);
-                    markUnansweredAsWrong();
-                    showEvaluation();
+                    showResults();
                 }
             }, 1000);
         }
 
         function updateIndicators() {
             document.getElementById('questionNumber').textContent = `Question: ${currentQuestion + 1}/50`;
+        }
+
+        function calculateScore() {
+            let correct = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (answers[i] === questions[i].correct) {
+                    correct++;
+                }
+            }
+            return correct;
         }
 
         function renderQuestion() {
@@ -594,8 +739,8 @@
                 <div class="follow-up">${q.followUp}</div>
                 <div class="choices">
                     ${q.choices.map((choice, i) => `
-                        <div class="choice ${answers[currentQuestion] === i ? (i === q.correct ? 'selected correct' : 'selected wrong') : ''}" 
-                             onclick="${isSubmitted || timeLeft <= 0 ? '' : `selectAnswer(${i})`}">${choice}</div>
+                        <div class="choice ${answers[currentQuestion] === i ? 'selected' : ''}" 
+                             onclick="selectAnswer(${i})">${choice}</div>
                     `).join('')}
                 </div>
             `;
@@ -607,63 +752,51 @@
             updateIndicators();
         }
 
-        function markUnansweredAsWrong() {
-            for (let i = 0; i < answers.length; i++) {
-                if (answers[i] === null) {
-                    answers[i] = -1; // Mark as wrong (distinct from correct choices)
-                }
-            }
-        }
-
-        function calculateCorrectCount() {
-            correctCount = 0;
-            for (let i = 0; i < answers.length; i++) {
-                if (answers[i] === questions[i].correct) {
-                    correctCount++;
-                }
-            }
-        }
-
-        function showEvaluation() {
-            isSubmitted = true;
+        function showResults() {
             clearInterval(timerId);
-            calculateCorrectCount();
-            const percentage = (correctCount / 50) * 100;
+            const score = calculateScore();
+            const percentage = (score / 50) * 100;
             const passed = percentage >= 80;
+            const resultClass = passed ? 'result-pass' : 'result-fail';
+            const message = passed ? 'You Passed!' : 'You Failed!';
+            const fireworks = passed ? '<div class="pyro"><div class="before"></div><div class="after"></div></div>' : '';
             const content = `
-                <div class="evaluation-page">
-                    <h1>${passed ? 'Congrats! You Pass!' : 'You Fail!'}</h1>
-                    <p>You got ${correctCount} out of 50 correct (${percentage.toFixed(2)}%)</p>
+                <div class="result-page ${resultClass}">
+                    ${fireworks}
+                    <h1>${message}</h1>
+                    <p>You scored ${score}/50 (${percentage.toFixed(0)}%).</p>
                     <button id="retakeBtn">Retake</button>
                 </div>
             `;
             document.getElementById('quiz-content').innerHTML = content;
             document.getElementById('centerButtons').style.display = 'none';
-            document.querySelector('.navigation').style.display = 'flex';
+            document.querySelector('.navigation').style.display = 'none';
             document.getElementById('timer').textContent = 'Time’s Up!';
-            document.getElementById('questionNumber').textContent = `Question: 50/50`;
             document.getElementById('retakeBtn').addEventListener('click', resetQuiz);
         }
 
         function selectAnswer(index) {
-            if (!isSubmitted && timeLeft > 0) {
-                answers[currentQuestion] = index;
-                renderQuestion();
-            }
+            answers[currentQuestion] = index;
+            renderQuestion();
         }
 
         function resetQuiz() {
             currentQuestion = 0;
             answers = new Array(50).fill(null);
-            correctCount = 0;
             timeLeft = 60 * 60;
-            isSubmitted = false;
             clearInterval(timerId);
             document.getElementById('timer').textContent = '60:00';
+            questions = shuffleQuestionsAndChoices(questions); // Shuffle questions and choices on reset
             startTimer();
             renderQuestion();
         }
 
+        // Shuffle questions and choices on page load
+        questions = shuffleQuestionsAndChoices(questions);
+
+        startTimer();
+        renderQuestion();
+        
         document.getElementById('nextBtn').addEventListener('click', () => {
             if (answers[currentQuestion] === null) {
                 alert('Please select your answer');
@@ -671,7 +804,7 @@
                 currentQuestion++;
                 renderQuestion();
             } else {
-                showEvaluation();
+                showResults();
             }
         });
 
@@ -686,21 +819,14 @@
             resetQuiz();
         });
 
-
-
-        startTimer();
-        renderQuestion();
-		
-        // Disable developer tools shortcuts
         document.onkeydown = function(e) {
-            if (e.keyCode == 123 || // F12
-                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I
-                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || // Ctrl+Shift+J
-                (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
+            if (e.keyCode == 123 || 
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || 
+                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || 
+                (e.ctrlKey && e.keyCode == 85)) {
                 return false;
             }
         }			
-		
     </script>
 </body>
 </html>
