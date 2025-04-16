@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BLS Review 2</title>
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
     <style>
         body {
-            background-color: #f5f5f5; /* Paper white background */
-            color: #000000; /* Black text for contrast */
+            background-color: #f5f5f5;
+            color: #000000;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
@@ -17,10 +17,70 @@
             max-width: 800px;
             margin: 0 auto;
             position: relative;
-            background-color: #ffffff; /* White container for paper effect */
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        @media (min-width: 601px) {
+            .quiz-container {
+                width: 75vw;
+                max-width: 1200px;
+                transform: scale(1.1);
+                transform-origin: top center;
+            }
+            .question, .follow-up {
+                font-size: 2.5em;
+            }
+            .choice {
+                font-size: 1.3em;
+            }
+            .timer-btn, .expand-btn {
+                font-size: 1.5em;
+            }
+            .indicators {
+                font-size: 1.2em;
+            }
+            button, a.button-link {
+                font-size: 1.3em;
+            }
+        }
+        @media (max-width: 600px) {
+            .header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .expand-btn {
+                order: 1;
+                margin-right: auto;
+            }
+            .timer-btn {
+                order: 2;
+                margin-left: auto;
+            }
+            .question {
+                font-size: 1em;
+            }
+            .follow-up {
+                font-size: 1em;
+            }
+            button, .timer-btn, .expand-btn {
+                padding: 8px 15px;
+                font-size: 1em;
+            }
+            .indicators {
+                font-size: 1em;
+            }
+            .result-page h1 {
+                font-size: 1.5em;
+            }
+            .result-page p {
+                font-size: 1em;
+            }
         }
         .header {
             display: flex;
@@ -30,7 +90,7 @@
         }
         .timer-btn {
             padding: 10px 20px;
-            background-color: #e0e0e0; /* Light gray for buttons */
+            background-color: #e0e0e0;
             color: #000000;
             border: 1px solid #cccccc;
             border-radius: 5px;
@@ -47,14 +107,16 @@
             transition: background-color 0.3s;
         }
         .expand-btn:hover {
-            background-color: #4FB6AB; /* Red on hover */
+            background-color: #4FB6AB;
             color: #ffffff;
         }
         .question-image {
             max-width: 100%;
             height: auto;
-            margin: 10px 0;
+            display: block;
+            margin: 10px auto;
             border: 1px solid #ffffff;
+            border-radius: 5px;
         }
         .question {
             font-size: 1.5em;
@@ -63,7 +125,7 @@
         .follow-up {
             font-size: 1.5em;
             margin: 10px 0;
-            color: #000000; /* Slightly gray for follow-up */
+            color: #000000;
         }
         .choices {
             display: flex;
@@ -72,7 +134,7 @@
         }
         .choice {
             padding: 10px;
-            background-color: #f0f0f0; /* Light gray for choices */
+            background-color: #f0f0f0;
             border: 1px solid #cccccc;
             border-radius: 5px;
             cursor: pointer;
@@ -82,11 +144,11 @@
             background-color: #e0e0e0;
         }
         .choice.correct {
-            background-color: #98e5a5; /* Green for correct answer */
+            background-color: #98e5a5;
             border-color: #00cc00;
         }
         .choice.wrong.selected {
-            background-color: #d98e96; /* Red for wrong selected answer */
+            background-color: #d98e96;
             border-color: #cc0000;
         }
         .choice.locked {
@@ -126,55 +188,107 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #AC3834; /* Red on hover */
+            background-color: #AC3834;
             color: #ffffff;
         }
         .indicators {
-            font-size: 0.95em
+            font-size: 0.95em;
             color: #333333;
-			font-weight: bold
+            font-weight: bold;
         }
         .result-page {
             text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: visible;
+        }
+        .result-page.pass {
+            background-color: #98e5a5;
+        }
+        .result-page.fail {
+            background-color: #d98e96;
         }
         .result-page h1 {
             font-size: 2em;
             margin: 20px 0;
             color: #000000;
+            position: relative;
+            z-index: 1;
         }
         .result-page p {
             font-size: 1.2em;
             margin-bottom: 20px;
             color: #555555;
+            position: relative;
+            z-index: 1;
+        }
+        .pyro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .pyro > .before, .pyro > .after {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 
+                -20px -20px #ff0, 20px -20px #f00, 0 -30px #0f0, 
+                30px 0 #0ff, 20px 0 #ff0, -20px 0 #f00, 0 20px #0f0,
+                -15px -15px #ff0, 15px -15px #f00, 0 -25px #0f0, 15px 15px #ff0, -15px 15px #f00, 0 25px #0f0,
+                -10px -10px #ff0, 10px -10px #f00, 0 -20px #0f0, 10px 10px #ff0, -10px 10px #f00, 0 20px #0f0;
+            animation: 1s bang ease-out infinite, 1s gravity ease-in infinite, 5s position linear infinite;
+        }
+        .pyro > .after {
+            animation-delay: 0.5s, 0.5s, 0.5s;
+            animation-duration: 1s, 1s, 5s;
+        }
+        @keyframes bang {
+            to {
+                box-shadow: 
+                    -100px -50px #ff0, 100px -50px #f00, 0 -150px #0f0, 100px 50px #ff0, -100px 50px #f00, 0 150px #0f0,
+                    -80px -40px #ff0, 80px -40px #f00, 0 -120px #0f0, 80px 40px #ff0, -80px 40px #f00, 0 120px #0f0,
+                    -60px -30px #ff0, 60px -30px #f00, 0 -90px #0f0, 60px 30px #ff0, -60px 30px #f00, 0 90px #0f0;
+            }
+        }
+        @keyframes gravity {
+            to {
+                transform: translateY(200px);
+                opacity: 0;
+            }
+        }
+        @keyframes position {
+            0%, 20% {
+                margin-top: 10%;
+                margin-left: 40%;
+            }
+            20.1%, 40% {
+                margin-top: 40%;
+                margin-left: 30%;
+            }
+            40.1%, 60% {
+                margin-top: 20%;
+                margin-left: 70%;
+            }
+            60.1%, 80% {
+                margin-top: 30%;
+                margin-left: 20%;
+            }
+            80.1%, 100% {
+                margin-top: 30%;
+                margin-left: 80%;
+            }
         }
         hr {
             border: 1px solid #dddddd;
-        }
-        @media (max-width: 600px) {
-            .question {
-                font-size: 1.2em;
-            }
-            .follow-up {
-                font-size: 1em;
-            }
-            button, .timer-btn, .expand-btn {
-                padding: 8px 15px;
-                font-size: 1em;
-            }
-            .indicators {
-                font-size: 0.9em;
-            }
-            .header {
-                flex-direction: column;
-                align-items: flex-end;
-                gap: 10px;
-            }
-            .result-page h1 {
-                font-size: 1.5em;
-            }
-            .result-page p {
-                font-size: 1em;
-            }
         }
         a.button-link {
             display: inline-block;
@@ -187,7 +301,7 @@
             transition: background-color 0.3s;
         }
         a.button-link:hover {
-            background-color: #AC3834; /* Red on hover */
+            background-color: #AC3834;
             color: #ffffff;
         }
     </style>
@@ -200,13 +314,13 @@
         </div>
         <div id="quiz-content"></div>
         <div class="navigation">
-		
             <div class="nav-buttons-left">
                 <div class="center-buttons" id="centerButtons">
                     <button id="prevBtn">Previous</button>
                     <button id="nextBtn">Next</button>
-                </div><h1> </h1>
-                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/BLSReview.html" class="button-link" id="backBtn">Back</a>
+                </div>
+                <h1> </h1>
+                <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Menu/ACLSReview.html" class="button-link" id="backBtn">Back</a>
                 <button id="resetBtn">Reset</button>
             </div>
             <div class="nav-buttons-right">
@@ -215,219 +329,222 @@
             </div>
         </div>
     </div>
+
     <script>
         const questions = [
     {
         question: "When should the rescuer initially ensure that the scene is safe?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["When the rescuer first sees a potential victim", "After the rescuer activates the emergency response system", "As emergency medical services arrive on the scene", "After an AED that is attached to the victim delivers a shock"],
         correct: 0
     },
     {
         question: "As soon as an AED becomes available, which of the following is the first step the rescuer should perform to operate the AED?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Place the AED pads on the chest", "Deliver 2 rescue breaths before using the AED", "Turn on the AED", "Complete 5 cycles of chest compressions"],
         correct: 2
     },
     {
         question: "After the AED delivers a shock, the rescuer should",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Wait for the AED to reanalyze the rhythm", "Immediately restart CPR, beginning with chest compressions", "Provide 2 ventilations to the victim", "Immediately check the carotid pulse for no more than 10 seconds"],
         correct: 1
     },
     {
         question: "The 2010 AHA Guidelines for CPR and ECC recommend that to identify cardiac arrest in an unresponsive victim with no breathing (or no normal breathing), a healthcare provider should check a pulse for no more than",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["25 seconds", "10 seconds", "15 seconds", "20 seconds"],
         correct: 1
     },
     {
         question: "After you identify an unresponsive victim with no breathing (or no normal breathing) and no pulse, chest compressions should be initiated within",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["25 seconds", "10 seconds", "30 seconds", "60 seconds"],
         correct: 1
     },
     {
         question: "Which of the following victims need CPR?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["A victim with a pulse and who is having trouble breathing", "A victim with chest pain and indigestion", "A victim who is unresponsive, no normal breathing and absent/inadequate pulse", "A victim who is unresponsive but is breathing adequately"],
         correct: 2
     },
     {
         question: "Where should the hands be placed to perform chest compressions on an adult?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["On the lower half of the breastbone", "In the center of the breastbone", "On the upper portion of the abdomen", "On the upper half of the breastbone"],
         correct: 0
     },
     {
         question: "The depth of compressions for an adult victim should be at least",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["1 inch", "2 inches", "3 inches", "4 inches"],
         correct: 1
     },
     {
         question: "Why is it important to compress to the appropriate depth during CPR?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Adequate depth of compression is needed to create blood flow during compressions", "Adequate depth of compression is needed to create air flow into the lungs and adequate oxygenation", "Adequate depth of compression is needed to prolong asystole", "Adequate depth of compression is needed to stimulate spontaneous respirations"],
         correct: 0
     },
     {
         question: "The recommended rate for performing chest compressions for victims of all ages is",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["At least 40 compressions per minute", "At least 60 compressions per minute", "At least 80 compressions per minute", "At least 100 compressions per minute"],
         correct: 3
     },
     {
         question: "The compression-to-ventilation ratio for 1-rescuer adult CPR is",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["30:2", "5:1", "20:2", "15:2"],
         correct: 0
     },
     {
         question: "After the airway is opened, which of the following correctly states the proper technique for delivering mouth-to-mouth ventilation?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["The rescuer opens the airway, seals their mouth over the victim's mouth, pinches the victim's nose closed, and gives 2 breaths while watching for the chest to rise", "The rescuer opens the airway, seals their mouth over the victim's mouth, and gives several small puffs while trying to avoid making the chest rise", "The rescuer opens the airway, seals their mouth over the victim's mouth, and gives 1 slow breath for a duration of 5 seconds", "The rescuer opens the airway, seals their mouth over the victim's mouth, and gives 5 slow breaths, each with a duration of 2 seconds, while watching for the chest to rise"],
         correct: 0
     },
     {
         question: "The rescuer knows the rescue breath for an infant victim is effective when",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["The stomach visibly rises", "The chest rises visibly", "The child ventilation bag is completely compressed", "The rescuer can hear an air leak around the mask"],
         correct: 1
     },
     {
         question: "Which of the following ventilation devices/techniques is not recommended for a single rescuer to provide breaths during CPR?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Bag-mask device", "Mouth-to-barrier device technique", "Mouth-to-mouth technique", "Mouth-to-mask technique"],
         correct: 0
     },
     {
         question: "During bag-mask ventilation, which of the following is recommended to minimize the risk of gastric inflation?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Give breaths as quickly as you can", "Give each breath over as long a time as you can (several seconds)", "Give the largest breaths that you can", "Give a breath just until you see the chest rise"],
         correct: 3
     },
     {
         question: "When a child has a pulse rate greater than 60 per minute, but is not breathing effectively, the rescuer should",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Give breaths and compressions", "Give breaths without compressions", "Give chest compressions without breaths", "Connect the AED to the child and analyze"],
         correct: 1
     },
     {
         question: "When administering breaths by using a bag-mask device for a child who is not breathing but does have a pulse, the rescuer should",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Squeeze the bag as often as possible", "Give breaths at the rate of 1 breath every 3 to 5 seconds", "Position the child on their stomach", "Avoid performing a head tilt"],
         correct: 1
     },
     {
         question: "In 2-rescuer CPR, while the first rescuer begins chest compressions, the second rescuer should",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Count compressions out loud", "Check for a pulse during compressions", "Do nothing until the first rescuer needs relief", "Maintain an open airway and give ventilations"],
         correct: 3
     },
     {
         question: "Which of the following options lists the correct compression and ventilation rates for 2-rescuer CPR in the presence of an advanced airway?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Compress at a rate of at least 100 per minute, 1 breath every 6 - 8 seconds", "Compress at a rate of at least 60 per minute, 1 breath every 6 - 8 seconds", "Compress at a rate of at least 100 per minute, 2 breaths every 5-10 seconds", "Compress at a rate of at least 60 per minute, 1 breath every 5-10 seconds"],
         correct: 0
     },
     {
         question: "The compression-to-breaths ratio for 2-rescuer child CPR is",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["30:2", "5:1", "20:2", "15:2"],
         correct: 3
     },
     {
         question: "If a victim of foreign body airway obstruction becomes unresponsive, the rescuer should send someone to activate the emergency response system and immediately",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Perform abdominal thrusts", "Perform blind finger sweeps", "Start CPR beginning with compressions", "Call the victim's doctor"],
         correct: 2
     },
     {
         question: "If an unresponsive infant is not breathing and has a heart rate of 53 beats per minute and signs of poor perfusion despite oxygenation and ventilation with a bag and mask, which of the following should you perform?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["One rescue breath every 10 seconds", "Cycles of back blows and chest thrusts", "Chest compressions without breaths", "Both chest compressions and breaths"],
         correct: 3
     },
     {
         question: "The recommended depth of compressions for an infant is",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["At least one fourth the depth of the chest, approximately 1 inch", "At least one third the depth of the chest, approximately 1.5 inches", "At least one half the depth of the chest, approximately 2 inches", "At least two thirds the depth of the chest, approximately 3 inches"],
         correct: 1
     },
     {
         question: "The 2 thumb-encircling hands technique for the infant",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["Produces less blood flow than the 2-finger technique", "Is the preferred chest compression technique for 2-rescuer CPR", "Is the preferred chest compression technique for 1-rescuer CPR", "Generates less blood pressure than the 2-finger technique"],
         correct: 1
     },
     {
         question: "In which locations do most out-of-hospital cardiac arrests occur?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["healthcare clinics", "homes", "recreational facilities", "shopping centers"],
         correct: 1
     },
     {
         question: "Which is the most common cause of cardiac arrest in children?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["cardiac problem", "congenital or acquired heart disease", "respiratory failure or shock", "infection and sepsis"],
         correct: 2
     },
     {
         question: "What is the third link in the adult out-of-hospital chain of survival?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["advanced life support", "high-quality CPR", "prevention", "rapid defibrillation"],
         correct: 3
     },
     {
         question: "Which statement best describes sudden cardiac arrest?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["when respiratory distress in adults occurs and the heart rate does not change", "when the heart rate is 40-60/min and respirations increase", "when blood flow to the heart is blocked and the heart rate increases", "when an abnormal rhythm develops and the heart stops beating unexpectedly"],
         correct: 3
     },
     {
         question: "Scenario: 53-year old man suddenly collapses and becomes unresponsive. You witness him collapse and are the first rescuer to arrive at the scene. You find him lying motionless on the floor.<br><br>What is the first action you should take in this situation?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["activate the emergency response system", "start high-quality CPR beginning with chest compressions", "start providing rescue breaths", "verify that the scene is safe for you and the victim"],
         correct: 3
     },
     {
         question: "Scenario: 53-year old man suddenly collapses and becomes unresponsive. You witness him collapse and are the first rescuer to arrive at the scene. You find him lying motionless on the floor.<br><br>The man doesn’t respond when you touch his shoulders and shout, ''are you okay'' What is your best next action?",
-        image: "https://raw.githubusercontent.com/canisiome/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
+        image: "https://raw.githubusercontent.com/canisiog/ACLSReview/refs/heads/main/Assets/img/Rythm/Fill.png",
         followUp: " ",
         choices: ["check his pulse", "start high-quality CPR", "start providing rescue breaths", "shout for nearby help"],
         correct: 3
     }
-      ];
+
+
+    ];
 
         let currentQuestion = 0;
         let answers = new Array(30).fill(null);
@@ -505,10 +622,13 @@
         function showResults() {
             clearInterval(timerId);
             const percentage = (correctCount / 30) * 100;
-            const passed = percentage >= 80;
+            const passed = percentage > 80;
+            const resultClass = passed ? 'pass' : 'fail';
+            const fireworks = passed ? '<div class="pyro"><div class="before"></div><div class="after"></div></div>' : '';
             const content = `
-                <div class="result-page">
-                    <h1>${passed ? 'Congrats! You Pass!' : 'Better Luck Next Time'}</h1>
+                <div class="result-page ${resultClass}">
+                    ${fireworks}
+                    <h1>${passed ? 'Nice! Now Take the Test!' : 'Better Luck Next Time'}</h1>
                     <p>You got ${correctCount} out of 30 correct (${percentage.toFixed(2)}%)</p>
                     <button id="retakeBtn">Retake</button>
                 </div>
@@ -570,7 +690,6 @@
             resetQuiz();
         });
 
-
         document.getElementById('expandBtn').addEventListener('click', () => {
             if (!allExpanded) {
                 renderAllQuestions();
@@ -585,13 +704,12 @@
 
         startTimer();
         renderQuestion();
-		
-        // Disable developer tools shortcuts
+        
         document.onkeydown = function(e) {
-            if (e.keyCode == 123 || // F12
-                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I
-                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || // Ctrl+Shift+J
-                (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
+            if (e.keyCode == 123 || 
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || 
+                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || 
+                (e.ctrlKey && e.keyCode == 85)) {
                 return false;
             }
         }			
