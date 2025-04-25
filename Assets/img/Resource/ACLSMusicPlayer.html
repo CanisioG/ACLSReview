@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Canisio's ACLS AudioBook</title>
+	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'AdvancedLEDBoard';
+            src: url('https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Font/advanced_led_board-7.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(45deg, #1a0b2e, #2e1a47);
+            color: #00ffcc;
+        }
+        .player-container {
+            background-color: #0d0d1a;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            box-sizing: border-box;
+            border: 4px solid #ff00ff;
+        }
+        .player-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 60px;
+            font-weight: bold;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc, 0 0 15px #ff00ff;
+            margin: 0 0 1rem 0;
+        }
+        .description-box {
+            background-color: #1a1a2e;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+            height: 5rem;
+            overflow: hidden;
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5), 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+        .description-box marquee {
+            font-family: 'AdvancedLEDBoard', sans-serif;
+            font-size: 72px;
+            line-height: 5rem;
+        }
+        .rainbow-letter {
+            display: inline-block;
+            animation: rainbow 2s infinite;
+        }
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            14% { color: #ff7f00; }
+            28% { color: #ffff00; }
+            42% { color: #00ff00; }
+            57% { color: #00ffff; }
+            71% { color: #0000ff; }
+            85% { color: #8b00ff; }
+            100% { color: #ff0000; }
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .control-btn {
+            border: 2px solid #00ffcc;
+            background-color: #ff00ff;
+            color: #00FFCC;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px #ff00ff;
+            font-family: 'Press Start 2P', cursive;
+        }
+        .control-btn:hover {
+            background-color: #00ffcc;
+            color: #0d0d1a;
+            box-shadow: 0 0 15px #00ffcc;
+        }
+        .rect-btn {
+            width: 6rem;
+            height: 3.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .play-btn {
+            width: 5.25rem;
+            height: 5.25rem;
+            font-size: 2.25rem;
+            border-radius: 50%;
+        }
+        .seek-slider {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+        .seek-slider input[type="range"] {
+            width: 80%;
+            max-width: 400px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            background: #333;
+            height: 8px;
+            border-radius: 5px;
+            outline: none;
+            border: 2px solid #ff00ff;
+        }
+        .seek-slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #00ffcc;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ffcc;
+            cursor: pointer;
+        }
+        .seek-slider input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #00ffcc;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ffcc;
+            cursor: pointer;
+        }
+        .time-container {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .time-display, .time-remaining {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: #00ffcc;
+            text-shadow: 0 0 5px #00ffcc;
+        }
+        .time-display {
+            margin-right: auto;
+        }
+        .time-remaining {
+            margin-left: auto;
+        }
+        .playlist {
+            max-height: 20rem;
+            overflow-y: auto;
+            border: 2px solid #00ffcc;
+            border-radius: 5px;
+            padding: 0.5rem;
+            background-color: #1a1a2e;
+        }
+        .playlist-item {
+            padding: 0.75rem;
+            cursor: pointer;
+            border-bottom: 1px solid #ff00ff;
+            font-size: 0.9rem;
+            color: #00ffcc;
+            transition: background-color 0.3s;
+        }
+        .playlist-item:hover {
+            background-color: #ff00ff;
+            color: #0d0d1a;
+        }
+        .playlist-item.active {
+            background-color: #00ffcc;
+            color: #0d0d1a;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+        @media (max-width: 480px) {
+            .player-container {
+                padding: 1rem;
+                border: 2px solid #ff00ff;
+            }
+            .player-title {
+                font-size: 30px;
+                text-shadow: 0 0 5px #00ffcc, 0 0 10px #ff00ff;
+            }
+            .description-box {
+                height: 4rem;
+                padding: 0.5rem;
+                border: 1px solid #ff00ff;
+                box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), 0 0 10px rgba(0, 255, 255, 0.3);
+            }
+            .description-box marquee {
+                font-size: 36px;
+                line-height: 4rem;
+            }
+            .rect-btn {
+                width: 4rem;
+                height: 2.5rem;
+                font-size: 0.6rem;
+                border: 1px solid #00ffcc;
+                border-radius: 20px;
+            }
+            .play-btn {
+                width: 3.75rem;
+                height: 3.75rem;
+                font-size: 1.5rem;
+                border: 1px solid #00ffcc;
+            }
+            .controls {
+                gap: 1rem;
+            }
+            .seek-slider input[type="range"] {
+                width: 90%;
+                height: 6px;
+            }
+            .seek-slider input[type="range"]::-webkit-slider-thumb {
+                width: 15px;
+                height: 15px;
+            }
+            .seek-slider input[type="range"]::-moz-range-thumb {
+                width: 15px;
+                height: 15px;
+            }
+            .time-container {
+                width: 90%;
+            }
+            .time-display, .time-remaining {
+                font-size: 0.6rem;
+                text-shadow: 0 0 3px #00ffcc;
+            }
+            .playlist {
+                max-height: 15rem;
+                border: 1px solid #00ffcc;
+            }
+            .playlist-item {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+	
+        <h1 class="player-title">ACLS<br> Audio<br>Book</h1>
+		<h1> </h1>	
+        <div class="description-box">
+            <marquee id="music-description">Select a Topic to Listen</marquee>
+        </div>
+        <div class="controls">
+            <button class="control-btn rect-btn" onclick="previousTrack()">Prev</button>
+            <button class="control-btn play-btn" onclick="togglePlayPause()">▶</button>
+            <button class="control-btn rect-btn" onclick="nextTrack()">Next</button>
+        </div>
+        <div class="seek-slider">
+            <input type="range" id="seek-slider" min="0" max="100" value="0">
+        </div>
+        <div class="time-container">
+            <div class="time-display">0:00</div>
+            <div class="time-remaining">0:00</div>
+        </div>
+		<h1> </h1>		
+        <div class="playlist" id="playlist">
+            <!-- Playlist items will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <audio id="audio-player"></audio>
+
+    <script>
+        const audioPlayer = document.getElementById('audio-player');
+        const playlistContainer = document.getElementById('playlist');
+        const description = document.getElementById('music-description');
+        const seekSlider = document.getElementById('seek-slider');
+        const timeDisplay = document.querySelector('.time-display');
+        const timeRemaining = document.querySelector('.time-remaining');
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        let isSeeking = false;
+
+        // Sample playlist with 15 tracks (using placeholder URLs and descriptions)
+        const playlist = [
+            { title: 'Credits', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/01.%20OPENING%20CREDITS.mp3', description: 'OPENING CREDITS' },	
+            { title: 'Intro', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/02%20ALCS%20Audiobook%20Chapter%201%20%26%202%2C%20Intro%20to%20ALCS%20%26%20Initial%20Assessment%20vB%20Corrected.mp3', description: 'ALCS Audiobook Chapter 1 & 2, Intro to ALCS & Initial Assessment' },			
+            { title: 'Disclaimer', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/02.%20Educational%20Service%20Disclaimer.mp3', description: 'Educational Service Disclaimer' },				
+            { title: 'Chapter 1', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/03.%20CHAPTER%201__INTRODUCTION%20TO%20ACLS.mp3', description: 'INTRODUCTION TO ACLS' },
+            { title: 'Chapter 2', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/04.%20CHAPTER%202_THE%20INITIAL%20ASSESSMENT.mp3', description: 'THE INITIAL ASSESSMENT' },
+            { title: 'Chapter 3', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/05.%20CHAPTER%203_BASIC%20LIFE%20SUPPORT.mp3', description: 'BASIC LIFE SUPPORT' },
+            { title: 'Chapter 4', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/06.%20CHAPTER%204__ADVANCED%20CARDIAC%20LIFE%20SUPPORT.mp3', description: 'ADVANCED CARDIAC LIFE SUPPORT' },
+            { title: 'Chapter 5', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/07.%20CHAPTER%205__PRINCIPLES%20OF%20EARLY%20DEFIBRILLATION.mp3', description: 'PRINCIPLES OF EARLY DEFIBRILLATION' },
+            { title: 'Chapter 6', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/08.%20CHAPTER%206__SYSTEM%20OF%20CARE.mp3', description: 'SYSTEM OF CARE' },
+            { title: 'Chapter 7', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/09.%20CHAPTER%207__ACLS%20CASES.mp3', description: 'ACLS CASES' },
+            { title: 'Chapter 8', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/10.CHAPTER%208__ACLS%20ESSENTIALS.mp3', description: 'ACLS ESSENTIALS' },
+            { title: 'Chapter 9', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/11.CHAPTER%209__ADDITIONAL%20TOOLS.mp3', description: 'ADDITIONAL TOOLS' },
+            { title: 'Chapter 10', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/12.CHAPTER%2010__ACLS%20REVIEW%20QUESTIONS.mp3', description: 'ACLS REVIEW QUESTIONS' },
+            { title: 'Closing Credits', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/13.%20CLOSING%20CREDITS.mp3', description: 'CLOSING CREDITS' },
+        ];
+
+        // Format time in MM:SS
+        function formatTime(seconds) {
+            if (isNaN(seconds) || seconds < 0) return '0:00';
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // Populate playlist
+        function populatePlaylist() {
+            playlistContainer.innerHTML = '';
+            playlist.forEach((track, index) => {
+                const item = document.createElement('div');
+                item.classList.add('playlist-item');
+                item.textContent = track.title;
+                item.onclick = () => playTrack(index);
+                playlistContainer.appendChild(item);
+            });
+            updatePlaylistHighlight();
+        }
+
+        // Play a specific track
+        function playTrack(index) {
+            currentTrackIndex = index;
+            audioPlayer.src = playlist[currentTrackIndex].src;
+            audioPlayer.load();
+            audioPlayer.play().catch(error => {
+                console.error('Error playing track:', error);
+                isPlaying = false;
+                updatePlayPauseButton();
+            });
+            isPlaying = true;
+            updateDescription();
+            updatePlaylistHighlight();
+            updatePlayPauseButton();
+        }
+
+        // Toggle play/pause
+        function togglePlayPause() {
+            if (isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+            } else {
+                audioPlayer.play().catch(error => {
+                    console.error('Error resuming playback:', error);
+                });
+                isPlaying = true;
+            }
+            updatePlayPauseButton();
+        }
+
+        // Play previous track
+        function previousTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            playTrack(currentTrackIndex);
+        }
+
+        // Play next track
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            setTimeout(() => {
+                playTrack(currentTrackIndex);
+            }, 100);
+        }
+
+        // Update description marquee with rainbow effect and word spacing
+        function updateDescription() {
+            const text = playlist[currentTrackIndex].description;
+            const words = text.split(' ');
+            let charIndex = 0;
+            const html = words.map(word => {
+                const chars = word.split('').map(char => {
+                    const span = `<span class="rainbow-letter" style="animation-delay: ${charIndex * 0.1}s">${char}</span>`;
+                    charIndex++;
+                    return span;
+                }).join('');
+                return chars;
+            }).join(' ');
+            description.innerHTML = html;
+        }
+
+        // Update playlist highlight
+        function updatePlaylistHighlight() {
+            const items = document.querySelectorAll('.playlist-item');
+            items.forEach((item, index) => {
+                item.classList.toggle('active', index === currentTrackIndex);
+            });
+        }
+
+        // Update play/pause button icon
+        function updatePlayPauseButton() {
+            const playPauseBtn = document.querySelector('.play-btn');
+            playPauseBtn.innerHTML = isPlaying ? '❚❚' : '▶';
+        }
+
+        // Update seek slider and time displays
+        function updateSeekSlider() {
+            if (!isNaN(audioPlayer.duration) && audioPlayer.duration > 0) {
+                seekSlider.max = audioPlayer.duration;
+                if (!isSeeking) {
+                    seekSlider.value = audioPlayer.currentTime;
+                }
+                timeDisplay.textContent = formatTime(audioPlayer.currentTime);
+                timeRemaining.textContent = formatTime(audioPlayer.duration - audioPlayer.currentTime);
+            } else {
+                timeDisplay.textContent = '0:00';
+                timeRemaining.textContent = '0:00';
+            }
+        }
+
+        // Handle audio metadata load
+        audioPlayer.onloadedmetadata = () => {
+            if (!isNaN(audioPlayer.duration) && audioPlayer.duration > 0) {
+                seekSlider.max = audioPlayer.duration;
+                seekSlider.value = audioPlayer.currentTime;
+                timeDisplay.textContent = formatTime(audioPlayer.currentTime);
+                timeRemaining.textContent = formatTime(audioPlayer.duration - audioPlayer.currentTime);
+            }
+        };
+
+        // Handle seek slider input
+        seekSlider.oninput = () => {
+            isSeeking = true;
+            audioPlayer.currentTime = parseFloat(seekSlider.value);
+            timeDisplay.textContent = formatTime(audioPlayer.currentTime);
+            timeRemaining.textContent = formatTime(audioPlayer.duration - audioPlayer.currentTime);
+        };
+
+        // Handle seek slider release
+        seekSlider.onchange = () => {
+            isSeeking = false;
+        };
+
+        // Update slider and time as track plays
+        audioPlayer.ontimeupdate = () => {
+            if (!isSeeking) {
+                seekSlider.value = audioPlayer.currentTime;
+                timeDisplay.textContent = formatTime(audioPlayer.currentTime);
+                timeRemaining.textContent = formatTime(audioPlayer.duration - audioPlayer.currentTime);
+            }
+        };
+
+        // Auto-play next track when current track ends
+        audioPlayer.onended = () => {
+            console.log('Track ended, playing next track');
+            nextTrack();
+        };
+
+        // Handle playback errors
+        audioPlayer.onerror = () => {
+            console.error('Audio playback error:', audioPlayer.error);
+            isPlaying = false;
+            updatePlayPauseButton();
+        };
+
+        // Initialize playlist
+        populatePlaylist();
+    </script>
+</body>
+</html>
