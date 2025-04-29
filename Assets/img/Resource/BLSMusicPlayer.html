@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Canisio's ACLS AudioBook</title>
+	<title>Canisio's BLS AudioBook</title>
 	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Icon/favicon.png">	
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
@@ -291,7 +291,7 @@
 <body>
 	<h1><br> </h1>
     <div class="player-container">
-        <h1 class="player-title">ACLS<br> Audio<br>Book</h1>
+        <h1 class="player-title">BLS<br> Audio<br>Book</h1>
         <div class="description-box">
             <marquee id="music-description">Select a Topic to Listen</marquee>
         </div>
@@ -330,20 +330,19 @@
 
         // Sample playlist with 15 tracks (using placeholder URLs and descriptions)
         const playlist = [
-            { title: 'Credits', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/01.%20OPENING%20CREDITS.mp3', description: 'OPENING CREDITS' },	
-            { title: 'Intro', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/02%20ALCS%20Audiobook%20Chapter%201%20%26%202%2C%20Intro%20to%20ALCS%20%26%20Initial%20Assessment%20vB%20Corrected.mp3', description: 'ALCS Audiobook Chapter 1 & 2, Intro to ALCS & Initial Assessment' },			
-            { title: 'Disclaimer', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/02.%20Educational%20Service%20Disclaimer.mp3', description: 'Educational Service Disclaimer' },				
-            { title: 'Chapter 1', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/03.%20CHAPTER%201__INTRODUCTION%20TO%20ACLS.mp3', description: 'INTRODUCTION TO ACLS' },
-            { title: 'Chapter 2', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/04.%20CHAPTER%202_THE%20INITIAL%20ASSESSMENT.mp3', description: 'THE INITIAL ASSESSMENT' },
-            { title: 'Chapter 3', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/05.%20CHAPTER%203_BASIC%20LIFE%20SUPPORT.mp3', description: 'BASIC LIFE SUPPORT' },
-            { title: 'Chapter 4', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/06.%20CHAPTER%204__ADVANCED%20CARDIAC%20LIFE%20SUPPORT.mp3', description: 'ADVANCED CARDIAC LIFE SUPPORT' },
-            { title: 'Chapter 5', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/07.%20CHAPTER%205__PRINCIPLES%20OF%20EARLY%20DEFIBRILLATION.mp3', description: 'PRINCIPLES OF EARLY DEFIBRILLATION' },
-            { title: 'Chapter 6', src: 'https://ia600809.us.archive.org/27/items/AclsCourse/08.%20CHAPTER%206__SYSTEM%20OF%20CARE.mp3', description: 'SYSTEM OF CARE' },
-            { title: 'Chapter 7', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/09.%20CHAPTER%207__ACLS%20CASES.mp3', description: 'ACLS CASES' },
-            { title: 'Chapter 8', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/10.CHAPTER%208__ACLS%20ESSENTIALS.mp3', description: 'ACLS ESSENTIALS' },
-            { title: 'Chapter 9', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/11.CHAPTER%209__ADDITIONAL%20TOOLS.mp3', description: 'ADDITIONAL TOOLS' },
-            { title: 'Chapter 10', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/12.CHAPTER%2010__ACLS%20REVIEW%20QUESTIONS.mp3', description: 'ACLS REVIEW QUESTIONS' },
-            { title: 'Closing Credits', src: 'https://ia800809.us.archive.org/27/items/AclsCourse/13.%20CLOSING%20CREDITS.mp3', description: 'CLOSING CREDITS' },
+            { title: 'Opening', src: 'https://ia804600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/01.%20OPENING.mp3', description: 'OPENING' },		
+            { title: 'Disclaimer', src: 'https://ia904600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/02.%20EDU%20DISCLAIMER.mp3', description: 'Educational Service Disclaimer' },				
+            { title: 'Chapter 1', src: 'https://ia904600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/03.%20CHAPTER%201__GENERAL%20CONCEPTS%20OF%20BASIC%20LIFE%20SUPPORT.mp3', description: 'GENERAL CONCEPTS OF BASIC LIFE SUPPORT' },
+            { title: 'Chapter 2', src: 'https://ia804600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/04.%20CHAPTER%202__BLS%20FOR%20ADULTS.mp3', description: 'BLS FOR ADULTS' },
+            { title: 'Chapter 3', src: 'https://ia804600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/05.CHAPTER%203__USE%20OF%20AUTOMATED%20EXTERNAL%20DEFIBRILLATOR.mp3', description: 'USE OF AUTOMATED EXTERNAL DEFIBRILLATOR' },
+            { title: 'Chapter 4', src: 'https://ia804600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/06.CHAPTER%204__BLS%20FOR%20CHILDREN%20%281%20TO%20PUBERTY%29.mp3', description: 'BLS FOR CHILDREN' },
+            { title: 'Chapter 5', src: 'https://ia804600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/07.CHAPTER%205__BLS%20FOR%20INFANTS%20%280%20TO%2012%20MONTHS%29.mp3', description: 'BLS FOR INFANTS' },
+            { title: 'Chapter 6', src: 'https://ia904600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/08.CHAPTER%206__AED%20FOR%20CHILDREN%20AND%20INFANTS.mp3', description: 'AED FOR CHILDREN AND INFANTS' },
+            { title: 'Chapter 7', src: 'https://ia804600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/09CHAPTER%207__AIRWAY%20MANAGEMENT.mp3', description: 'AIRWAY MANAGEMENT' },
+            { title: 'Chapter 8', src: 'https://ia804600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/10.CHAPTER%208__RELIEF%20OF%20CHOKING.mp3', description: 'RELIEF OF CHOKING' },
+            { title: 'Chapter 9', src: 'https://ia804600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/11.CHAPTER%209%20__ADDITIONAL%20TOOLS.mp3', description: 'ADDITIONAL TOOLS' },
+            { title: 'Chapter 10', src: 'https://ia804600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/12.%20CHAPTER%2010__BLS%20REVIEW%20QUESTIONS.mp3', description: 'BLS REVIEW QUESTIONS' },
+            { title: 'Closing Credits', src: 'https://ia904600.us.archive.org/2/items/BlsBasicLifeSupportAudiobook/13.%20CLOSING.mp3', description: 'CLOSING' },
         ];
 
         // Format time in MM:SS
