@@ -41,6 +41,7 @@
             color: #00ffcc;
             text-shadow: 0 0 10px #00ffcc, 0 0 15px #ff00ff;
             margin: 0 0 1rem 0;
+            letter-spacing: 8px;
         }
         .description-box {
             background-color: #1a1a2e;
@@ -98,10 +99,14 @@
             font-size: 0.8rem;
         }
         .play-btn {
-            width: 5.25rem;
-            height: 5.25rem;
-            font-size: 2.25rem;
+            width: 7rem;
+            height: 6rem;
+            font-size: 1.2rem;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
         }
         .seek-slider {
             display: flex;
@@ -188,6 +193,7 @@
             .player-title {
                 font-size: 30px;
                 text-shadow: 0 0 5px #00ffcc, 0 0 10px #ff00ff;
+                letter-spacing: 4px;
             }
             .description-box {
                 height: 4rem;
@@ -207,9 +213,9 @@
                 border-radius: 20px;
             }
             .play-btn {
-                width: 3.75rem;
-                height: 3.75rem;
-                font-size: 1.5rem;
+                width: 5rem;
+                height: 4.5rem;
+                font-size: 0.8rem;
                 border: 1px solid #00ffcc;
             }
             .controls {
@@ -246,16 +252,15 @@
     </style>
 </head>
 <body>
+	<h1><br> </h1>
     <div class="player-container">
-	
         <h1 class="player-title">ACLS<br> Audio<br>Book</h1>
-		<h1> </h1>	
         <div class="description-box">
-            <marquee id="music-description">Select a Topic to Listen</marquee>
+            <marquee id="music-description">Select a song to play</marquee>
         </div>
         <div class="controls">
             <button class="control-btn rect-btn" onclick="previousTrack()">Prev</button>
-            <button class="control-btn play-btn" onclick="togglePlayPause()">▶</button>
+            <button class="control-btn play-btn" onclick="togglePlayPause()">Play</button>
             <button class="control-btn rect-btn" onclick="nextTrack()">Next</button>
         </div>
         <div class="seek-slider">
@@ -265,14 +270,13 @@
             <div class="time-display">0:00</div>
             <div class="time-remaining">0:00</div>
         </div>
-		<h1> </h1>		
         <div class="playlist" id="playlist">
             <!-- Playlist items will be populated by JavaScript -->
         </div>
     </div>
 
     <audio id="audio-player"></audio>
-
+	<h1><br> </h1>
     <script>
         const audioPlayer = document.getElementById('audio-player');
         const playlistContainer = document.getElementById('playlist');
@@ -391,10 +395,10 @@
             });
         }
 
-        // Update play/pause button icon
+        // Update play/pause button text
         function updatePlayPauseButton() {
             const playPauseBtn = document.querySelector('.play-btn');
-            playPauseBtn.innerHTML = isPlaying ? '❚❚' : '▶';
+            playPauseBtn.textContent = isPlaying ? 'Pause' : 'Play';
         }
 
         // Update seek slider and time displays
