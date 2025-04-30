@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACLS Handbook</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .book-container {
+            width: 100%;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-pages {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .book-pages img {
+            width: 95%;
+            max-width: 1200px;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            border: none;
+            display: block;
+            background-color: #fff;
+            box-shadow: none;
+        }
+
+        .back-button {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: rgba(240, 240, 240, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .page-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .page-indicator:hover {
+            background-color: rgba(240, 240, 240, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        img {
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://raw.githack.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/MainPage.html" class="back-button" onclick="history.back()">&#8678</a>
+    <div class="page-indicator" id="pageIndicator">1/270</div>
+    <div class="book-container" id="bookContainer">
+        <div class="book-pages">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-01.png" alt="Page 1">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-02.png" alt="Page 2">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-03.png" alt="Page 3">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-04.png" alt="Page 4">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-05.png" alt="Page 5">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-06.png" alt="Page 6">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-07.png" alt="Page 7">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-08.png" alt="Page 8">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-09.png" alt="Page 9">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-10.png" alt="Page 10">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-11.png" alt="Page 11">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-12.png" alt="Page 12">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-13.png" alt="Page 13">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-14.png" alt="Page 14">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-15.png" alt="Page 15">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-16.png" alt="Page 16">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-17.png" alt="Page 17">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-18.png" alt="Page 18">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-19.png" alt="Page 19">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-20.png" alt="Page 20">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-21.png" alt="Page 21">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-22.png" alt="Page 22">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-23.png" alt="Page 23">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-24.png" alt="Page 24">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-25.png" alt="Page 25">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-26.png" alt="Page 26">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-27.png" alt="Page 27">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-28.png" alt="Page 28">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-29.png" alt="Page 29">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-30.png" alt="Page 30">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-31.png" alt="Page 31">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-32.png" alt="Page 32">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-33.png" alt="Page 33">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-34.png" alt="Page 34">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-35.png" alt="Page 35">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-36.png" alt="Page 36">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-37.png" alt="Page 37">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-38.png" alt="Page 38">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-39.png" alt="Page 39">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-40.png" alt="Page 40">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-41.png" alt="Page 41">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-42.png" alt="Page 42">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-43.png" alt="Page 43">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-44.png" alt="Page 44">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-45.png" alt="Page 45">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-46.png" alt="Page 46">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-47.png" alt="Page 47">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-48.png" alt="Page 48">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-49.png" alt="Page 49">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-50.png" alt="Page 50">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-51.png" alt="Page 51">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-52.png" alt="Page 52">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-53.png" alt="Page 53">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-54.png" alt="Page 54">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-55.png" alt="Page 55">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-56.png" alt="Page 56">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-57.png" alt="Page 57">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-58.png" alt="Page 58">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-59.png" alt="Page 59">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-60.png" alt="Page 60">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-61.png" alt="Page 61">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-62.png" alt="Page 62">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-63.png" alt="Page 63">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-64.png" alt="Page 64">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-65.png" alt="Page 65">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-66.png" alt="Page 66">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-67.png" alt="Page 67">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-68.png" alt="Page 68">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-69.png" alt="Page 69">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-70.png" alt="Page 70">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-71.png" alt="Page 71">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-72.png" alt="Page 72">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-73.png" alt="Page 73">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-74.png" alt="Page 74">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-75.png" alt="Page 75">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-76.png" alt="Page 76">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-77.png" alt="Page 77">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-78.png" alt="Page 78">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-79.png" alt="Page 79">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-80.png" alt="Page 80">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-81.png" alt="Page 81">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-82.png" alt="Page 82">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-83.png" alt="Page 83">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-84.png" alt="Page 84">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-85.png" alt="Page 85">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-86.png" alt="Page 86">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-87.png" alt="Page 87">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-88.png" alt="Page 88">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-89.png" alt="Page 89">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-90.png" alt="Page 90">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-91.png" alt="Page 91">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-92.png" alt="Page 92">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-93.png" alt="Page 93">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-94.png" alt="Page 94">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-95.png" alt="Page 95">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-96.png" alt="Page 96">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-97.png" alt="Page 97">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-98.png" alt="Page 98">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-99.png" alt="Page 99">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-100.png" alt="Page 100">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-101.png" alt="Page 101">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-102.png" alt="Page 102">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-103.png" alt="Page 103">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-104.png" alt="Page 104">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-105.png" alt="Page 105">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-106.png" alt="Page 106">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-107.png" alt="Page 107">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-108.png" alt="Page 108">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-109.png" alt="Page 109">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-110.png" alt="Page 110">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-111.png" alt="Page 111">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-112.png" alt="Page 112">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-113.png" alt="Page 113">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-114.png" alt="Page 114">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-115.png" alt="Page 115">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-116.png" alt="Page 116">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-117.png" alt="Page 117">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-118.png" alt="Page 118">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-119.png" alt="Page 119">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-120.png" alt="Page 120">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-121.png" alt="Page 121">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-122.png" alt="Page 122">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-123.png" alt="Page 123">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-124.png" alt="Page 124">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-125.png" alt="Page 125">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-126.png" alt="Page 126">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-127.png" alt="Page 127">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-128.png" alt="Page 128">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-129.png" alt="Page 129">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-130.png" alt="Page 130">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-131.png" alt="Page 131">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-132.png" alt="Page 132">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-133.png" alt="Page 133">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-134.png" alt="Page 134">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-135.png" alt="Page 135">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-136.png" alt="Page 136">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-137.png" alt="Page 137">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-138.png" alt="Page 138">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-139.png" alt="Page 139">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-140.png" alt="Page 140">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-141.png" alt="Page 141">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-142.png" alt="Page 142">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-143.png" alt="Page 143">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-144.png" alt="Page 144">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-145.png" alt="Page 145">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-146.png" alt="Page 146">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-147.png" alt="Page 147">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-148.png" alt="Page 148">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-149.png" alt="Page 149">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-150.png" alt="Page 150">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-151.png" alt="Page 151">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-152.png" alt="Page 152">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-153.png" alt="Page 153">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-154.png" alt="Page 154">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-155.png" alt="Page 155">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-156.png" alt="Page 156">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-157.png" alt="Page 157">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-158.png" alt="Page 158">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-159.png" alt="Page 159">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-160.png" alt="Page 160">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-161.png" alt="Page 161">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-162.png" alt="Page 162">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-163.png" alt="Page 163">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-164.png" alt="Page 164">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-165.png" alt="Page 165">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-166.png" alt="Page 166">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-167.png" alt="Page 167">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-168.png" alt="Page 168">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-169.png" alt="Page 169">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-170.png" alt="Page 170">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-171.png" alt="Page 171">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-172.png" alt="Page 172">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-173.png" alt="Page 173">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-174.png" alt="Page 174">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-175.png" alt="Page 175">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-176.png" alt="Page 176">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-177.png" alt="Page 177">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-178.png" alt="Page 178">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-179.png" alt="Page 179">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-180.png" alt="Page 180">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-181.png" alt="Page 181">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-182.png" alt="Page 182">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-183.png" alt="Page 183">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-184.png" alt="Page 184">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-185.png" alt="Page 185">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-186.png" alt="Page 186">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-187.png" alt="Page 187">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-188.png" alt="Page 188">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-189.png" alt="Page 189">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-190.png" alt="Page 190">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-191.png" alt="Page 191">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-192.png" alt="Page 192">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-193.png" alt="Page 193">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-194.png" alt="Page 194">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-195.png" alt="Page 195">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-196.png" alt="Page 196">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-197.png" alt="Page 197">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-198.png" alt="Page 198">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-199.png" alt="Page 199">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-200.png" alt="Page 200">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-201.png" alt="Page 201">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-202.png" alt="Page 202">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-203.png" alt="Page 203">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-204.png" alt="Page 204">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-205.png" alt="Page 205">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-206.png" alt="Page 206">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-207.png" alt="Page 207">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-208.png" alt="Page 208">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-209.png" alt="Page 209">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-210.png" alt="Page 210">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-211.png" alt="Page 211">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-212.png" alt="Page 212">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-213.png" alt="Page 213">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-214.png" alt="Page 214">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-215.png" alt="Page 215">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-216.png" alt="Page 216">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-217.png" alt="Page 217">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-218.png" alt="Page 218">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-219.png" alt="Page 219">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-220.png" alt="Page 220">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-221.png" alt="Page 221">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-222.png" alt="Page 222">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-223.png" alt="Page 223">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-224.png" alt="Page 224">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-225.png" alt="Page 225">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-226.png" alt="Page 226">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-227.png" alt="Page 227">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-228.png" alt="Page 228">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-229.png" alt="Page 229">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-230.png" alt="Page 230">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-231.png" alt="Page 231">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-232.png" alt="Page 232">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-233.png" alt="Page 233">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-234.png" alt="Page 234">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-235.png" alt="Page 235">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-236.png" alt="Page 236">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-237.png" alt="Page 237">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-238.png" alt="Page 238">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-239.png" alt="Page 239">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-240.png" alt="Page 240">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-241.png" alt="Page 241">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-242.png" alt="Page 242">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-243.png" alt="Page 243">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-244.png" alt="Page 244">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-245.png" alt="Page 245">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-246.png" alt="Page 246">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-247.png" alt="Page 247">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-248.png" alt="Page 248">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-249.png" alt="Page 249">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-250.png" alt="Page 250">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-251.png" alt="Page 251">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-252.png" alt="Page 252">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-253.png" alt="Page 253">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-254.png" alt="Page 254">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-255.png" alt="Page 255">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-256.png" alt="Page 256">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-257.png" alt="Page 257">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-258.png" alt="Page 258">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-259.png" alt="Page 259">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-260.png" alt="Page 260">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-261.png" alt="Page 261">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-262.png" alt="Page 262">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-263.png" alt="Page 263">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-264.png" alt="Page 264">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-265.png" alt="Page 265">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-266.png" alt="Page 266">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-267.png" alt="Page 267">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-268.png" alt="Page 268">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-269.png" alt="Page 269">
+				<img src="https://raw.githubusercontent.com/CanisioG/ACLSReview/refs/heads/main/Assets/img/Resource/ACLS/ACLSResouce_-270.png" alt="Page 270">		
+        </div>
+    </div>
+
+    <script>
+        const bookContainer = document.getElementById('bookContainer');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const totalPages = 270; // Updated to match number of pages
+
+        function updatePageIndicator() {
+            const scrollTop = bookContainer.scrollTop;
+            const containerHeight = bookContainer.clientHeight;
+            const totalHeight = bookContainer.scrollHeight;
+            
+            const scrollPercentage = scrollTop / (totalHeight - containerHeight);
+            const currentPage = Math.min(
+                totalPages,
+                Math.max(1, Math.ceil(scrollPercentage * totalPages))
+            );
+            
+            pageIndicator.textContent = `${currentPage}/${totalPages}`;
+        }
+
+        bookContainer.addEventListener('scroll', updatePageIndicator);
+        updatePageIndicator();
+		
+        // Disable developer tools shortcuts
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || // F12
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I
+                (e.ctrlKey && e.shiftKey && e.keyCode == 74) || // Ctrl+Shift+J
+                (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
+                return false;
+            }
+        }			
+		
+    </script>
+</body>
+</html>
